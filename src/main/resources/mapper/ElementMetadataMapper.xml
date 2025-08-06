@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.ElementMetadataMapper">
+
+    <resultMap id="ElementMetadataResultMap" type="com.kingdee.fpy.model.ElementMetadata">
+        <id property="fid" column="fid" />
+        <result property="felementName" column="felement_name" />
+        <result property="felementType" column="felement_type" />
+        <result property="fparentId" column="fparent_id" />
+        <result property="fxpath" column="fxpath" />
+        <result property="fdataType" column="fdata_type" />
+        <result property="fisRequired" column="fis_required" />
+        <result property="fisRequiredUi" column="fis_required_ui" />
+        <result property="fminOccurs" column="fmin_occurs" />
+        <result property="fmaxOccurs" column="fmax_occurs" />
+        <result property="fisNillable" column="fis_nillable" />
+        <result property="fdefaultValue" column="fdefault_value" />
+        <result property="ffixedValue" column="ffixed_value" />
+        <result property="fenumValues" column="fenum_values" />
+        <result property="fdescription" column="fdescription" />
+        <result property="flevel" column="flevel" />
+        <result property="frule" column="frule" />
+        <result property="fnameSpace" column="fname_space" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.kingdee.fpy.model.ElementMetadata" useGeneratedKeys="true" keyProperty="fid">
+        INSERT INTO t_element_metadata
+        (felement_name, felement_type, fparent_id, fxpath, fdata_type, fis_required, fis_required_ui, fmin_occurs, fmax_occurs, fis_nillable, fdefault_value, ffixed_value, fenum_values, fdescription, flevel, frule, fname_space)
+        VALUES
+        (#{felementName}, #{felementType}, #{fparentId}, #{fxpath}, #{fdataType}, #{fisRequired}, #{fisRequiredUi}, #{fminOccurs}, #{fmaxOccurs}, #{fisNillable}, #{fdefaultValue}, #{ffixedValue}, #{fenumValues}, #{fdescription}, #{flevel}, #{frule}, #{fnameSpace})
+    </insert>
+
+    <select id="findById" parameterType="long" resultMap="ElementMetadataResultMap">
+        SELECT * FROM t_element_metadata WHERE fid = #{id}
+    </select>
+
+    <update id="update" parameterType="com.kingdee.fpy.model.ElementMetadata">
+        UPDATE t_element_metadata
+        SET felement_name = #{felementName},
+            felement_type = #{felementType},
+            fparent_id = #{fparentId},
+            fxpath = #{fxpath},
+            fdata_type = #{fdataType},
+            fis_required = #{fisRequired},
+            fis_required_ui = #{fisRequiredUi},
+            fmin_occurs = #{fminOccurs},
+            fmax_occurs = #{fmaxOccurs},
+            fis_nillable = #{fisNillable},
+            fdefault_value = #{fdefaultValue},
+            ffixed_value = #{ffixedValue},
+            fenum_values = #{fenumValues},
+            fdescription = #{fdescription},
+            flevel = #{flevel},
+            frule = #{frule},
+            fname_space = #{fnameSpace}
+        WHERE fid = #{fid}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM t_element_metadata WHERE fid = #{id}
+    </delete>
+
+    <select id="findAll" resultMap="ElementMetadataResultMap">
+        SELECT * FROM t_element_metadata where fid <![CDATA[ < ]]> 172
+        ORDER BY flevel ASC, fparent_id ASC, fid ASC
+    </select>
+
+    <select id="findByParentId" parameterType="long" resultMap="ElementMetadataResultMap">
+        SELECT * FROM t_element_metadata
+        WHERE fparent_id = #{parentId}
+        ORDER BY flevel ASC, fid ASC
+    </select>
+
+</mapper> 

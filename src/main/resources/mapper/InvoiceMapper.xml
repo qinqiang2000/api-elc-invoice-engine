@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceMapper">
+
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.Invoice">
+        <id property="id" column="id"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="mainFieldsJson" column="main_fields_json"/>
+        <result property="extFieldsJson" column="ext_fields_json"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM invoice WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.kingdee.fpy.model.Invoice">
+        INSERT INTO invoice
+        (country_code, main_fields_json, ext_fields_json, created_at, updated_at)
+        VALUES
+        (#{countryCode}, #{mainFieldsJson}, #{extFieldsJson}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <update id="update" parameterType="com.kingdee.fpy.model.Invoice">
+        UPDATE invoice
+        SET country_code = #{countryCode},
+            main_fields_json = #{mainFieldsJson},
+            ext_fields_json = #{extFieldsJson},
+            created_at = #{createdAt},
+            updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM invoice WHERE id = #{id}
+    </delete>
+</mapper> 

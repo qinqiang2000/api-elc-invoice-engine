@@ -1,0 +1,19 @@
+package com.example.rules
+
+import com.kingdee.model.demo.Order
+
+rule "10% Discount on Orders Over 100"
+    when
+        $order : Order(total > 100)
+    then
+        $order.setDiscount(10);
+        System.out.println("Applied 10% discount");
+end
+
+rule "5% Discount on Orders Over 50"
+    when
+        $order : Order(total > 50)
+    then
+        $order.setDiscount(6);
+        System.out.println("Applied 5% discount");
+end

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceFieldConfigMapper">
+
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.InvoiceFieldConfig">
+        <id property="id" column="id"/>
+        <result property="countryCode" column="country_code"/>
+        <result property="fieldName" column="field_name"/>
+        <result property="fieldLabel" column="field_label"/>
+        <result property="fieldType" column="field_type"/>
+        <result property="isRequired" column="is_required"/>
+        <result property="fieldOrder" column="field_order"/>
+        <result property="fieldGroup" column="field_group"/>
+        <result property="fieldRelation" column="field_relation"/>
+        <result property="attributes" column="attributes"/>
+    </resultMap>
+
+    <select id="findByCountryCode" resultMap="BaseResultMap">
+        SELECT * FROM invoice_field_config WHERE country_code = #{countryCode}
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT * FROM invoice_field_config WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.kingdee.fpy.model.InvoiceFieldConfig">
+        INSERT INTO invoice_field_config
+        (country_code, field_name, field_label, field_type, is_required, field_order, field_group, field_relation, attributes)
+        VALUES
+        (#{countryCode}, #{fieldName}, #{fieldLabel}, #{fieldType}, #{isRequired}, #{fieldOrder}, #{fieldGroup}, #{fieldRelation}, #{attributes})
+    </insert>
+
+    <update id="update" parameterType="com.kingdee.fpy.model.InvoiceFieldConfig">
+        UPDATE invoice_field_config
+        SET country_code = #{countryCode},
+            field_name = #{fieldName},
+            field_label = #{fieldLabel},
+            field_type = #{fieldType},
+            is_required = #{isRequired},
+            field_order = #{fieldOrder},
+            field_group = #{fieldGroup},
+            field_relation = #{fieldRelation},
+            attributes = #{attributes}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM invoice_field_config WHERE id = #{id}
+    </delete>
+</mapper> 

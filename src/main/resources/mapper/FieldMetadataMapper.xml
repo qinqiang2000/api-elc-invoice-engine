@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.FieldMetadataMapper">
+
+    <resultMap id="FieldMetadataResultMap" type="com.kingdee.fpy.model.FieldMetadata">
+        <id property="id" column="fid" />
+        <result property="fieldName" column="ffield_name" />
+        <result property="fieldType" column="ffield_type" />
+        <result property="level" column="flevel" />
+        <result property="parentId" column="fparent_id" />
+        <result property="order" column="forder" />
+        <result property="xpath" column="fxpath" />
+        <result property="fieldPath" column="ffield_path" />
+        <result property="dataType" column="fdata_type" />
+        <result property="defaultValue" column="fdefault_value" />
+        <result property="description" column="fdescription" />
+        <result property="createTime" column="fcreate_time" />
+        <result property="updateTime" column="fupdate_time" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.kingdee.fpy.model.FieldMetadata" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_field_metadata 
+        (ffield_name, ffield_type, flevel, fparent_id, forder, fxpath, ffield_path, fdata_type, fdefault_value, fdescription)
+        VALUES
+        (#{fieldName}, #{fieldType}, #{level}, #{parentId}, #{order}, #{xpath}, #{fieldPath}, #{dataType}, #{defaultValue}, #{description})
+    </insert>
+
+    <update id="updateById" parameterType="com.kingdee.fpy.model.FieldMetadata">
+        UPDATE t_field_metadata
+        <set>
+            <if test="fieldName != null">ffield_name = #{fieldName},</if>
+            <if test="fieldType != null">ffield_type = #{fieldType},</if>
+            <if test="level != null">flevel = #{level},</if>
+            <if test="parentId != null">fparent_id = #{parentId},</if>
+            <if test="order != null">forder = #{order},</if>
+            <if test="xpath != null">fxpath = #{xpath},</if>
+            <if test="fieldPath != null">ffield_path = #{fieldPath},</if>
+            <if test="dataType != null">fdata_type = #{dataType},</if>
+            <if test="defaultValue != null">fdefault_value = #{defaultValue},</if>
+            <if test="description != null">fdescription = #{description},</if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM t_field_metadata WHERE fid = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="long" resultMap="FieldMetadataResultMap">
+        SELECT fid, ffield_name, ffield_type, flevel, fparent_id, forder, fxpath, ffield_path, fdata_type, fdefault_value, fdescription, fcreate_time, fupdate_time
+        FROM t_field_metadata 
+        WHERE fid = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="FieldMetadataResultMap">
+        SELECT fid, ffield_name, ffield_type, flevel, fparent_id, forder, fxpath, ffield_path, fdata_type, fdefault_value, fdescription, fcreate_time, fupdate_time
+        FROM t_field_metadata
+    </select>
+
+</mapper>

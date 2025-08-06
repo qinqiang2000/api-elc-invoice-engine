@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.RuleSubscriptionMapper">
+
+    <resultMap id="RuleSubscriptionResultMap" type="com.kingdee.fpy.model.RuleSubscription">
+        <id property="id" column="fid" />
+        <result property="ruleCode" column="frule_code" />
+        <result property="tenantId" column="ftenant_id" />
+        <result property="companyId" column="fcompany_id" />
+        <result property="createTime" column="fcreate_time" />
+        <result property="updateTime" column="fupdate_time" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.kingdee.fpy.model.RuleSubscription" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_rule_subscription 
+        (frule_code, ftenant_id, fcompany_id)
+        VALUES
+        (#{ruleCode}, #{tenantId}, #{companyId})
+    </insert>
+
+    <update id="updateById" parameterType="com.kingdee.fpy.model.RuleSubscription">
+        UPDATE t_rule_subscription
+        <set>
+            <if test="ruleCode != null">frule_code = #{ruleCode},</if>
+            <if test="tenantId != null">ftenant_id = #{tenantId},</if>
+            <if test="companyId != null">fcompany_id = #{companyId},</if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM t_rule_subscription WHERE fid = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="long" resultMap="RuleSubscriptionResultMap">
+        SELECT fid, frule_code, ftenant_id, fcompany_id, fcreate_time, fupdate_time
+        FROM t_rule_subscription 
+        WHERE fid = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="RuleSubscriptionResultMap">
+        SELECT fid, frule_code, ftenant_id, fcompany_id, fcreate_time, fupdate_time
+        FROM t_rule_subscription
+    </select>
+    
+    <select id="selectByTenantIdOrCompanyId" resultMap="RuleSubscriptionResultMap">
+        SELECT fid, frule_code, ftenant_id, fcompany_id, fcreate_time, fupdate_time
+        FROM t_invoice_rules r
+        left join t_rule_subscription s on s.frule_code = r.frule_code
+        WHERE
+        fcountry = #{country}
+        <if test="tenantId != null and tenantId != ''">
+            ftenant_id = #{tenantId}
+        </if>
+        <if test="companyId != null and companyId != ''">
+            OR fcompany_id = #{companyId}
+        </if>
+    </select>
+
+</mapper>

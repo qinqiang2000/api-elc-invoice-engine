@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceRulesMapper">
+
+    <resultMap id="InvoiceRulesResultMap" type="com.kingdee.fpy.model.InvoiceRules">
+        <id property="id" column="fid" />
+        <result property="country" column="fcountry" />
+        <result property="tradeArea" column="ftrade_area" />
+        <result property="province" column="fprovince" />
+        <result property="city" column="fcity" />
+        <result property="tags" column="ftags" />
+        <result property="ruleCode" column="frule_code" />
+        <result property="ruleName" column="frule_name" />
+        <result property="ruleType" column="frule_type" />
+        <result property="active" column="factive" />
+        <result property="applyTo" column="fapply_to" />
+        <result property="errorMessage" column="ferror_message" />
+        <result property="fieldPath" column="ffield_path" />
+        <result property="priority" column="fpriority" />
+        <result property="ruleExpression" column="frule_expression" />
+        <result property="startTime" column="fstart_time" />
+        <result property="endTime" column="fend_time" />
+        <result property="createTime" column="fcreate_time" />
+        <result property="updateTime" column="fupdate_time" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.kingdee.fpy.model.InvoiceRules" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_invoice_rules 
+        (fcountry, ftrade_area, fprovince, fcity, ftags, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time)
+        VALUES
+        (#{country}, #{tradeArea}, #{province}, #{city}, #{tags}, #{ruleCode}, #{ruleName}, #{ruleType}, #{active}, #{applyTo}, #{errorMessage}, #{fieldPath}, #{priority}, #{ruleExpression}, #{startTime}, #{endTime})
+    </insert>
+
+    <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceRules">
+        UPDATE t_invoice_rules
+        <set>
+            <if test="country != null">fcountry = #{country},</if>
+            <if test="tradeArea != null">ftrade_area = #{tradeArea},</if>
+            <if test="province != null">fprovince = #{province},</if>
+            <if test="city != null">fcity = #{city},</if>
+            <if test="tags != null">ftags = #{tags},</if>
+            <if test="ruleCode != null">frule_code = #{ruleCode},</if>
+            <if test="ruleName != null">frule_name = #{ruleName},</if>
+            <if test="ruleType != null">frule_type = #{ruleType},</if>
+            <if test="active != null">factive = #{active},</if>
+            <if test="applyTo != null">fapply_to = #{applyTo},</if>
+            <if test="errorMessage != null">ferror_message = #{errorMessage},</if>
+            <if test="fieldPath != null">ffield_path = #{fieldPath},</if>
+            <if test="priority != null">fpriority = #{priority},</if>
+            <if test="ruleExpression != null">frule_expression = #{ruleExpression},</if>
+            <if test="startTime != null">fstart_time = #{startTime},</if>
+            <if test="endTime != null">fend_time = #{endTime},</if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM t_invoice_rules WHERE fid = #{id}
+    </delete>
+
+    <select id="selectById" parameterType="long" resultMap="InvoiceRulesResultMap">
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
+        FROM t_invoice_rules 
+        WHERE fid = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="InvoiceRulesResultMap">
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
+        FROM t_invoice_rules
+    </select>
+
+    <select id="selectByTenantIdOrCompanyId" resultMap="InvoiceRulesResultMap">
+        SELECT r.fid, r.fcountry, r.ftrade_area, r.fprovince, r.fcity, r.ftags, r.frule_code, r.frule_name, r.frule_type,
+        r.factive, r.fapply_to, r.ferror_message, r.ffield_path, r.fpriority, r.frule_expression, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
+        FROM t_invoice_rules r
+        left join t_rule_subscription s on s.frule_code = r.frule_code
+        WHERE
+        fcountry = #{country}
+        <if test="tenantId != null and tenantId != ''">
+            ftenant_id = #{tenantId}
+        </if>
+        <if test="companyId != null and companyId != ''">
+            OR fcompany_id = #{companyId}
+        </if>
+        and factive = 1
+        and fstart_time <![CDATA[ <= ]]> now()
+        and fend_time <![CDATA[ >= ]]> now()
+        order by fpriority asc
+    </select>
+
+</mapper>
