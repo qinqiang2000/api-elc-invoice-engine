@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.DeliveryMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.Delivery">
+        <id column="fid" jdbcType="BIGINT" property="id"/>
+        <result column="finvoice_id" jdbcType="VARCHAR" property="invoiceId"/>
+        <result column="fdelivery_method" jdbcType="VARCHAR" property="deliveryMethod"/>
+        <result column="fstatus" jdbcType="VARCHAR" property="status"/>
+        <result column="ferror_message" jdbcType="LONGVARCHAR" property="errorMessage"/>
+        <result column="fcontent" jdbcType="LONGVARCHAR" property="content"/>
+        <result column="fcreate_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="fupdate_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        fid, finvoice_id, fdelivery_method, fstatus, ferror_message, fcontent, fcreate_time, fupdate_time
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" keyColumn="fid" keyProperty="id" parameterType="com.kingdee.fpy.model.Delivery" useGeneratedKeys="true">
+        INSERT INTO t_delivery (
+            finvoice_id, fdelivery_method, fstatus, ferror_message, fcontent, fcreate_time, fupdate_time
+        ) VALUES (
+            #{invoiceId,jdbcType=VARCHAR}, #{deliveryMethod,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR},
+            #{errorMessage,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR},
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_delivery WHERE fid = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        DELETE FROM t_delivery WHERE fid IN
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据发票ID删除 -->
+    <delete id="deleteByInvoiceId" parameterType="java.lang.String">
+        DELETE FROM t_delivery WHERE finvoice_id = #{invoiceId,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- 根据ID更新 -->
+    <update id="updateById" parameterType="com.kingdee.fpy.model.Delivery">
+        UPDATE t_delivery
+        <set>
+            <if test="invoiceId != null">finvoice_id = #{invoiceId,jdbcType=VARCHAR},</if>
+            <if test="deliveryMethod != null">fdelivery_method = #{deliveryMethod,jdbcType=VARCHAR},</if>
+            <if test="status != null">fstatus = #{status,jdbcType=VARCHAR},</if>
+            <if test="errorMessage != null">ferror_message = #{errorMessage,jdbcType=LONGVARCHAR},</if>
+            <if test="content != null">fcontent = #{content,jdbcType=LONGVARCHAR},</if>
+            <if test="updateTime != null">fupdate_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_delivery
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据发票ID查询单个记录 -->
+    <select id="selectByInvoiceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_delivery
+        WHERE finvoice_id = #{invoiceId,jdbcType=VARCHAR}
+        ORDER BY fcreate_time DESC
+        LIMIT 1
+    </select>
+
+    <!-- 根据发票ID查询列表 -->
+    <select id="selectListByInvoiceId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_delivery
+        WHERE finvoice_id = #{invoiceId,jdbcType=VARCHAR}
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_delivery
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_delivery
+        ORDER BY fcreate_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 统计总数 -->
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM t_delivery
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" parameterType="com.kingdee.fpy.model.Delivery" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_delivery
+        <where>
+            <if test="invoiceId != null and invoiceId != ''">
+                AND finvoice_id = #{invoiceId,jdbcType=VARCHAR}
+            </if>
+            <if test="deliveryMethod != null and deliveryMethod != ''">
+                AND fdelivery_method = #{deliveryMethod,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null and status != ''">
+                AND fstatus = #{status,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY fcreate_time DESC
+    </select>
+
+</mapper>

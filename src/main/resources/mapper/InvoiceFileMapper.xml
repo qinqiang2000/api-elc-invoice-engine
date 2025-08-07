@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceFileMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.InvoiceFile">
+        <id column="fid" jdbcType="BIGINT" property="id"/>
+        <result column="ftenant_id" jdbcType="VARCHAR" property="tenantId"/>
+        <result column="frelatino_id" jdbcType="VARCHAR" property="relationId"/>
+        <result column="ftype" jdbcType="TINYINT" property="type"/>
+        <result column="fdocument_type" jdbcType="VARCHAR" property="documentType"/>
+        <result column="fattachments" jdbcType="LONGVARCHAR" property="attachments"/>
+        <result column="ffile_id" jdbcType="VARCHAR" property="fileId"/>
+        <result column="fcreate_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="fupdate_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        fid, ftenant_id, frelatino_id, ftype, fdocument_type, fattachments, ffile_id, fcreate_time, fupdate_time
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" keyColumn="fid" keyProperty="id" parameterType="com.kingdee.fpy.model.InvoiceFile" useGeneratedKeys="true">
+        INSERT INTO t_invoice_file (
+            ftenant_id, frelatino_id, ftype, fdocument_type, fattachments, ffile_id, fcreate_time, fupdate_time
+        ) VALUES (
+            #{tenantId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT},
+            #{documentType,jdbcType=VARCHAR}, #{attachments,jdbcType=LONGVARCHAR}, #{fileId,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_invoice_file WHERE fid = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        DELETE FROM t_invoice_file WHERE fid IN
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据租户ID删除 -->
+    <delete id="deleteByTenantId" parameterType="java.lang.String">
+        DELETE FROM t_invoice_file WHERE ftenant_id = #{tenantId,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- 根据关联ID删除 -->
+    <delete id="deleteByRelationId" parameterType="java.lang.String">
+        DELETE FROM t_invoice_file WHERE frelatino_id = #{relationId,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- 根据ID更新 -->
+    <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceFile">
+        UPDATE t_invoice_file
+        <set>
+            <if test="tenantId != null">ftenant_id = #{tenantId,jdbcType=VARCHAR},</if>
+            <if test="relationId != null">frelatino_id = #{relationId,jdbcType=VARCHAR},</if>
+            <if test="type != null">ftype = #{type,jdbcType=TINYINT},</if>
+            <if test="documentType != null">fdocument_type = #{documentType,jdbcType=VARCHAR},</if>
+            <if test="attachments != null">fattachments = #{attachments,jdbcType=LONGVARCHAR},</if>
+            <if test="fileId != null">ffile_id = #{fileId,jdbcType=VARCHAR},</if>
+            <if test="updateTime != null">fupdate_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据租户ID查询 -->
+    <select id="selectByTenantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        WHERE ftenant_id = #{tenantId,jdbcType=VARCHAR}
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 根据关联ID查询 -->
+    <select id="selectByRelationId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        WHERE frelatino_id = #{relationId,jdbcType=VARCHAR}
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 根据文件ID查询 -->
+    <select id="selectByFileId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        WHERE ffile_id = #{fileId,jdbcType=VARCHAR}
+        ORDER BY fcreate_time DESC
+        LIMIT 1
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        ORDER BY fcreate_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 统计总数 -->
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM t_invoice_file
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" parameterType="com.kingdee.fpy.model.InvoiceFile" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_file
+        <where>
+            <if test="tenantId != null and tenantId != ''">
+                AND ftenant_id = #{tenantId,jdbcType=VARCHAR}
+            </if>
+            <if test="relationId != null and relationId != ''">
+                AND frelatino_id = #{relationId,jdbcType=VARCHAR}
+            </if>
+            <if test="type != null">
+                AND ftype = #{type,jdbcType=TINYINT}
+            </if>
+            <if test="documentType != null and documentType != ''">
+                AND fdocument_type = #{documentType,jdbcType=VARCHAR}
+            </if>
+            <if test="fileId != null and fileId != ''">
+                AND ffile_id = #{fileId,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY fcreate_time DESC
+    </select>
+
+</mapper>

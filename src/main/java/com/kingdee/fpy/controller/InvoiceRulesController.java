@@ -13,7 +13,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/invoice-rules")
-public class InvoiceRulesController {
+public class
+InvoiceRulesController {
 
     @Autowired
     private InvoiceRulesServiceImpl invoiceRulesService;

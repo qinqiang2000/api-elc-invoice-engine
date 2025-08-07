@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceRequestMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.InvoiceRequest">
+        <id column="fid" jdbcType="BIGINT" property="id"/>
+        <result column="ftenant_id" jdbcType="VARCHAR" property="tenantId"/>
+        <result column="fcompany_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="finvoice_type" jdbcType="VARCHAR" property="invoiceType"/>
+        <result column="finvoice_sub_type" jdbcType="VARCHAR" property="invoiceSubType"/>
+        <result column="fsubmission_type" jdbcType="VARCHAR" property="submissionType"/>
+        <result column="fsell_billed" jdbcType="VARCHAR" property="sellBilled"/>
+        <result column="finvoice_no" jdbcType="VARCHAR" property="invoiceNo"/>
+        <result column="fissue_date" jdbcType="TIMESTAMP" property="issueDate"/>
+        <result column="fsend_company_id" jdbcType="VARCHAR" property="sendCompanyId"/>
+        <result column="freceive_company_id" jdbcType="VARCHAR" property="receiveCompanyId"/>
+        <result column="fsend_company_name" jdbcType="VARCHAR" property="sendCompanyName"/>
+        <result column="freceiver_company_name" jdbcType="VARCHAR" property="receiverCompanyName"/>
+        <result column="ftotal_amount" jdbcType="DECIMAL" property="totalAmount"/>
+        <result column="ftax_amount" jdbcType="DECIMAL" property="taxAmount"/>
+        <result column="fcurrency" jdbcType="VARCHAR" property="currency"/>
+        <result column="forder_refid" jdbcType="VARCHAR" property="orderRefid"/>
+        <result column="fbilling_refid" jdbcType="VARCHAR" property="billingRefid"/>
+        <result column="fext_field" jdbcType="LONGVARCHAR" property="extField"/>
+        <result column="fsource_document_type" jdbcType="VARCHAR" property="sourceDocumentType"/>
+        <result column="fsource_document_id" jdbcType="VARCHAR" property="sourceDocumentId"/>
+        <result column="ftarget_document_id" jdbcType="VARCHAR" property="targetDocumentId"/>
+        <result column="fstatus" jdbcType="TINYINT" property="status"/>
+        <result column="ferror_message" jdbcType="LONGVARCHAR" property="errorMessage"/>
+        <result column="fcreate_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="fupdate_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        fid, ftenant_id, fcompany_id, finvoice_type, finvoice_sub_type, fsubmission_type, fsell_billed,
+        finvoice_no, fissue_date, fsend_company_id, freceive_company_id, fsend_company_name,
+        freceiver_company_name, ftotal_amount, ftax_amount, fcurrency, forder_refid, fbilling_refid,
+        fext_field, fsource_document_type, fsource_document_id, ftarget_document_id, fstatus,
+        ferror_message, fcreate_time, fupdate_time
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" keyColumn="fid" keyProperty="id" parameterType="com.kingdee.fpy.model.InvoiceRequest" useGeneratedKeys="true">
+        INSERT INTO t_invoice_request (
+            ftenant_id, fcompany_id, finvoice_type, finvoice_sub_type, fsubmission_type, fsell_billed,
+            finvoice_no, fissue_date, fsend_company_id, freceive_company_id, fsend_company_name,
+            freceiver_company_name, ftotal_amount, ftax_amount, fcurrency, forder_refid, fbilling_refid,
+            fext_field, fsource_document_type, fsource_document_id, ftarget_document_id, fstatus,
+            ferror_message, fcreate_time, fupdate_time
+        ) VALUES (
+            #{tenantId,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{invoiceType,jdbcType=VARCHAR},
+            #{invoiceSubType,jdbcType=VARCHAR}, #{submissionType,jdbcType=VARCHAR}, #{sellBilled,jdbcType=VARCHAR},
+            #{invoiceNo,jdbcType=VARCHAR}, #{issueDate,jdbcType=TIMESTAMP}, #{sendCompanyId,jdbcType=VARCHAR},
+            #{receiveCompanyId,jdbcType=VARCHAR}, #{sendCompanyName,jdbcType=VARCHAR}, #{receiverCompanyName,jdbcType=VARCHAR},
+            #{totalAmount,jdbcType=DECIMAL}, #{taxAmount,jdbcType=DECIMAL}, #{currency,jdbcType=VARCHAR},
+            #{orderRefid,jdbcType=VARCHAR}, #{billingRefid,jdbcType=VARCHAR}, #{extField,jdbcType=LONGVARCHAR},
+            #{sourceDocumentType,jdbcType=VARCHAR}, #{sourceDocumentId,jdbcType=VARCHAR}, #{targetDocumentId,jdbcType=VARCHAR},
+            #{status,jdbcType=TINYINT}, #{errorMessage,jdbcType=LONGVARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+            #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_invoice_request WHERE fid = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        DELETE FROM t_invoice_request WHERE fid IN
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据ID更新 -->
+    <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceRequest">
+        UPDATE t_invoice_request
+        <set>
+            <if test="tenantId != null">ftenant_id = #{tenantId,jdbcType=VARCHAR},</if>
+            <if test="companyId != null">fcompany_id = #{companyId,jdbcType=VARCHAR},</if>
+            <if test="invoiceType != null">finvoice_type = #{invoiceType,jdbcType=VARCHAR},</if>
+            <if test="invoiceSubType != null">finvoice_sub_type = #{invoiceSubType,jdbcType=VARCHAR},</if>
+            <if test="submissionType != null">fsubmission_type = #{submissionType,jdbcType=VARCHAR},</if>
+            <if test="sellBilled != null">fsell_billed = #{sellBilled,jdbcType=VARCHAR},</if>
+            <if test="invoiceNo != null">finvoice_no = #{invoiceNo,jdbcType=VARCHAR},</if>
+            <if test="issueDate != null">fissue_date = #{issueDate,jdbcType=TIMESTAMP},</if>
+            <if test="sendCompanyId != null">fsend_company_id = #{sendCompanyId,jdbcType=VARCHAR},</if>
+            <if test="receiveCompanyId != null">freceive_company_id = #{receiveCompanyId,jdbcType=VARCHAR},</if>
+            <if test="sendCompanyName != null">fsend_company_name = #{sendCompanyName,jdbcType=VARCHAR},</if>
+            <if test="receiverCompanyName != null">freceiver_company_name = #{receiverCompanyName,jdbcType=VARCHAR},</if>
+            <if test="totalAmount != null">ftotal_amount = #{totalAmount,jdbcType=DECIMAL},</if>
+            <if test="taxAmount != null">ftax_amount = #{taxAmount,jdbcType=DECIMAL},</if>
+            <if test="currency != null">fcurrency = #{currency,jdbcType=VARCHAR},</if>
+            <if test="orderRefid != null">forder_refid = #{orderRefid,jdbcType=VARCHAR},</if>
+            <if test="billingRefid != null">fbilling_refid = #{billingRefid,jdbcType=VARCHAR},</if>
+            <if test="extField != null">fext_field = #{extField,jdbcType=LONGVARCHAR},</if>
+            <if test="sourceDocumentType != null">fsource_document_type = #{sourceDocumentType,jdbcType=VARCHAR},</if>
+            <if test="sourceDocumentId != null">fsource_document_id = #{sourceDocumentId,jdbcType=VARCHAR},</if>
+            <if test="targetDocumentId != null">ftarget_document_id = #{targetDocumentId,jdbcType=VARCHAR},</if>
+            <if test="status != null">fstatus = #{status,jdbcType=TINYINT},</if>
+            <if test="errorMessage != null">ferror_message = #{errorMessage,jdbcType=LONGVARCHAR},</if>
+            <if test="updateTime != null">fupdate_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_request
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据发票号查询 -->
+    <select id="selectByInvoiceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_request
+        WHERE finvoice_no = #{invoiceNo,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 根据租户ID查询 -->
+    <select id="selectByTenantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_request
+        WHERE ftenant_id = #{tenantId,jdbcType=VARCHAR}
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_request
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_request
+        ORDER BY fcreate_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 统计总数 -->
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM t_invoice_request
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" parameterType="com.kingdee.fpy.model.InvoiceRequest" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_request
+        <where>
+            <if test="tenantId != null and tenantId != ''">
+                AND ftenant_id = #{tenantId,jdbcType=VARCHAR}
+            </if>
+            <if test="companyId != null and companyId != ''">
+                AND fcompany_id = #{companyId,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceType != null and invoiceType != ''">
+                AND finvoice_type = #{invoiceType,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceNo != null and invoiceNo != ''">
+                AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="sendCompanyName != null and sendCompanyName != ''">
+                AND fsend_company_name LIKE CONCAT('%', #{sendCompanyName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="receiverCompanyName != null and receiverCompanyName != ''">
+                AND freceiver_company_name LIKE CONCAT('%', #{receiverCompanyName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != null">
+                AND fstatus = #{status,jdbcType=TINYINT}
+            </if>
+        </where>
+        ORDER BY fcreate_time DESC
+    </select>
+
+</mapper>

@@ -51,4 +51,20 @@ public class Result<T> {
         this.errcode = resultType.getCode();
         this.message = resultType.getMessage();
     }
+
+    public static <T> Result<T> success(T data) {
+        return new Result<>(data);
+    }
+
+    public static <T> Result<T> success() {
+        return new Result<>();
+    }
+
+    public static <T> Result<T> error(String message) {
+        return new Result<>("500", message);
+    }
+
+    public static <T> Result<T> error(String errcode, String message) {
+        return new Result<>(errcode, message);
+    }
 }

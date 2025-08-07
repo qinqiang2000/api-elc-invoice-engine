@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceLineMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.InvoiceLine">
+        <id column="fid" jdbcType="BIGINT" property="id"/>
+        <result column="finvoice_request_id" jdbcType="BIGINT" property="invoiceRequestId"/>
+        <result column="fseq" jdbcType="INTEGER" property="seq"/>
+        <result column="finvoice_line_amount" jdbcType="DECIMAL" property="invoiceLineAmount"/>
+        <result column="fstatus" jdbcType="TINYINT" property="status"/>
+        <result column="fhas_multiline" jdbcType="TINYINT" property="hasMultiline"/>
+        <result column="finvoice_id" jdbcType="BIGINT" property="invoiceId"/>
+        <result column="famount" jdbcType="DECIMAL" property="amount"/>
+        <result column="ftype" jdbcType="TINYINT" property="type"/>
+        <result column="fitem_name" jdbcType="VARCHAR" property="itemName"/>
+        <result column="funit" jdbcType="VARCHAR" property="unit"/>
+        <result column="fquantity" jdbcType="DECIMAL" property="quantity"/>
+        <result column="fprice" jdbcType="DECIMAL" property="price"/>
+        <result column="fcategory_code" jdbcType="VARCHAR" property="categoryCode"/>
+        <result column="ftax_rate" jdbcType="DECIMAL" property="taxRate"/>
+        <result column="fext_field" jdbcType="LONGVARCHAR" property="extField"/>
+        <result column="fcreate_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="fupdate_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        fid, finvoice_request_id, fseq, finvoice_line_amount, fstatus, fhas_multiline, finvoice_id,
+        famount, ftype, fitem_name, funit, fquantity, fprice, fcategory_code, ftax_rate,
+        fext_field, fcreate_time, fupdate_time
+    </sql>
+
+    <!-- 插入 -->
+    <insert id="insert" keyColumn="fid" keyProperty="id" parameterType="com.kingdee.fpy.model.InvoiceLine" useGeneratedKeys="true">
+        INSERT INTO t_invoice_line (
+            finvoice_request_id, fseq, finvoice_line_amount, fstatus, fhas_multiline, finvoice_id,
+            famount, ftype, fitem_name, funit, fquantity, fprice, fcategory_code, ftax_rate,
+            fext_field, fcreate_time, fupdate_time
+        ) VALUES (
+            #{invoiceRequestId,jdbcType=BIGINT}, #{seq,jdbcType=INTEGER}, #{invoiceLineAmount,jdbcType=DECIMAL},
+            #{status,jdbcType=TINYINT}, #{hasMultiline,jdbcType=TINYINT}, #{invoiceId,jdbcType=BIGINT},
+            #{amount,jdbcType=DECIMAL}, #{type,jdbcType=TINYINT}, #{itemName,jdbcType=VARCHAR},
+            #{unit,jdbcType=VARCHAR}, #{quantity,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL},
+            #{categoryCode,jdbcType=VARCHAR}, #{taxRate,jdbcType=DECIMAL}, #{extField,jdbcType=LONGVARCHAR},
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- 根据ID删除 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_invoice_line WHERE fid = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatch" parameterType="java.util.List">
+        DELETE FROM t_invoice_line WHERE fid IN
+        <foreach close=")" collection="ids" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据申请单ID删除 -->
+    <delete id="deleteByInvoiceRequestId" parameterType="java.lang.Long">
+        DELETE FROM t_invoice_line WHERE finvoice_request_id = #{invoiceRequestId,jdbcType=BIGINT}
+    </delete>
+
+    <!-- 根据ID更新 -->
+    <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceLine">
+        UPDATE t_invoice_line
+        <set>
+            <if test="invoiceRequestId != null">finvoice_request_id = #{invoiceRequestId,jdbcType=BIGINT},</if>
+            <if test="seq != null">fseq = #{seq,jdbcType=INTEGER},</if>
+            <if test="invoiceLineAmount != null">finvoice_line_amount = #{invoiceLineAmount,jdbcType=DECIMAL},</if>
+            <if test="status != null">fstatus = #{status,jdbcType=TINYINT},</if>
+            <if test="hasMultiline != null">fhas_multiline = #{hasMultiline,jdbcType=TINYINT},</if>
+            <if test="invoiceId != null">finvoice_id = #{invoiceId,jdbcType=BIGINT},</if>
+            <if test="amount != null">famount = #{amount,jdbcType=DECIMAL},</if>
+            <if test="type != null">ftype = #{type,jdbcType=TINYINT},</if>
+            <if test="itemName != null">fitem_name = #{itemName,jdbcType=VARCHAR},</if>
+            <if test="unit != null">funit = #{unit,jdbcType=VARCHAR},</if>
+            <if test="quantity != null">fquantity = #{quantity,jdbcType=DECIMAL},</if>
+            <if test="price != null">fprice = #{price,jdbcType=DECIMAL},</if>
+            <if test="categoryCode != null">fcategory_code = #{categoryCode,jdbcType=VARCHAR},</if>
+            <if test="taxRate != null">ftax_rate = #{taxRate,jdbcType=DECIMAL},</if>
+            <if test="extField != null">fext_field = #{extField,jdbcType=LONGVARCHAR},</if>
+            <if test="updateTime != null">fupdate_time = #{updateTime,jdbcType=TIMESTAMP},</if>
+        </set>
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 根据ID查询 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_line
+        WHERE fid = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据申请单ID查询 -->
+    <select id="selectByInvoiceRequestId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_line
+        WHERE finvoice_request_id = #{invoiceRequestId,jdbcType=BIGINT}
+        ORDER BY fseq ASC
+    </select>
+
+    <!-- 根据发票ID查询 -->
+    <select id="selectByInvoiceId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_line
+        WHERE finvoice_id = #{invoiceId,jdbcType=BIGINT}
+        ORDER BY fseq ASC
+    </select>
+
+    <!-- 查询所有 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_line
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 分页查询 -->
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_line
+        ORDER BY fcreate_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 统计总数 -->
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM t_invoice_line
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" parameterType="com.kingdee.fpy.model.InvoiceLine" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice_line
+        <where>
+            <if test="invoiceRequestId != null">
+                AND finvoice_request_id = #{invoiceRequestId,jdbcType=BIGINT}
+            </if>
+            <if test="invoiceId != null">
+                AND finvoice_id = #{invoiceId,jdbcType=BIGINT}
+            </if>
+            <if test="status != null">
+                AND fstatus = #{status,jdbcType=TINYINT}
+            </if>
+            <if test="type != null">
+                AND ftype = #{type,jdbcType=TINYINT}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                AND fitem_name LIKE CONCAT('%', #{itemName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="categoryCode != null and categoryCode != ''">
+                AND fcategory_code = #{categoryCode,jdbcType=VARCHAR}
+            </if>
+        </where>
+        ORDER BY fcreate_time DESC
+    </select>
+
+</mapper>

@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 发票实体类
- * 对应表：t_invoice
+ * 发票申请实体类
+ * 对应表：t_invoice_request
  */
 @Data
-public class Invoice {
+public class InvoiceRequest {
     
     /**
      * 主键ID
@@ -107,22 +107,22 @@ public class Invoice {
     private String extField;
     
     /**
-     * 开具状态
+     * 源单据类型
      */
-    private Integer issueStatus;
+    private String sourceDocumentType;
     
     /**
-     * 税局确认ID
+     * 源单据ID
      */
-    private String auditId;
+    private String sourceDocumentId;
     
     /**
-     * 税局传输ID
+     * 目标单据ID
      */
-    private String submissionId;
+    private String targetDocumentId;
     
     /**
-     * 上传税局状态
+     * 单据综合状态
      */
     private Integer status;
     
@@ -140,4 +140,4 @@ public class Invoice {
      * 更新时间
      */
     private LocalDateTime updateTime;
-} 
+}
