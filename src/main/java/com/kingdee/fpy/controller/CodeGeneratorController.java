@@ -33,35 +33,37 @@ public class CodeGeneratorController {
     private static final String PG_PASSWORD = "mc_devscm_test_up_pg";
     private static final String PG_SCHEMA_NAME = "public";
     
+    // MySQL数据库配置常量
+    private static final String MYSQL_JDBC_URL = "jdbc:mysql://jump-test.piaozone.com:3306";
+    private static final String MYSQL_USERNAME = "rnd";
+    private static final String MYSQL_PASSWORD = "ZaFOjoFp&SdB8bum";
+    private static final String MYSQL_SCHEMA_NAME = "test_jin";
+    
     /**
      * 生成代码
      * @param request 请求参数
      * @return 生成结果
      */
     @PostMapping("/generate")
-    public Map<String, Object> generateCode(@RequestBody GenerateCodeRequest request) {
-        log.info("开始生成代码，表名：{}", request.getTableName());
+    public Map<String, Object> generateCode(@RequestBody BatchExportDdlRequest request) {
+        log.info("开始生成代码，表名：{}", request.getTableNames());
         
         try {
             // 参数校验
-            if (request.getJdbcUrl() == null || request.getJdbcUrl().trim().isEmpty()) {
-                return createErrorResponse("数据库连接URL不能为空");
-            }
-            
-            if (request.getTableName() == null || request.getTableName().trim().isEmpty()) {
+            if (request.getTableNames() == null || request.getTableNames().trim().isEmpty()) {
                 return createErrorResponse("表名不能为空");
             }
             
             // 调用代码生成服务
             Map<String, Object> result = codeGeneratorService.generateCode(
-                request.getJdbcUrl(),
-                request.getUsername(),
-                request.getPassword(),
-                request.getTableName(),
-                request.getPackageName()
+                MYSQL_JDBC_URL,
+                MYSQL_USERNAME,
+                MYSQL_PASSWORD,
+                request.getTableNames(),
+                MYSQL_SCHEMA_NAME
             );
             
-            log.info("代码生成完成，表名：{}，结果：{}", request.getTableName(), result.get("success"));
+            log.info("代码生成完成，表名：{}，结果：{}", request.getTableNames(), result.get("success"));
             return result;
             
         } catch (Exception e) {

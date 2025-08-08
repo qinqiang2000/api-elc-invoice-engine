@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.SecUserUMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.SecUserU">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="ftype" jdbcType="VARCHAR" property="type" />
+        <result column="fislocked" jdbcType="CHAR" property="islocked" />
+        <result column="fisforbidden" jdbcType="CHAR" property="isforbidden" />
+        <result column="fauthorstatus" jdbcType="VARCHAR" property="authorstatus" />
+        <result column="fpassword" jdbcType="VARCHAR" property="password" />
+        <result column="fisregisted" jdbcType="CHAR" property="isregisted" />
+        <result column="fisactived" jdbcType="CHAR" property="isactived" />
+        <result column="fusername" jdbcType="VARCHAR" property="username" />
+        <result column="fpswhisstr" jdbcType="VARCHAR" property="pswhisstr" />
+        <result column="fpswstrategyid" jdbcType="BIGINT" property="pswstrategyid" />
+        <result column="fpsweffectivedate" jdbcType="VARCHAR" property="psweffectivedate" />
+        <result column="ferrcount" jdbcType="BIGINT" property="errcount" />
+        <result column="flockedtime" jdbcType="VARCHAR" property="lockedtime" />
+        <result column="fexternaluuid" jdbcType="VARCHAR" property="externaluuid" />
+        <result column="flastloginip" jdbcType="VARCHAR" property="lastloginip" />
+        <result column="flastlogintime" jdbcType="VARCHAR" property="lastlogintime" />
+        <result column="fuserdisablerid" jdbcType="BIGINT" property="userdisablerid" />
+        <result column="fuserdisabletime" jdbcType="VARCHAR" property="userdisabletime" />
+        <result column="fuseenddate" jdbcType="VARCHAR" property="useenddate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, ftype, fislocked, fisforbidden, fauthorstatus, fpassword, fisregisted, fisactived, fusername, fpswhisstr, fpswstrategyid, fpsweffectivedate, ferrcount, flockedtime, fexternaluuid, flastloginip, flastlogintime, fuserdisablerid, fuserdisabletime, fuseenddate
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_user_u
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_user_u
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_user_u
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.type != null">
+                AND ftype = #{condition.type}
+            </if>
+            <if test="condition.islocked != null">
+                AND fislocked = #{condition.islocked}
+            </if>
+            <if test="condition.isforbidden != null">
+                AND fisforbidden = #{condition.isforbidden}
+            </if>
+            <if test="condition.authorstatus != null">
+                AND fauthorstatus = #{condition.authorstatus}
+            </if>
+            <if test="condition.password != null">
+                AND fpassword = #{condition.password}
+            </if>
+            <if test="condition.isregisted != null">
+                AND fisregisted = #{condition.isregisted}
+            </if>
+            <if test="condition.isactived != null">
+                AND fisactived = #{condition.isactived}
+            </if>
+            <if test="condition.username != null">
+                AND fusername = #{condition.username}
+            </if>
+            <if test="condition.pswhisstr != null">
+                AND fpswhisstr = #{condition.pswhisstr}
+            </if>
+            <if test="condition.pswstrategyid != null">
+                AND fpswstrategyid = #{condition.pswstrategyid}
+            </if>
+            <if test="condition.psweffectivedate != null">
+                AND fpsweffectivedate = #{condition.psweffectivedate}
+            </if>
+            <if test="condition.errcount != null">
+                AND ferrcount = #{condition.errcount}
+            </if>
+            <if test="condition.lockedtime != null">
+                AND flockedtime = #{condition.lockedtime}
+            </if>
+            <if test="condition.externaluuid != null">
+                AND fexternaluuid = #{condition.externaluuid}
+            </if>
+            <if test="condition.lastloginip != null">
+                AND flastloginip = #{condition.lastloginip}
+            </if>
+            <if test="condition.lastlogintime != null">
+                AND flastlogintime = #{condition.lastlogintime}
+            </if>
+            <if test="condition.userdisablerid != null">
+                AND fuserdisablerid = #{condition.userdisablerid}
+            </if>
+            <if test="condition.userdisabletime != null">
+                AND fuserdisabletime = #{condition.userdisabletime}
+            </if>
+            <if test="condition.useenddate != null">
+                AND fuseenddate = #{condition.useenddate}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_sec_user_u
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.type != null">
+                AND ftype = #{condition.type}
+            </if>
+            <if test="condition.islocked != null">
+                AND fislocked = #{condition.islocked}
+            </if>
+            <if test="condition.isforbidden != null">
+                AND fisforbidden = #{condition.isforbidden}
+            </if>
+            <if test="condition.authorstatus != null">
+                AND fauthorstatus = #{condition.authorstatus}
+            </if>
+            <if test="condition.password != null">
+                AND fpassword = #{condition.password}
+            </if>
+            <if test="condition.isregisted != null">
+                AND fisregisted = #{condition.isregisted}
+            </if>
+            <if test="condition.isactived != null">
+                AND fisactived = #{condition.isactived}
+            </if>
+            <if test="condition.username != null">
+                AND fusername = #{condition.username}
+            </if>
+            <if test="condition.pswhisstr != null">
+                AND fpswhisstr = #{condition.pswhisstr}
+            </if>
+            <if test="condition.pswstrategyid != null">
+                AND fpswstrategyid = #{condition.pswstrategyid}
+            </if>
+            <if test="condition.psweffectivedate != null">
+                AND fpsweffectivedate = #{condition.psweffectivedate}
+            </if>
+            <if test="condition.errcount != null">
+                AND ferrcount = #{condition.errcount}
+            </if>
+            <if test="condition.lockedtime != null">
+                AND flockedtime = #{condition.lockedtime}
+            </if>
+            <if test="condition.externaluuid != null">
+                AND fexternaluuid = #{condition.externaluuid}
+            </if>
+            <if test="condition.lastloginip != null">
+                AND flastloginip = #{condition.lastloginip}
+            </if>
+            <if test="condition.lastlogintime != null">
+                AND flastlogintime = #{condition.lastlogintime}
+            </if>
+            <if test="condition.userdisablerid != null">
+                AND fuserdisablerid = #{condition.userdisablerid}
+            </if>
+            <if test="condition.userdisabletime != null">
+                AND fuserdisabletime = #{condition.userdisabletime}
+            </if>
+            <if test="condition.useenddate != null">
+                AND fuseenddate = #{condition.useenddate}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sec_user_u
+        (fid, ftype, fislocked, fisforbidden, fauthorstatus, fpassword, fisregisted, fisactived, fusername, fpswhisstr, fpswstrategyid, fpsweffectivedate, ferrcount, flockedtime, fexternaluuid, flastloginip, flastlogintime, fuserdisablerid, fuserdisabletime, fuseenddate)
+        VALUES
+        (#{id}, #{type}, #{islocked}, #{isforbidden}, #{authorstatus}, #{password}, #{isregisted}, #{isactived}, #{username}, #{pswhisstr}, #{pswstrategyid}, #{psweffectivedate}, #{errcount}, #{lockedtime}, #{externaluuid}, #{lastloginip}, #{lastlogintime}, #{userdisablerid}, #{userdisabletime}, #{useenddate})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sec_user_u
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="type != null">
+                ftype,
+            </if>
+            <if test="islocked != null">
+                fislocked,
+            </if>
+            <if test="isforbidden != null">
+                fisforbidden,
+            </if>
+            <if test="authorstatus != null">
+                fauthorstatus,
+            </if>
+            <if test="password != null">
+                fpassword,
+            </if>
+            <if test="isregisted != null">
+                fisregisted,
+            </if>
+            <if test="isactived != null">
+                fisactived,
+            </if>
+            <if test="username != null">
+                fusername,
+            </if>
+            <if test="pswhisstr != null">
+                fpswhisstr,
+            </if>
+            <if test="pswstrategyid != null">
+                fpswstrategyid,
+            </if>
+            <if test="psweffectivedate != null">
+                fpsweffectivedate,
+            </if>
+            <if test="errcount != null">
+                ferrcount,
+            </if>
+            <if test="lockedtime != null">
+                flockedtime,
+            </if>
+            <if test="externaluuid != null">
+                fexternaluuid,
+            </if>
+            <if test="lastloginip != null">
+                flastloginip,
+            </if>
+            <if test="lastlogintime != null">
+                flastlogintime,
+            </if>
+            <if test="userdisablerid != null">
+                fuserdisablerid,
+            </if>
+            <if test="userdisabletime != null">
+                fuserdisabletime,
+            </if>
+            <if test="useenddate != null">
+                fuseenddate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="islocked != null">
+                #{islocked},
+            </if>
+            <if test="isforbidden != null">
+                #{isforbidden},
+            </if>
+            <if test="authorstatus != null">
+                #{authorstatus},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="isregisted != null">
+                #{isregisted},
+            </if>
+            <if test="isactived != null">
+                #{isactived},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="pswhisstr != null">
+                #{pswhisstr},
+            </if>
+            <if test="pswstrategyid != null">
+                #{pswstrategyid},
+            </if>
+            <if test="psweffectivedate != null">
+                #{psweffectivedate},
+            </if>
+            <if test="errcount != null">
+                #{errcount},
+            </if>
+            <if test="lockedtime != null">
+                #{lockedtime},
+            </if>
+            <if test="externaluuid != null">
+                #{externaluuid},
+            </if>
+            <if test="lastloginip != null">
+                #{lastloginip},
+            </if>
+            <if test="lastlogintime != null">
+                #{lastlogintime},
+            </if>
+            <if test="userdisablerid != null">
+                #{userdisablerid},
+            </if>
+            <if test="userdisabletime != null">
+                #{userdisabletime},
+            </if>
+            <if test="useenddate != null">
+                #{useenddate},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_sec_user_u
+        SET ftype = #{type},
+            fislocked = #{islocked},
+            fisforbidden = #{isforbidden},
+            fauthorstatus = #{authorstatus},
+            fpassword = #{password},
+            fisregisted = #{isregisted},
+            fisactived = #{isactived},
+            fusername = #{username},
+            fpswhisstr = #{pswhisstr},
+            fpswstrategyid = #{pswstrategyid},
+            fpsweffectivedate = #{psweffectivedate},
+            ferrcount = #{errcount},
+            flockedtime = #{lockedtime},
+            fexternaluuid = #{externaluuid},
+            flastloginip = #{lastloginip},
+            flastlogintime = #{lastlogintime},
+            fuserdisablerid = #{userdisablerid},
+            fuserdisabletime = #{userdisabletime},
+            fuseenddate = #{useenddate}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_sec_user_u
+        <set>
+            <if test="type != null">
+                ftype = #{type},
+            </if>
+            <if test="islocked != null">
+                fislocked = #{islocked},
+            </if>
+            <if test="isforbidden != null">
+                fisforbidden = #{isforbidden},
+            </if>
+            <if test="authorstatus != null">
+                fauthorstatus = #{authorstatus},
+            </if>
+            <if test="password != null">
+                fpassword = #{password},
+            </if>
+            <if test="isregisted != null">
+                fisregisted = #{isregisted},
+            </if>
+            <if test="isactived != null">
+                fisactived = #{isactived},
+            </if>
+            <if test="username != null">
+                fusername = #{username},
+            </if>
+            <if test="pswhisstr != null">
+                fpswhisstr = #{pswhisstr},
+            </if>
+            <if test="pswstrategyid != null">
+                fpswstrategyid = #{pswstrategyid},
+            </if>
+            <if test="psweffectivedate != null">
+                fpsweffectivedate = #{psweffectivedate},
+            </if>
+            <if test="errcount != null">
+                ferrcount = #{errcount},
+            </if>
+            <if test="lockedtime != null">
+                flockedtime = #{lockedtime},
+            </if>
+            <if test="externaluuid != null">
+                fexternaluuid = #{externaluuid},
+            </if>
+            <if test="lastloginip != null">
+                flastloginip = #{lastloginip},
+            </if>
+            <if test="lastlogintime != null">
+                flastlogintime = #{lastlogintime},
+            </if>
+            <if test="userdisablerid != null">
+                fuserdisablerid = #{userdisablerid},
+            </if>
+            <if test="userdisabletime != null">
+                fuserdisabletime = #{userdisabletime},
+            </if>
+            <if test="useenddate != null">
+                fuseenddate = #{useenddate},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_sec_user_u
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_sec_user_u
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

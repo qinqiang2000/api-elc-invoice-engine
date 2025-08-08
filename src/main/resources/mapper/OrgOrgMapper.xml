@@ -1,0 +1,1416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.OrgOrgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.OrgOrg">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fyzjorgid" jdbcType="VARCHAR" property="yzjorgid" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="fyzjimorted" jdbcType="CHAR" property="yzjimorted" />
+        <result column="forgpattern" jdbcType="VARCHAR" property="orgpattern" />
+        <result column="forgpatternid" jdbcType="BIGINT" property="orgpatternid" />
+        <result column="fisadministrative" jdbcType="CHAR" property="isadministrative" />
+        <result column="fispurchase" jdbcType="CHAR" property="ispurchase" />
+        <result column="fissale" jdbcType="CHAR" property="issale" />
+        <result column="fisproduce" jdbcType="CHAR" property="isproduce" />
+        <result column="fisinventory" jdbcType="CHAR" property="isinventory" />
+        <result column="fisqc" jdbcType="CHAR" property="isqc" />
+        <result column="fissettlement" jdbcType="CHAR" property="issettlement" />
+        <result column="fisbankroll" jdbcType="CHAR" property="isbankroll" />
+        <result column="fisasset" jdbcType="CHAR" property="isasset" />
+        <result column="fisaccounting" jdbcType="CHAR" property="isaccounting" />
+        <result column="fishr" jdbcType="CHAR" property="ishr" />
+        <result column="fisscc" jdbcType="CHAR" property="isscc" />
+        <result column="fisbudget" jdbcType="CHAR" property="isbudget" />
+        <result column="fiscontrolunit" jdbcType="CHAR" property="iscontrolunit" />
+        <result column="ftaxregnum" jdbcType="VARCHAR" property="taxregnum" />
+        <result column="fphone" jdbcType="VARCHAR" property="phone" />
+        <result column="fbankaccount" jdbcType="VARCHAR" property="bankaccount" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fdisablerid" jdbcType="BIGINT" property="disablerid" />
+        <result column="fdisabledate" jdbcType="VARCHAR" property="disabledate" />
+        <result column="funiformsocialcreditcode" jdbcType="VARCHAR" property="uniformsocialcreditcode" />
+        <result column="fregisteredcapital" jdbcType="BIGINT" property="registeredcapital" />
+        <result column="festablishmentdate" jdbcType="VARCHAR" property="establishmentdate" />
+        <result column="fbusinessterm" jdbcType="VARCHAR" property="businessterm" />
+        <result column="fstartdate" jdbcType="VARCHAR" property="startdate" />
+        <result column="fenddate" jdbcType="VARCHAR" property="enddate" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fcountryid" jdbcType="BIGINT" property="countryid" />
+        <result column="fcityid" jdbcType="BIGINT" property="cityid" />
+        <result column="ftimezoneid" jdbcType="BIGINT" property="timezoneid" />
+        <result column="fpostcode" jdbcType="VARCHAR" property="postcode" />
+        <result column="fcontactphone" jdbcType="VARCHAR" property="contactphone" />
+        <result column="fisplan" jdbcType="CHAR" property="isplan" />
+        <result column="fisproject" jdbcType="CHAR" property="isproject" />
+        <result column="fispresetbiz1" jdbcType="CHAR" property="ispresetbiz1" />
+        <result column="fispresetbiz2" jdbcType="CHAR" property="ispresetbiz2" />
+        <result column="fispresetbiz3" jdbcType="CHAR" property="ispresetbiz3" />
+        <result column="fispresetbiz4" jdbcType="CHAR" property="ispresetbiz4" />
+        <result column="fispresetbiz5" jdbcType="CHAR" property="ispresetbiz5" />
+        <result column="fispresetbiz6" jdbcType="CHAR" property="ispresetbiz6" />
+        <result column="fispresetbiz7" jdbcType="CHAR" property="ispresetbiz7" />
+        <result column="fispresetbiz8" jdbcType="CHAR" property="ispresetbiz8" />
+        <result column="fispresetbiz9" jdbcType="CHAR" property="ispresetbiz9" />
+        <result column="fispresetbiz10" jdbcType="CHAR" property="ispresetbiz10" />
+        <result column="fisbizorg" jdbcType="CHAR" property="isbizorg" />
+        <result column="fname" jdbcType="VARCHAR" property="name" />
+        <result column="fishrod" jdbcType="CHAR" property="ishrod" />
+        <result column="fishrop" jdbcType="CHAR" property="ishrop" />
+        <result column="fishrbg" jdbcType="CHAR" property="ishrbg" />
+        <result column="fishrtr" jdbcType="CHAR" property="ishrtr" />
+        <result column="fishrpa" jdbcType="CHAR" property="ishrpa" />
+        <result column="fishrwt" jdbcType="CHAR" property="ishrwt" />
+        <result column="fishrcmp" jdbcType="CHAR" property="ishrcmp" />
+        <result column="fishrbs" jdbcType="CHAR" property="ishrbs" />
+        <result column="fishrpay" jdbcType="CHAR" property="ishrpay" />
+        <result column="fishrtax" jdbcType="CHAR" property="ishrtax" />
+        <result column="fishrsi" jdbcType="CHAR" property="ishrsi" />
+        <result column="fishrlti" jdbcType="CHAR" property="ishrlti" />
+        <result column="fishrbm" jdbcType="CHAR" property="ishrbm" />
+        <result column="fishrtd" jdbcType="CHAR" property="ishrtd" />
+        <result column="fishrtl" jdbcType="CHAR" property="ishrtl" />
+        <result column="fishrip" jdbcType="CHAR" property="ishrip" />
+        <result column="fishrssc" jdbcType="CHAR" property="ishrssc" />
+        <result column="fishrlc" jdbcType="CHAR" property="ishrlc" />
+        <result column="fishrab" jdbcType="CHAR" property="ishrab" />
+        <result column="fistax" jdbcType="CHAR" property="istax" />
+        <result column="ftaxpayertype" jdbcType="CHAR" property="taxpayertype" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fyzjorgid, fnumber, fyzjimorted, forgpattern, forgpatternid, fisadministrative, fispurchase, fissale, fisproduce, fisinventory, fisqc, fissettlement, fisbankroll, fisasset, fisaccounting, fishr, fisscc, fisbudget, fiscontrolunit, ftaxregnum, fphone, fbankaccount, fstatus, fenable, fcreatorid, fcreatetime, fmodifytime, fmodifierid, fdisablerid, fdisabledate, funiformsocialcreditcode, fregisteredcapital, festablishmentdate, fbusinessterm, fstartdate, fenddate, fmasterid, fcountryid, fcityid, ftimezoneid, fpostcode, fcontactphone, fisplan, fisproject, fispresetbiz1, fispresetbiz2, fispresetbiz3, fispresetbiz4, fispresetbiz5, fispresetbiz6, fispresetbiz7, fispresetbiz8, fispresetbiz9, fispresetbiz10, fisbizorg, fname, fishrod, fishrop, fishrbg, fishrtr, fishrpa, fishrwt, fishrcmp, fishrbs, fishrpay, fishrtax, fishrsi, fishrlti, fishrbm, fishrtd, fishrtl, fishrip, fishrssc, fishrlc, fishrab, fistax, ftaxpayertype
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_org_org
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_org_org
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_org_org
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.yzjorgid != null">
+                AND fyzjorgid = #{condition.yzjorgid}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.yzjimorted != null">
+                AND fyzjimorted = #{condition.yzjimorted}
+            </if>
+            <if test="condition.orgpattern != null">
+                AND forgpattern = #{condition.orgpattern}
+            </if>
+            <if test="condition.orgpatternid != null">
+                AND forgpatternid = #{condition.orgpatternid}
+            </if>
+            <if test="condition.isadministrative != null">
+                AND fisadministrative = #{condition.isadministrative}
+            </if>
+            <if test="condition.ispurchase != null">
+                AND fispurchase = #{condition.ispurchase}
+            </if>
+            <if test="condition.issale != null">
+                AND fissale = #{condition.issale}
+            </if>
+            <if test="condition.isproduce != null">
+                AND fisproduce = #{condition.isproduce}
+            </if>
+            <if test="condition.isinventory != null">
+                AND fisinventory = #{condition.isinventory}
+            </if>
+            <if test="condition.isqc != null">
+                AND fisqc = #{condition.isqc}
+            </if>
+            <if test="condition.issettlement != null">
+                AND fissettlement = #{condition.issettlement}
+            </if>
+            <if test="condition.isbankroll != null">
+                AND fisbankroll = #{condition.isbankroll}
+            </if>
+            <if test="condition.isasset != null">
+                AND fisasset = #{condition.isasset}
+            </if>
+            <if test="condition.isaccounting != null">
+                AND fisaccounting = #{condition.isaccounting}
+            </if>
+            <if test="condition.ishr != null">
+                AND fishr = #{condition.ishr}
+            </if>
+            <if test="condition.isscc != null">
+                AND fisscc = #{condition.isscc}
+            </if>
+            <if test="condition.isbudget != null">
+                AND fisbudget = #{condition.isbudget}
+            </if>
+            <if test="condition.iscontrolunit != null">
+                AND fiscontrolunit = #{condition.iscontrolunit}
+            </if>
+            <if test="condition.taxregnum != null">
+                AND ftaxregnum = #{condition.taxregnum}
+            </if>
+            <if test="condition.phone != null">
+                AND fphone = #{condition.phone}
+            </if>
+            <if test="condition.bankaccount != null">
+                AND fbankaccount = #{condition.bankaccount}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.uniformsocialcreditcode != null">
+                AND funiformsocialcreditcode = #{condition.uniformsocialcreditcode}
+            </if>
+            <if test="condition.registeredcapital != null">
+                AND fregisteredcapital = #{condition.registeredcapital}
+            </if>
+            <if test="condition.establishmentdate != null">
+                AND festablishmentdate = #{condition.establishmentdate}
+            </if>
+            <if test="condition.businessterm != null">
+                AND fbusinessterm = #{condition.businessterm}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.countryid != null">
+                AND fcountryid = #{condition.countryid}
+            </if>
+            <if test="condition.cityid != null">
+                AND fcityid = #{condition.cityid}
+            </if>
+            <if test="condition.timezoneid != null">
+                AND ftimezoneid = #{condition.timezoneid}
+            </if>
+            <if test="condition.postcode != null">
+                AND fpostcode = #{condition.postcode}
+            </if>
+            <if test="condition.contactphone != null">
+                AND fcontactphone = #{condition.contactphone}
+            </if>
+            <if test="condition.isplan != null">
+                AND fisplan = #{condition.isplan}
+            </if>
+            <if test="condition.isproject != null">
+                AND fisproject = #{condition.isproject}
+            </if>
+            <if test="condition.ispresetbiz1 != null">
+                AND fispresetbiz1 = #{condition.ispresetbiz1}
+            </if>
+            <if test="condition.ispresetbiz2 != null">
+                AND fispresetbiz2 = #{condition.ispresetbiz2}
+            </if>
+            <if test="condition.ispresetbiz3 != null">
+                AND fispresetbiz3 = #{condition.ispresetbiz3}
+            </if>
+            <if test="condition.ispresetbiz4 != null">
+                AND fispresetbiz4 = #{condition.ispresetbiz4}
+            </if>
+            <if test="condition.ispresetbiz5 != null">
+                AND fispresetbiz5 = #{condition.ispresetbiz5}
+            </if>
+            <if test="condition.ispresetbiz6 != null">
+                AND fispresetbiz6 = #{condition.ispresetbiz6}
+            </if>
+            <if test="condition.ispresetbiz7 != null">
+                AND fispresetbiz7 = #{condition.ispresetbiz7}
+            </if>
+            <if test="condition.ispresetbiz8 != null">
+                AND fispresetbiz8 = #{condition.ispresetbiz8}
+            </if>
+            <if test="condition.ispresetbiz9 != null">
+                AND fispresetbiz9 = #{condition.ispresetbiz9}
+            </if>
+            <if test="condition.ispresetbiz10 != null">
+                AND fispresetbiz10 = #{condition.ispresetbiz10}
+            </if>
+            <if test="condition.isbizorg != null">
+                AND fisbizorg = #{condition.isbizorg}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.ishrod != null">
+                AND fishrod = #{condition.ishrod}
+            </if>
+            <if test="condition.ishrop != null">
+                AND fishrop = #{condition.ishrop}
+            </if>
+            <if test="condition.ishrbg != null">
+                AND fishrbg = #{condition.ishrbg}
+            </if>
+            <if test="condition.ishrtr != null">
+                AND fishrtr = #{condition.ishrtr}
+            </if>
+            <if test="condition.ishrpa != null">
+                AND fishrpa = #{condition.ishrpa}
+            </if>
+            <if test="condition.ishrwt != null">
+                AND fishrwt = #{condition.ishrwt}
+            </if>
+            <if test="condition.ishrcmp != null">
+                AND fishrcmp = #{condition.ishrcmp}
+            </if>
+            <if test="condition.ishrbs != null">
+                AND fishrbs = #{condition.ishrbs}
+            </if>
+            <if test="condition.ishrpay != null">
+                AND fishrpay = #{condition.ishrpay}
+            </if>
+            <if test="condition.ishrtax != null">
+                AND fishrtax = #{condition.ishrtax}
+            </if>
+            <if test="condition.ishrsi != null">
+                AND fishrsi = #{condition.ishrsi}
+            </if>
+            <if test="condition.ishrlti != null">
+                AND fishrlti = #{condition.ishrlti}
+            </if>
+            <if test="condition.ishrbm != null">
+                AND fishrbm = #{condition.ishrbm}
+            </if>
+            <if test="condition.ishrtd != null">
+                AND fishrtd = #{condition.ishrtd}
+            </if>
+            <if test="condition.ishrtl != null">
+                AND fishrtl = #{condition.ishrtl}
+            </if>
+            <if test="condition.ishrip != null">
+                AND fishrip = #{condition.ishrip}
+            </if>
+            <if test="condition.ishrssc != null">
+                AND fishrssc = #{condition.ishrssc}
+            </if>
+            <if test="condition.ishrlc != null">
+                AND fishrlc = #{condition.ishrlc}
+            </if>
+            <if test="condition.ishrab != null">
+                AND fishrab = #{condition.ishrab}
+            </if>
+            <if test="condition.istax != null">
+                AND fistax = #{condition.istax}
+            </if>
+            <if test="condition.taxpayertype != null">
+                AND ftaxpayertype = #{condition.taxpayertype}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_org_org
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.yzjorgid != null">
+                AND fyzjorgid = #{condition.yzjorgid}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.yzjimorted != null">
+                AND fyzjimorted = #{condition.yzjimorted}
+            </if>
+            <if test="condition.orgpattern != null">
+                AND forgpattern = #{condition.orgpattern}
+            </if>
+            <if test="condition.orgpatternid != null">
+                AND forgpatternid = #{condition.orgpatternid}
+            </if>
+            <if test="condition.isadministrative != null">
+                AND fisadministrative = #{condition.isadministrative}
+            </if>
+            <if test="condition.ispurchase != null">
+                AND fispurchase = #{condition.ispurchase}
+            </if>
+            <if test="condition.issale != null">
+                AND fissale = #{condition.issale}
+            </if>
+            <if test="condition.isproduce != null">
+                AND fisproduce = #{condition.isproduce}
+            </if>
+            <if test="condition.isinventory != null">
+                AND fisinventory = #{condition.isinventory}
+            </if>
+            <if test="condition.isqc != null">
+                AND fisqc = #{condition.isqc}
+            </if>
+            <if test="condition.issettlement != null">
+                AND fissettlement = #{condition.issettlement}
+            </if>
+            <if test="condition.isbankroll != null">
+                AND fisbankroll = #{condition.isbankroll}
+            </if>
+            <if test="condition.isasset != null">
+                AND fisasset = #{condition.isasset}
+            </if>
+            <if test="condition.isaccounting != null">
+                AND fisaccounting = #{condition.isaccounting}
+            </if>
+            <if test="condition.ishr != null">
+                AND fishr = #{condition.ishr}
+            </if>
+            <if test="condition.isscc != null">
+                AND fisscc = #{condition.isscc}
+            </if>
+            <if test="condition.isbudget != null">
+                AND fisbudget = #{condition.isbudget}
+            </if>
+            <if test="condition.iscontrolunit != null">
+                AND fiscontrolunit = #{condition.iscontrolunit}
+            </if>
+            <if test="condition.taxregnum != null">
+                AND ftaxregnum = #{condition.taxregnum}
+            </if>
+            <if test="condition.phone != null">
+                AND fphone = #{condition.phone}
+            </if>
+            <if test="condition.bankaccount != null">
+                AND fbankaccount = #{condition.bankaccount}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.uniformsocialcreditcode != null">
+                AND funiformsocialcreditcode = #{condition.uniformsocialcreditcode}
+            </if>
+            <if test="condition.registeredcapital != null">
+                AND fregisteredcapital = #{condition.registeredcapital}
+            </if>
+            <if test="condition.establishmentdate != null">
+                AND festablishmentdate = #{condition.establishmentdate}
+            </if>
+            <if test="condition.businessterm != null">
+                AND fbusinessterm = #{condition.businessterm}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.countryid != null">
+                AND fcountryid = #{condition.countryid}
+            </if>
+            <if test="condition.cityid != null">
+                AND fcityid = #{condition.cityid}
+            </if>
+            <if test="condition.timezoneid != null">
+                AND ftimezoneid = #{condition.timezoneid}
+            </if>
+            <if test="condition.postcode != null">
+                AND fpostcode = #{condition.postcode}
+            </if>
+            <if test="condition.contactphone != null">
+                AND fcontactphone = #{condition.contactphone}
+            </if>
+            <if test="condition.isplan != null">
+                AND fisplan = #{condition.isplan}
+            </if>
+            <if test="condition.isproject != null">
+                AND fisproject = #{condition.isproject}
+            </if>
+            <if test="condition.ispresetbiz1 != null">
+                AND fispresetbiz1 = #{condition.ispresetbiz1}
+            </if>
+            <if test="condition.ispresetbiz2 != null">
+                AND fispresetbiz2 = #{condition.ispresetbiz2}
+            </if>
+            <if test="condition.ispresetbiz3 != null">
+                AND fispresetbiz3 = #{condition.ispresetbiz3}
+            </if>
+            <if test="condition.ispresetbiz4 != null">
+                AND fispresetbiz4 = #{condition.ispresetbiz4}
+            </if>
+            <if test="condition.ispresetbiz5 != null">
+                AND fispresetbiz5 = #{condition.ispresetbiz5}
+            </if>
+            <if test="condition.ispresetbiz6 != null">
+                AND fispresetbiz6 = #{condition.ispresetbiz6}
+            </if>
+            <if test="condition.ispresetbiz7 != null">
+                AND fispresetbiz7 = #{condition.ispresetbiz7}
+            </if>
+            <if test="condition.ispresetbiz8 != null">
+                AND fispresetbiz8 = #{condition.ispresetbiz8}
+            </if>
+            <if test="condition.ispresetbiz9 != null">
+                AND fispresetbiz9 = #{condition.ispresetbiz9}
+            </if>
+            <if test="condition.ispresetbiz10 != null">
+                AND fispresetbiz10 = #{condition.ispresetbiz10}
+            </if>
+            <if test="condition.isbizorg != null">
+                AND fisbizorg = #{condition.isbizorg}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.ishrod != null">
+                AND fishrod = #{condition.ishrod}
+            </if>
+            <if test="condition.ishrop != null">
+                AND fishrop = #{condition.ishrop}
+            </if>
+            <if test="condition.ishrbg != null">
+                AND fishrbg = #{condition.ishrbg}
+            </if>
+            <if test="condition.ishrtr != null">
+                AND fishrtr = #{condition.ishrtr}
+            </if>
+            <if test="condition.ishrpa != null">
+                AND fishrpa = #{condition.ishrpa}
+            </if>
+            <if test="condition.ishrwt != null">
+                AND fishrwt = #{condition.ishrwt}
+            </if>
+            <if test="condition.ishrcmp != null">
+                AND fishrcmp = #{condition.ishrcmp}
+            </if>
+            <if test="condition.ishrbs != null">
+                AND fishrbs = #{condition.ishrbs}
+            </if>
+            <if test="condition.ishrpay != null">
+                AND fishrpay = #{condition.ishrpay}
+            </if>
+            <if test="condition.ishrtax != null">
+                AND fishrtax = #{condition.ishrtax}
+            </if>
+            <if test="condition.ishrsi != null">
+                AND fishrsi = #{condition.ishrsi}
+            </if>
+            <if test="condition.ishrlti != null">
+                AND fishrlti = #{condition.ishrlti}
+            </if>
+            <if test="condition.ishrbm != null">
+                AND fishrbm = #{condition.ishrbm}
+            </if>
+            <if test="condition.ishrtd != null">
+                AND fishrtd = #{condition.ishrtd}
+            </if>
+            <if test="condition.ishrtl != null">
+                AND fishrtl = #{condition.ishrtl}
+            </if>
+            <if test="condition.ishrip != null">
+                AND fishrip = #{condition.ishrip}
+            </if>
+            <if test="condition.ishrssc != null">
+                AND fishrssc = #{condition.ishrssc}
+            </if>
+            <if test="condition.ishrlc != null">
+                AND fishrlc = #{condition.ishrlc}
+            </if>
+            <if test="condition.ishrab != null">
+                AND fishrab = #{condition.ishrab}
+            </if>
+            <if test="condition.istax != null">
+                AND fistax = #{condition.istax}
+            </if>
+            <if test="condition.taxpayertype != null">
+                AND ftaxpayertype = #{condition.taxpayertype}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_org_org
+        (fid, fyzjorgid, fnumber, fyzjimorted, forgpattern, forgpatternid, fisadministrative, fispurchase, fissale, fisproduce, fisinventory, fisqc, fissettlement, fisbankroll, fisasset, fisaccounting, fishr, fisscc, fisbudget, fiscontrolunit, ftaxregnum, fphone, fbankaccount, fstatus, fenable, fcreatorid, fcreatetime, fmodifytime, fmodifierid, fdisablerid, fdisabledate, funiformsocialcreditcode, fregisteredcapital, festablishmentdate, fbusinessterm, fstartdate, fenddate, fmasterid, fcountryid, fcityid, ftimezoneid, fpostcode, fcontactphone, fisplan, fisproject, fispresetbiz1, fispresetbiz2, fispresetbiz3, fispresetbiz4, fispresetbiz5, fispresetbiz6, fispresetbiz7, fispresetbiz8, fispresetbiz9, fispresetbiz10, fisbizorg, fname, fishrod, fishrop, fishrbg, fishrtr, fishrpa, fishrwt, fishrcmp, fishrbs, fishrpay, fishrtax, fishrsi, fishrlti, fishrbm, fishrtd, fishrtl, fishrip, fishrssc, fishrlc, fishrab, fistax, ftaxpayertype)
+        VALUES
+        (#{id}, #{yzjorgid}, #{number}, #{yzjimorted}, #{orgpattern}, #{orgpatternid}, #{isadministrative}, #{ispurchase}, #{issale}, #{isproduce}, #{isinventory}, #{isqc}, #{issettlement}, #{isbankroll}, #{isasset}, #{isaccounting}, #{ishr}, #{isscc}, #{isbudget}, #{iscontrolunit}, #{taxregnum}, #{phone}, #{bankaccount}, #{status}, #{enable}, #{creatorid}, #{createtime}, #{modifytime}, #{modifierid}, #{disablerid}, #{disabledate}, #{uniformsocialcreditcode}, #{registeredcapital}, #{establishmentdate}, #{businessterm}, #{startdate}, #{enddate}, #{masterid}, #{countryid}, #{cityid}, #{timezoneid}, #{postcode}, #{contactphone}, #{isplan}, #{isproject}, #{ispresetbiz1}, #{ispresetbiz2}, #{ispresetbiz3}, #{ispresetbiz4}, #{ispresetbiz5}, #{ispresetbiz6}, #{ispresetbiz7}, #{ispresetbiz8}, #{ispresetbiz9}, #{ispresetbiz10}, #{isbizorg}, #{name}, #{ishrod}, #{ishrop}, #{ishrbg}, #{ishrtr}, #{ishrpa}, #{ishrwt}, #{ishrcmp}, #{ishrbs}, #{ishrpay}, #{ishrtax}, #{ishrsi}, #{ishrlti}, #{ishrbm}, #{ishrtd}, #{ishrtl}, #{ishrip}, #{ishrssc}, #{ishrlc}, #{ishrab}, #{istax}, #{taxpayertype})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_org_org
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="yzjorgid != null">
+                fyzjorgid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="yzjimorted != null">
+                fyzjimorted,
+            </if>
+            <if test="orgpattern != null">
+                forgpattern,
+            </if>
+            <if test="orgpatternid != null">
+                forgpatternid,
+            </if>
+            <if test="isadministrative != null">
+                fisadministrative,
+            </if>
+            <if test="ispurchase != null">
+                fispurchase,
+            </if>
+            <if test="issale != null">
+                fissale,
+            </if>
+            <if test="isproduce != null">
+                fisproduce,
+            </if>
+            <if test="isinventory != null">
+                fisinventory,
+            </if>
+            <if test="isqc != null">
+                fisqc,
+            </if>
+            <if test="issettlement != null">
+                fissettlement,
+            </if>
+            <if test="isbankroll != null">
+                fisbankroll,
+            </if>
+            <if test="isasset != null">
+                fisasset,
+            </if>
+            <if test="isaccounting != null">
+                fisaccounting,
+            </if>
+            <if test="ishr != null">
+                fishr,
+            </if>
+            <if test="isscc != null">
+                fisscc,
+            </if>
+            <if test="isbudget != null">
+                fisbudget,
+            </if>
+            <if test="iscontrolunit != null">
+                fiscontrolunit,
+            </if>
+            <if test="taxregnum != null">
+                ftaxregnum,
+            </if>
+            <if test="phone != null">
+                fphone,
+            </if>
+            <if test="bankaccount != null">
+                fbankaccount,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="disablerid != null">
+                fdisablerid,
+            </if>
+            <if test="disabledate != null">
+                fdisabledate,
+            </if>
+            <if test="uniformsocialcreditcode != null">
+                funiformsocialcreditcode,
+            </if>
+            <if test="registeredcapital != null">
+                fregisteredcapital,
+            </if>
+            <if test="establishmentdate != null">
+                festablishmentdate,
+            </if>
+            <if test="businessterm != null">
+                fbusinessterm,
+            </if>
+            <if test="startdate != null">
+                fstartdate,
+            </if>
+            <if test="enddate != null">
+                fenddate,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="countryid != null">
+                fcountryid,
+            </if>
+            <if test="cityid != null">
+                fcityid,
+            </if>
+            <if test="timezoneid != null">
+                ftimezoneid,
+            </if>
+            <if test="postcode != null">
+                fpostcode,
+            </if>
+            <if test="contactphone != null">
+                fcontactphone,
+            </if>
+            <if test="isplan != null">
+                fisplan,
+            </if>
+            <if test="isproject != null">
+                fisproject,
+            </if>
+            <if test="ispresetbiz1 != null">
+                fispresetbiz1,
+            </if>
+            <if test="ispresetbiz2 != null">
+                fispresetbiz2,
+            </if>
+            <if test="ispresetbiz3 != null">
+                fispresetbiz3,
+            </if>
+            <if test="ispresetbiz4 != null">
+                fispresetbiz4,
+            </if>
+            <if test="ispresetbiz5 != null">
+                fispresetbiz5,
+            </if>
+            <if test="ispresetbiz6 != null">
+                fispresetbiz6,
+            </if>
+            <if test="ispresetbiz7 != null">
+                fispresetbiz7,
+            </if>
+            <if test="ispresetbiz8 != null">
+                fispresetbiz8,
+            </if>
+            <if test="ispresetbiz9 != null">
+                fispresetbiz9,
+            </if>
+            <if test="ispresetbiz10 != null">
+                fispresetbiz10,
+            </if>
+            <if test="isbizorg != null">
+                fisbizorg,
+            </if>
+            <if test="name != null">
+                fname,
+            </if>
+            <if test="ishrod != null">
+                fishrod,
+            </if>
+            <if test="ishrop != null">
+                fishrop,
+            </if>
+            <if test="ishrbg != null">
+                fishrbg,
+            </if>
+            <if test="ishrtr != null">
+                fishrtr,
+            </if>
+            <if test="ishrpa != null">
+                fishrpa,
+            </if>
+            <if test="ishrwt != null">
+                fishrwt,
+            </if>
+            <if test="ishrcmp != null">
+                fishrcmp,
+            </if>
+            <if test="ishrbs != null">
+                fishrbs,
+            </if>
+            <if test="ishrpay != null">
+                fishrpay,
+            </if>
+            <if test="ishrtax != null">
+                fishrtax,
+            </if>
+            <if test="ishrsi != null">
+                fishrsi,
+            </if>
+            <if test="ishrlti != null">
+                fishrlti,
+            </if>
+            <if test="ishrbm != null">
+                fishrbm,
+            </if>
+            <if test="ishrtd != null">
+                fishrtd,
+            </if>
+            <if test="ishrtl != null">
+                fishrtl,
+            </if>
+            <if test="ishrip != null">
+                fishrip,
+            </if>
+            <if test="ishrssc != null">
+                fishrssc,
+            </if>
+            <if test="ishrlc != null">
+                fishrlc,
+            </if>
+            <if test="ishrab != null">
+                fishrab,
+            </if>
+            <if test="istax != null">
+                fistax,
+            </if>
+            <if test="taxpayertype != null">
+                ftaxpayertype,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="yzjorgid != null">
+                #{yzjorgid},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="yzjimorted != null">
+                #{yzjimorted},
+            </if>
+            <if test="orgpattern != null">
+                #{orgpattern},
+            </if>
+            <if test="orgpatternid != null">
+                #{orgpatternid},
+            </if>
+            <if test="isadministrative != null">
+                #{isadministrative},
+            </if>
+            <if test="ispurchase != null">
+                #{ispurchase},
+            </if>
+            <if test="issale != null">
+                #{issale},
+            </if>
+            <if test="isproduce != null">
+                #{isproduce},
+            </if>
+            <if test="isinventory != null">
+                #{isinventory},
+            </if>
+            <if test="isqc != null">
+                #{isqc},
+            </if>
+            <if test="issettlement != null">
+                #{issettlement},
+            </if>
+            <if test="isbankroll != null">
+                #{isbankroll},
+            </if>
+            <if test="isasset != null">
+                #{isasset},
+            </if>
+            <if test="isaccounting != null">
+                #{isaccounting},
+            </if>
+            <if test="ishr != null">
+                #{ishr},
+            </if>
+            <if test="isscc != null">
+                #{isscc},
+            </if>
+            <if test="isbudget != null">
+                #{isbudget},
+            </if>
+            <if test="iscontrolunit != null">
+                #{iscontrolunit},
+            </if>
+            <if test="taxregnum != null">
+                #{taxregnum},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="bankaccount != null">
+                #{bankaccount},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="disablerid != null">
+                #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                #{disabledate},
+            </if>
+            <if test="uniformsocialcreditcode != null">
+                #{uniformsocialcreditcode},
+            </if>
+            <if test="registeredcapital != null">
+                #{registeredcapital},
+            </if>
+            <if test="establishmentdate != null">
+                #{establishmentdate},
+            </if>
+            <if test="businessterm != null">
+                #{businessterm},
+            </if>
+            <if test="startdate != null">
+                #{startdate},
+            </if>
+            <if test="enddate != null">
+                #{enddate},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="countryid != null">
+                #{countryid},
+            </if>
+            <if test="cityid != null">
+                #{cityid},
+            </if>
+            <if test="timezoneid != null">
+                #{timezoneid},
+            </if>
+            <if test="postcode != null">
+                #{postcode},
+            </if>
+            <if test="contactphone != null">
+                #{contactphone},
+            </if>
+            <if test="isplan != null">
+                #{isplan},
+            </if>
+            <if test="isproject != null">
+                #{isproject},
+            </if>
+            <if test="ispresetbiz1 != null">
+                #{ispresetbiz1},
+            </if>
+            <if test="ispresetbiz2 != null">
+                #{ispresetbiz2},
+            </if>
+            <if test="ispresetbiz3 != null">
+                #{ispresetbiz3},
+            </if>
+            <if test="ispresetbiz4 != null">
+                #{ispresetbiz4},
+            </if>
+            <if test="ispresetbiz5 != null">
+                #{ispresetbiz5},
+            </if>
+            <if test="ispresetbiz6 != null">
+                #{ispresetbiz6},
+            </if>
+            <if test="ispresetbiz7 != null">
+                #{ispresetbiz7},
+            </if>
+            <if test="ispresetbiz8 != null">
+                #{ispresetbiz8},
+            </if>
+            <if test="ispresetbiz9 != null">
+                #{ispresetbiz9},
+            </if>
+            <if test="ispresetbiz10 != null">
+                #{ispresetbiz10},
+            </if>
+            <if test="isbizorg != null">
+                #{isbizorg},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="ishrod != null">
+                #{ishrod},
+            </if>
+            <if test="ishrop != null">
+                #{ishrop},
+            </if>
+            <if test="ishrbg != null">
+                #{ishrbg},
+            </if>
+            <if test="ishrtr != null">
+                #{ishrtr},
+            </if>
+            <if test="ishrpa != null">
+                #{ishrpa},
+            </if>
+            <if test="ishrwt != null">
+                #{ishrwt},
+            </if>
+            <if test="ishrcmp != null">
+                #{ishrcmp},
+            </if>
+            <if test="ishrbs != null">
+                #{ishrbs},
+            </if>
+            <if test="ishrpay != null">
+                #{ishrpay},
+            </if>
+            <if test="ishrtax != null">
+                #{ishrtax},
+            </if>
+            <if test="ishrsi != null">
+                #{ishrsi},
+            </if>
+            <if test="ishrlti != null">
+                #{ishrlti},
+            </if>
+            <if test="ishrbm != null">
+                #{ishrbm},
+            </if>
+            <if test="ishrtd != null">
+                #{ishrtd},
+            </if>
+            <if test="ishrtl != null">
+                #{ishrtl},
+            </if>
+            <if test="ishrip != null">
+                #{ishrip},
+            </if>
+            <if test="ishrssc != null">
+                #{ishrssc},
+            </if>
+            <if test="ishrlc != null">
+                #{ishrlc},
+            </if>
+            <if test="ishrab != null">
+                #{ishrab},
+            </if>
+            <if test="istax != null">
+                #{istax},
+            </if>
+            <if test="taxpayertype != null">
+                #{taxpayertype},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_org_org
+        SET fyzjorgid = #{yzjorgid},
+            fnumber = #{number},
+            fyzjimorted = #{yzjimorted},
+            forgpattern = #{orgpattern},
+            forgpatternid = #{orgpatternid},
+            fisadministrative = #{isadministrative},
+            fispurchase = #{ispurchase},
+            fissale = #{issale},
+            fisproduce = #{isproduce},
+            fisinventory = #{isinventory},
+            fisqc = #{isqc},
+            fissettlement = #{issettlement},
+            fisbankroll = #{isbankroll},
+            fisasset = #{isasset},
+            fisaccounting = #{isaccounting},
+            fishr = #{ishr},
+            fisscc = #{isscc},
+            fisbudget = #{isbudget},
+            fiscontrolunit = #{iscontrolunit},
+            ftaxregnum = #{taxregnum},
+            fphone = #{phone},
+            fbankaccount = #{bankaccount},
+            fstatus = #{status},
+            fenable = #{enable},
+            fcreatorid = #{creatorid},
+            fcreatetime = #{createtime},
+            fmodifytime = #{modifytime},
+            fmodifierid = #{modifierid},
+            fdisablerid = #{disablerid},
+            fdisabledate = #{disabledate},
+            funiformsocialcreditcode = #{uniformsocialcreditcode},
+            fregisteredcapital = #{registeredcapital},
+            festablishmentdate = #{establishmentdate},
+            fbusinessterm = #{businessterm},
+            fstartdate = #{startdate},
+            fenddate = #{enddate},
+            fmasterid = #{masterid},
+            fcountryid = #{countryid},
+            fcityid = #{cityid},
+            ftimezoneid = #{timezoneid},
+            fpostcode = #{postcode},
+            fcontactphone = #{contactphone},
+            fisplan = #{isplan},
+            fisproject = #{isproject},
+            fispresetbiz1 = #{ispresetbiz1},
+            fispresetbiz2 = #{ispresetbiz2},
+            fispresetbiz3 = #{ispresetbiz3},
+            fispresetbiz4 = #{ispresetbiz4},
+            fispresetbiz5 = #{ispresetbiz5},
+            fispresetbiz6 = #{ispresetbiz6},
+            fispresetbiz7 = #{ispresetbiz7},
+            fispresetbiz8 = #{ispresetbiz8},
+            fispresetbiz9 = #{ispresetbiz9},
+            fispresetbiz10 = #{ispresetbiz10},
+            fisbizorg = #{isbizorg},
+            fname = #{name},
+            fishrod = #{ishrod},
+            fishrop = #{ishrop},
+            fishrbg = #{ishrbg},
+            fishrtr = #{ishrtr},
+            fishrpa = #{ishrpa},
+            fishrwt = #{ishrwt},
+            fishrcmp = #{ishrcmp},
+            fishrbs = #{ishrbs},
+            fishrpay = #{ishrpay},
+            fishrtax = #{ishrtax},
+            fishrsi = #{ishrsi},
+            fishrlti = #{ishrlti},
+            fishrbm = #{ishrbm},
+            fishrtd = #{ishrtd},
+            fishrtl = #{ishrtl},
+            fishrip = #{ishrip},
+            fishrssc = #{ishrssc},
+            fishrlc = #{ishrlc},
+            fishrab = #{ishrab},
+            fistax = #{istax},
+            ftaxpayertype = #{taxpayertype}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_org_org
+        <set>
+            <if test="yzjorgid != null">
+                fyzjorgid = #{yzjorgid},
+            </if>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="yzjimorted != null">
+                fyzjimorted = #{yzjimorted},
+            </if>
+            <if test="orgpattern != null">
+                forgpattern = #{orgpattern},
+            </if>
+            <if test="orgpatternid != null">
+                forgpatternid = #{orgpatternid},
+            </if>
+            <if test="isadministrative != null">
+                fisadministrative = #{isadministrative},
+            </if>
+            <if test="ispurchase != null">
+                fispurchase = #{ispurchase},
+            </if>
+            <if test="issale != null">
+                fissale = #{issale},
+            </if>
+            <if test="isproduce != null">
+                fisproduce = #{isproduce},
+            </if>
+            <if test="isinventory != null">
+                fisinventory = #{isinventory},
+            </if>
+            <if test="isqc != null">
+                fisqc = #{isqc},
+            </if>
+            <if test="issettlement != null">
+                fissettlement = #{issettlement},
+            </if>
+            <if test="isbankroll != null">
+                fisbankroll = #{isbankroll},
+            </if>
+            <if test="isasset != null">
+                fisasset = #{isasset},
+            </if>
+            <if test="isaccounting != null">
+                fisaccounting = #{isaccounting},
+            </if>
+            <if test="ishr != null">
+                fishr = #{ishr},
+            </if>
+            <if test="isscc != null">
+                fisscc = #{isscc},
+            </if>
+            <if test="isbudget != null">
+                fisbudget = #{isbudget},
+            </if>
+            <if test="iscontrolunit != null">
+                fiscontrolunit = #{iscontrolunit},
+            </if>
+            <if test="taxregnum != null">
+                ftaxregnum = #{taxregnum},
+            </if>
+            <if test="phone != null">
+                fphone = #{phone},
+            </if>
+            <if test="bankaccount != null">
+                fbankaccount = #{bankaccount},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="disablerid != null">
+                fdisablerid = #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                fdisabledate = #{disabledate},
+            </if>
+            <if test="uniformsocialcreditcode != null">
+                funiformsocialcreditcode = #{uniformsocialcreditcode},
+            </if>
+            <if test="registeredcapital != null">
+                fregisteredcapital = #{registeredcapital},
+            </if>
+            <if test="establishmentdate != null">
+                festablishmentdate = #{establishmentdate},
+            </if>
+            <if test="businessterm != null">
+                fbusinessterm = #{businessterm},
+            </if>
+            <if test="startdate != null">
+                fstartdate = #{startdate},
+            </if>
+            <if test="enddate != null">
+                fenddate = #{enddate},
+            </if>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="countryid != null">
+                fcountryid = #{countryid},
+            </if>
+            <if test="cityid != null">
+                fcityid = #{cityid},
+            </if>
+            <if test="timezoneid != null">
+                ftimezoneid = #{timezoneid},
+            </if>
+            <if test="postcode != null">
+                fpostcode = #{postcode},
+            </if>
+            <if test="contactphone != null">
+                fcontactphone = #{contactphone},
+            </if>
+            <if test="isplan != null">
+                fisplan = #{isplan},
+            </if>
+            <if test="isproject != null">
+                fisproject = #{isproject},
+            </if>
+            <if test="ispresetbiz1 != null">
+                fispresetbiz1 = #{ispresetbiz1},
+            </if>
+            <if test="ispresetbiz2 != null">
+                fispresetbiz2 = #{ispresetbiz2},
+            </if>
+            <if test="ispresetbiz3 != null">
+                fispresetbiz3 = #{ispresetbiz3},
+            </if>
+            <if test="ispresetbiz4 != null">
+                fispresetbiz4 = #{ispresetbiz4},
+            </if>
+            <if test="ispresetbiz5 != null">
+                fispresetbiz5 = #{ispresetbiz5},
+            </if>
+            <if test="ispresetbiz6 != null">
+                fispresetbiz6 = #{ispresetbiz6},
+            </if>
+            <if test="ispresetbiz7 != null">
+                fispresetbiz7 = #{ispresetbiz7},
+            </if>
+            <if test="ispresetbiz8 != null">
+                fispresetbiz8 = #{ispresetbiz8},
+            </if>
+            <if test="ispresetbiz9 != null">
+                fispresetbiz9 = #{ispresetbiz9},
+            </if>
+            <if test="ispresetbiz10 != null">
+                fispresetbiz10 = #{ispresetbiz10},
+            </if>
+            <if test="isbizorg != null">
+                fisbizorg = #{isbizorg},
+            </if>
+            <if test="name != null">
+                fname = #{name},
+            </if>
+            <if test="ishrod != null">
+                fishrod = #{ishrod},
+            </if>
+            <if test="ishrop != null">
+                fishrop = #{ishrop},
+            </if>
+            <if test="ishrbg != null">
+                fishrbg = #{ishrbg},
+            </if>
+            <if test="ishrtr != null">
+                fishrtr = #{ishrtr},
+            </if>
+            <if test="ishrpa != null">
+                fishrpa = #{ishrpa},
+            </if>
+            <if test="ishrwt != null">
+                fishrwt = #{ishrwt},
+            </if>
+            <if test="ishrcmp != null">
+                fishrcmp = #{ishrcmp},
+            </if>
+            <if test="ishrbs != null">
+                fishrbs = #{ishrbs},
+            </if>
+            <if test="ishrpay != null">
+                fishrpay = #{ishrpay},
+            </if>
+            <if test="ishrtax != null">
+                fishrtax = #{ishrtax},
+            </if>
+            <if test="ishrsi != null">
+                fishrsi = #{ishrsi},
+            </if>
+            <if test="ishrlti != null">
+                fishrlti = #{ishrlti},
+            </if>
+            <if test="ishrbm != null">
+                fishrbm = #{ishrbm},
+            </if>
+            <if test="ishrtd != null">
+                fishrtd = #{ishrtd},
+            </if>
+            <if test="ishrtl != null">
+                fishrtl = #{ishrtl},
+            </if>
+            <if test="ishrip != null">
+                fishrip = #{ishrip},
+            </if>
+            <if test="ishrssc != null">
+                fishrssc = #{ishrssc},
+            </if>
+            <if test="ishrlc != null">
+                fishrlc = #{ishrlc},
+            </if>
+            <if test="ishrab != null">
+                fishrab = #{ishrab},
+            </if>
+            <if test="istax != null">
+                fistax = #{istax},
+            </if>
+            <if test="taxpayertype != null">
+                ftaxpayertype = #{taxpayertype},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_org_org
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_org_org
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

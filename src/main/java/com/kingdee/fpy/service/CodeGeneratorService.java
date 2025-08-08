@@ -244,70 +244,127 @@ public class CodeGeneratorService {
     }
     
     /**
-     * 生成代码
+     * 生成代码（支持MySQL批量处理）
      * @param jdbcUrl 数据库连接URL
      * @param username 用户名
      * @param password 密码
-     * @param tableName 表名
-     * @param packageName 包名（可选，默认为com.kingdee.fpy）
+     * @param tableNames 表名列表（多个表名用逗号分隔）
+     * @param schemaName 数据库名称
      * @return 生成结果
      */
     public Map<String, Object> generateCode(String jdbcUrl, String username, String password, 
-                                          String tableName, String packageName) {
+                                          String tableNames, String schemaName) {
         Map<String, Object> result = new HashMap<>();
-        
-        if (packageName == null || packageName.trim().isEmpty()) {
-            packageName = "com.kingdee.fpy";
-        }
+        String packageName = "com.kingdee.fpy";
         
         try {
-            // 获取表结构信息
-            List<ColumnInfo> columns = getTableColumns(jdbcUrl, username, password, tableName);
-            
-            if (columns.isEmpty()) {
+            // 确保使用MySQL驱动
+            if (!jdbcUrl.contains("mysql")) {
                 result.put("success", false);
-                result.put("message", "表不存在或无法获取表结构");
+                result.put("message", "此方法仅支持MySQL数据库");
                 return result;
             }
             
-            String className = toCamelCase(tableName, true);
+            // 解析表名列表
+            String[] tableNameArray = tableNames.split(",");
+            List<String> tableNameList = new ArrayList<>();
+            for (String tableName : tableNameArray) {
+                String trimmedName = tableName.trim();
+                if (!trimmedName.isEmpty()) {
+                    tableNameList.add(trimmedName);
+                }
+            }
             
-            // 生成Model实体类
-            String modelCode = generateModelClass(className, tableName, columns, packageName);
+            if (tableNameList.isEmpty()) {
+                result.put("success", false);
+                result.put("message", "未找到有效的表名");
+                return result;
+            }
             
-            // 生成Mapper接口
-            String mapperCode = generateMapperInterface(className, columns, packageName);
+            List<String> successTables = new ArrayList<>();
+            List<String> failedTables = new ArrayList<>();
+            Map<String, Object> generatedFiles = new HashMap<>();
             
-            // 生成XML映射文件
-            String xmlCode = generateXmlMapper(className, tableName, columns, packageName);
+            // 逐个处理每个表
+            for (String tableName : tableNameList) {
+                try {
+                    log.info("正在生成代码，表名：{}", tableName);
+                    
+                    // 获取表结构信息
+                    List<ColumnInfo> columns = getMysqlTableColumns(jdbcUrl, username, password, tableName, schemaName);
+                    
+                    if (columns.isEmpty()) {
+                        failedTables.add(tableName + " (表不存在或无法获取表结构)");
+                        continue;
+                    }
+                    
+                    // 去除表名前缀T，生成类名
+                    String cleanTableName = tableName.startsWith("T") || tableName.startsWith("t") ? tableName.substring(2) : tableName;
+                    String className = toCamelCase(cleanTableName, true);
+                    
+                    // 生成Model实体类
+                    String modelCode = generateModelClass(className, tableName, columns, packageName);
+                    
+                    // 生成Mapper接口
+                    String mapperCode = generateMapperInterface(className, columns, packageName);
+                    
+                    // 生成XML映射文件
+                    String xmlCode = generateXmlMapper(className, tableName, columns, packageName);
+                    
+                    // 保存到文件
+                    String basePath = "src/main/java/" + packageName.replace(".", "/");
+                    String resourcePath = "src/main/resources/mapper";
+                    
+                    saveToFile(basePath + "/model/" + className + ".java", modelCode);
+                    saveToFile(basePath + "/mapper/" + className + "Mapper.java", mapperCode);
+                    saveToFile(resourcePath + "/" + className + "Mapper.xml", xmlCode);
+                    
+                    // 记录生成的文件信息
+                    Map<String, String> tableFiles = new HashMap<>();
+                    tableFiles.put("modelCode", modelCode);
+                    tableFiles.put("mapperCode", mapperCode);
+                    tableFiles.put("xmlCode", xmlCode);
+                    tableFiles.put("className", className);
+                    generatedFiles.put(tableName, tableFiles);
+                    
+                    successTables.add(tableName);
+                    log.info("表 {} 代码生成成功", tableName);
+                    
+                } catch (Exception e) {
+                    failedTables.add(tableName + " (" + e.getMessage() + ")");
+                    log.error("表 {} 代码生成失败", tableName, e);
+                }
+            }
             
-            // 保存到文件
-            String basePath = "src/main/java/" + packageName.replace(".", "/");
-            String resourcePath = "src/main/resources/mapper";
-            
-            saveToFile(basePath + "/model/" + className + ".java", modelCode);
-            saveToFile(basePath + "/mapper/" + className + "Mapper.java", mapperCode);
-            saveToFile(resourcePath + "/" + className + "Mapper.xml", xmlCode);
+            if (successTables.isEmpty()) {
+                result.put("success", false);
+                result.put("message", "所有表都生成失败");
+                result.put("failedTables", failedTables);
+                return result;
+            }
             
             result.put("success", true);
-            result.put("message", "代码生成成功");
-            result.put("modelCode", modelCode);
-            result.put("mapperCode", mapperCode);
-            result.put("xmlCode", xmlCode);
-            result.put("className", className);
-            result.put("tableName", tableName);
+            result.put("message", String.format("代码生成完成，成功：%d个，失败：%d个", 
+                      successTables.size(), failedTables.size()));
+            result.put("totalTables", tableNameList.size());
+            result.put("successTables", successTables);
+            result.put("successCount", successTables.size());
+            result.put("failedTables", failedTables);
+            result.put("failedCount", failedTables.size());
+            result.put("generatedFiles", generatedFiles);
+            result.put("packageName", packageName);
             
         } catch (Exception e) {
-            log.error("代码生成失败", e);
+            log.error("批量代码生成失败", e);
             result.put("success", false);
-            result.put("message", "代码生成失败：" + e.getMessage());
+            result.put("message", "批量代码生成失败：" + e.getMessage());
         }
         
         return result;
     }
     
     /**
-     * 获取表的列信息
+     * 获取表的列信息（原方法，保持兼容性）
      */
     private List<ColumnInfo> getTableColumns(String jdbcUrl, String username, String password, String tableName) 
             throws SQLException {
@@ -347,6 +404,135 @@ public class CodeGeneratorService {
         }
         
         return columns;
+    }
+    
+    /**
+     * 获取MySQL表的列信息
+     */
+    private List<ColumnInfo> getMysqlTableColumns(String jdbcUrl, String username, String password, 
+                                                  String tableName, String schemaName) throws SQLException {
+        List<ColumnInfo> columns = new ArrayList<>();
+        
+        try {
+            // 显式加载MySQL驱动
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            try {
+                // 尝试旧版本驱动
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException e2) {
+                throw new SQLException("MySQL驱动未找到，请检查依赖配置", e2);
+            }
+        }
+        
+        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password)) {
+            // 使用MySQL特定的查询来获取列信息
+            String sql = "SELECT " +
+                        "    COLUMN_NAME, " +
+                        "    DATA_TYPE, " +
+                        "    COLUMN_TYPE, " +
+                        "    IS_NULLABLE, " +
+                        "    COLUMN_DEFAULT, " +
+                        "    COLUMN_COMMENT, " +
+                        "    COLUMN_KEY, " +
+                        "    EXTRA, " +
+                        "    ORDINAL_POSITION, " +
+                        "    CHARACTER_MAXIMUM_LENGTH, " +
+                        "    NUMERIC_PRECISION, " +
+                        "    NUMERIC_SCALE " +
+                        "FROM INFORMATION_SCHEMA.COLUMNS " +
+                        "WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? " +
+                        "ORDER BY ORDINAL_POSITION";
+            
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, schemaName);
+                stmt.setString(2, tableName);
+                
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        ColumnInfo column = new ColumnInfo();
+                        column.setColumnName(rs.getString("COLUMN_NAME"));
+                        column.setTypeName(rs.getString("DATA_TYPE"));
+                        column.setColumnSize(rs.getInt("CHARACTER_MAXIMUM_LENGTH"));
+                        column.setNullable("YES".equals(rs.getString("IS_NULLABLE")));
+                        column.setRemarks(rs.getString("COLUMN_COMMENT"));
+                        column.setPrimaryKey("PRI".equals(rs.getString("COLUMN_KEY")));
+                        
+                        // 处理默认值和自增信息
+                        String columnDefault = rs.getString("COLUMN_DEFAULT");
+                        String extra = rs.getString("EXTRA");
+                        if (extra != null && extra.toLowerCase().contains("auto_increment")) {
+                            column.setDefaultValue("auto_increment");
+                        } else {
+                            column.setDefaultValue(columnDefault);
+                        }
+                        
+                        // 设置JDBC数据类型
+                        String dataType = rs.getString("DATA_TYPE").toLowerCase();
+                        column.setDataType(getMysqlJdbcType(dataType));
+                        
+                        columns.add(column);
+                    }
+                }
+            }
+        }
+        
+        return columns;
+    }
+    
+    /**
+     * 获取MySQL数据类型对应的JDBC类型
+     */
+    private int getMysqlJdbcType(String mysqlType) {
+        switch (mysqlType.toLowerCase()) {
+            case "tinyint":
+                return Types.TINYINT;
+            case "smallint":
+                return Types.SMALLINT;
+            case "mediumint":
+            case "int":
+            case "integer":
+                return Types.INTEGER;
+            case "bigint":
+                return Types.BIGINT;
+            case "float":
+                return Types.FLOAT;
+            case "double":
+                return Types.DOUBLE;
+            case "decimal":
+            case "numeric":
+                return Types.DECIMAL;
+            case "char":
+                return Types.CHAR;
+            case "varchar":
+                return Types.VARCHAR;
+            case "text":
+            case "tinytext":
+            case "mediumtext":
+            case "longtext":
+                return Types.LONGVARCHAR;
+            case "date":
+                return Types.DATE;
+            case "time":
+                return Types.TIME;
+            case "datetime":
+            case "timestamp":
+                return Types.TIMESTAMP;
+            case "bit":
+                return Types.BIT;
+            case "binary":
+            case "varbinary":
+                return Types.VARBINARY;
+            case "blob":
+            case "tinyblob":
+            case "mediumblob":
+            case "longblob":
+                return Types.BLOB;
+            case "json":
+                return Types.LONGVARCHAR;
+            default:
+                return Types.VARCHAR;
+        }
     }
     
     /**
@@ -408,7 +594,7 @@ public class CodeGeneratorService {
             }
             
             sb.append("    private ").append(getJavaType(column)).append(" ")
-              .append(toCamelCase(column.getColumnName(), false)).append(";\n\n");
+              .append(toPropertyName(column.getColumnName())).append(";\n\n");
         }
         
         sb.append("}\n");
@@ -446,7 +632,7 @@ public class CodeGeneratorService {
                 .orElse(null);
         
         String pkType = primaryKey != null ? getJavaType(primaryKey) : "Long";
-        String pkField = primaryKey != null ? toCamelCase(primaryKey.getColumnName(), false) : "id";
+        String pkField = primaryKey != null ? toPropertyName(primaryKey.getColumnName()) : "id";
         
         // 基础CRUD方法
         sb.append("    /**\n");
@@ -518,12 +704,24 @@ public class CodeGeneratorService {
         sb.append("    <!-- 通用查询映射结果 -->\n");
         sb.append("    <resultMap id=\"BaseResultMap\" type=\"").append(packageName).append(".model.").append(className).append("\">\n");
         
+        // 先输出所有主键字段（使用id标签）
         for (ColumnInfo column : columns) {
-            String tag = column.isPrimaryKey() ? "id" : "result";
-            sb.append("        <").append(tag).append(" column=\"").append(column.getColumnName())
-              .append("\" jdbcType=\"").append(getJdbcType(column))
-              .append("\" property=\"").append(toCamelCase(column.getColumnName(), false))
-              .append("\" />\n");
+            if (column.isPrimaryKey()) {
+                sb.append("        <id column=\"").append(column.getColumnName())
+                  .append("\" jdbcType=\"").append(getJdbcType(column))
+                  .append("\" property=\"").append(toPropertyName(column.getColumnName()))
+                  .append("\" />\n");
+            }
+        }
+        
+        // 再输出所有非主键字段（使用result标签）
+        for (ColumnInfo column : columns) {
+            if (!column.isPrimaryKey()) {
+                sb.append("        <result column=\"").append(column.getColumnName())
+                  .append("\" jdbcType=\"").append(getJdbcType(column))
+                  .append("\" property=\"").append(toPropertyName(column.getColumnName()))
+                  .append("\" />\n");
+            }
         }
         
         sb.append("    </resultMap>\n\n");
@@ -545,7 +743,7 @@ public class CodeGeneratorService {
                 .orElse(null);
         
         String pkColumn = primaryKey != null ? primaryKey.getColumnName() : "id";
-        String pkField = primaryKey != null ? toCamelCase(primaryKey.getColumnName(), false) : "id";
+        String pkField = primaryKey != null ? toPropertyName(primaryKey.getColumnName()) : "id";
         
         // 查询方法
         sb.append("    <!-- 根据主键查询 -->\n");
@@ -572,7 +770,7 @@ public class CodeGeneratorService {
         sb.append("        <where>\n");
         
         for (ColumnInfo column : columns) {
-            String property = toCamelCase(column.getColumnName(), false);
+            String property = toPropertyName(column.getColumnName());
             sb.append("            <if test=\"condition.").append(property).append(" != null\">\n");
             sb.append("                AND ").append(column.getColumnName()).append(" = #{condition.").append(property).append("}\n");
             sb.append("            </if>\n");
@@ -589,7 +787,7 @@ public class CodeGeneratorService {
         sb.append("        <where>\n");
         
         for (ColumnInfo column : columns) {
-            String property = toCamelCase(column.getColumnName(), false);
+            String property = toPropertyName(column.getColumnName());
             sb.append("            <if test=\"condition.").append(property).append(" != null\">\n");
             sb.append("                AND ").append(column.getColumnName()).append(" = #{condition.").append(property).append("}\n");
             sb.append("            </if>\n");
@@ -616,7 +814,7 @@ public class CodeGeneratorService {
         sb.append("        (");
         for (int i = 0; i < columns.size(); i++) {
             if (i > 0) sb.append(", ");
-            sb.append("#{").append(toCamelCase(columns.get(i).getColumnName(), false)).append("}");
+            sb.append("#{").append(toPropertyName(columns.get(i).getColumnName())).append("}");
         }
         sb.append(")\n");
         sb.append("    </insert>\n\n");
@@ -632,7 +830,7 @@ public class CodeGeneratorService {
         sb.append("        <trim prefix=\"(\" suffix=\")\" suffixOverrides=\",\">\n");
         
         for (ColumnInfo column : columns) {
-            String property = toCamelCase(column.getColumnName(), false);
+            String property = toPropertyName(column.getColumnName());
             sb.append("            <if test=\"").append(property).append(" != null\">\n");
             sb.append("                ").append(column.getColumnName()).append(",\n");
             sb.append("            </if>\n");
@@ -642,7 +840,7 @@ public class CodeGeneratorService {
         sb.append("        <trim prefix=\"values (\" suffix=\")\" suffixOverrides=\",\">\n");
         
         for (ColumnInfo column : columns) {
-            String property = toCamelCase(column.getColumnName(), false);
+            String property = toPropertyName(column.getColumnName());
             sb.append("            <if test=\"").append(property).append(" != null\">\n");
             sb.append("                #{").append(property).append("},\n");
             sb.append("            </if>\n");
@@ -662,7 +860,7 @@ public class CodeGeneratorService {
             if (column.isPrimaryKey()) continue;
             
             if (!first) sb.append(",\n            ");
-            sb.append(column.getColumnName()).append(" = #{").append(toCamelCase(column.getColumnName(), false)).append("}");
+            sb.append(column.getColumnName()).append(" = #{").append(toPropertyName(column.getColumnName())).append("}");
             first = false;
         }
         
@@ -678,7 +876,7 @@ public class CodeGeneratorService {
         for (ColumnInfo column : columns) {
             if (column.isPrimaryKey()) continue;
             
-            String property = toCamelCase(column.getColumnName(), false);
+            String property = toPropertyName(column.getColumnName());
             sb.append("            <if test=\"").append(property).append(" != null\">\n");
             sb.append("                ").append(column.getColumnName()).append(" = #{").append(property).append("},\n");
             sb.append("            </if>\n");
@@ -754,6 +952,26 @@ public class CodeGeneratorService {
         }
         
         return sb.toString();
+    }
+    
+    /**
+     * 生成属性名（去除f前缀并转驼峰）
+     */
+    private String toPropertyName(String columnName) {
+        if (columnName == null || columnName.isEmpty()) {
+            return columnName;
+        }
+        
+        // 去除f前缀（如果存在）
+        String cleanColumnName = columnName;
+//        if (columnName.toLowerCase().startsWith("f") && columnName.length() > 1 && Character.isUpperCase(columnName.charAt(1))) {
+        if (columnName.toLowerCase().startsWith("f") && columnName.length() > 1) {
+            cleanColumnName = columnName.substring(1);
+        } else if (columnName.toLowerCase().startsWith("f_")) {
+            cleanColumnName = columnName.substring(2);
+        }
+        
+        return toCamelCase(cleanColumnName, false);
     }
     
     /**
@@ -847,9 +1065,13 @@ public class CodeGeneratorService {
      * 判断是否自增字段
      */
     private boolean isAutoIncrement(ColumnInfo column) {
+        // 对于MySQL，检查默认值或者主键且为整型
+        if (column.getDefaultValue() != null && column.getDefaultValue().toLowerCase().contains("auto_increment")) {
+            return true;
+        }
         // 简单判断：主键且为整型
         return column.isPrimaryKey() && 
-               (column.getDataType() == Types.INTEGER || column.getDataType() == Types.BIGINT);
+               (column.getDataType() == Types.INTEGER || column.getDataType() == Types.BIGINT || column.getDataType() == Types.TINYINT);
     }
     
     /**
