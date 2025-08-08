@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS t_element_metadata (
+  fid BIGINT AUTO_INCREMENT PRIMARY KEY,
+  felement_name VARCHAR(255),
+  felement_type INT,
+  fparent_id BIGINT,
+  fxpath VARCHAR(512),
+  fdata_type VARCHAR(128),
+  fis_required TINYINT,
+  fis_required_ui TINYINT,
+  fmin_occurs INT,
+  fmax_occurs INT,
+  fis_nillable TINYINT,
+  fdefault_value VARCHAR(512),
+  ffixed_value VARCHAR(512),
+  fenum_values VARCHAR(1024),
+  fdescription VARCHAR(1024),
+  flevel INT,
+  frule VARCHAR(1024),
+  fname_space VARCHAR(255)
+); 

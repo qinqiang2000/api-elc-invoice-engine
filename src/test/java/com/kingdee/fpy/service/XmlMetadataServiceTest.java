@@ -14,6 +14,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Element;
 
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -28,9 +30,13 @@ public class XmlMetadataServiceTest {
 
     @Test
     public void testParseAndSaveXmlMetadata() throws Exception {
-        // 使用测试资源目录下的tw_NL_DE_KDUBL20250707.xml
-        FileInputStream fileInputStream = new FileInputStream(
-                "G:\\ai\\api-invoice-xml\\api-invoice-xml\\tw_NL_DE_KDUBL20250707.xml");
-        xmlMetadataService.parseAndSaveXmlMetadata(fileInputStream);
+        // 优先从类路径读取，否则退回到仓库根目录相对路径
+        InputStream in;
+        try {
+            in = new ClassPathResource("tw_NL_DE_KDUBL20250707.xml").getInputStream();
+        } catch (Exception e) {
+            in = Files.newInputStream(Paths.get("tw_NL_DE_KDUBL20250707.xml"));
+        }
+        xmlMetadataService.parseAndSaveXmlMetadata(in);
     }
 } 
