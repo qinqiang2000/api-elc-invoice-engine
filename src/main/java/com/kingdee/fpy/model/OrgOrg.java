@@ -395,4 +395,9 @@ public class OrgOrg {
      */
     private String taxpayertype;
 
+    /**
+     * 关联企业
+     */
+    private String companyid;
+
 }

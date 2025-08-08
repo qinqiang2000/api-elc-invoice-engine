@@ -82,11 +82,12 @@
         <result column="fishrab" jdbcType="CHAR" property="ishrab" />
         <result column="fistax" jdbcType="CHAR" property="istax" />
         <result column="ftaxpayertype" jdbcType="CHAR" property="taxpayertype" />
+        <result column="fcompanyid" jdbcType="VARCHAR" property="companyid" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        fid, fyzjorgid, fnumber, fyzjimorted, forgpattern, forgpatternid, fisadministrative, fispurchase, fissale, fisproduce, fisinventory, fisqc, fissettlement, fisbankroll, fisasset, fisaccounting, fishr, fisscc, fisbudget, fiscontrolunit, ftaxregnum, fphone, fbankaccount, fstatus, fenable, fcreatorid, fcreatetime, fmodifytime, fmodifierid, fdisablerid, fdisabledate, funiformsocialcreditcode, fregisteredcapital, festablishmentdate, fbusinessterm, fstartdate, fenddate, fmasterid, fcountryid, fcityid, ftimezoneid, fpostcode, fcontactphone, fisplan, fisproject, fispresetbiz1, fispresetbiz2, fispresetbiz3, fispresetbiz4, fispresetbiz5, fispresetbiz6, fispresetbiz7, fispresetbiz8, fispresetbiz9, fispresetbiz10, fisbizorg, fname, fishrod, fishrop, fishrbg, fishrtr, fishrpa, fishrwt, fishrcmp, fishrbs, fishrpay, fishrtax, fishrsi, fishrlti, fishrbm, fishrtd, fishrtl, fishrip, fishrssc, fishrlc, fishrab, fistax, ftaxpayertype
+        fid, fyzjorgid, fnumber, fyzjimorted, forgpattern, forgpatternid, fisadministrative, fispurchase, fissale, fisproduce, fisinventory, fisqc, fissettlement, fisbankroll, fisasset, fisaccounting, fishr, fisscc, fisbudget, fiscontrolunit, ftaxregnum, fphone, fbankaccount, fstatus, fenable, fcreatorid, fcreatetime, fmodifytime, fmodifierid, fdisablerid, fdisabledate, funiformsocialcreditcode, fregisteredcapital, festablishmentdate, fbusinessterm, fstartdate, fenddate, fmasterid, fcountryid, fcityid, ftimezoneid, fpostcode, fcontactphone, fisplan, fisproject, fispresetbiz1, fispresetbiz2, fispresetbiz3, fispresetbiz4, fispresetbiz5, fispresetbiz6, fispresetbiz7, fispresetbiz8, fispresetbiz9, fispresetbiz10, fisbizorg, fname, fishrod, fishrop, fishrbg, fishrtr, fishrpa, fishrwt, fishrcmp, fishrbs, fishrpay, fishrtax, fishrsi, fishrlti, fishrbm, fishrtd, fishrtl, fishrip, fishrssc, fishrlc, fishrab, fistax, ftaxpayertype, fcompanyid
     </sql>
 
     <!-- 根据主键查询 -->
@@ -345,6 +346,9 @@
             <if test="condition.taxpayertype != null">
                 AND ftaxpayertype = #{condition.taxpayertype}
             </if>
+            <if test="condition.companyid != null">
+                AND fcompanyid = #{condition.companyid}
+            </if>
         </where>
         ORDER BY fid DESC
     </select>
@@ -588,15 +592,18 @@
             <if test="condition.taxpayertype != null">
                 AND ftaxpayertype = #{condition.taxpayertype}
             </if>
+            <if test="condition.companyid != null">
+                AND fcompanyid = #{condition.companyid}
+            </if>
         </where>
     </select>
 
     <!-- 插入记录 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_org_org
-        (fid, fyzjorgid, fnumber, fyzjimorted, forgpattern, forgpatternid, fisadministrative, fispurchase, fissale, fisproduce, fisinventory, fisqc, fissettlement, fisbankroll, fisasset, fisaccounting, fishr, fisscc, fisbudget, fiscontrolunit, ftaxregnum, fphone, fbankaccount, fstatus, fenable, fcreatorid, fcreatetime, fmodifytime, fmodifierid, fdisablerid, fdisabledate, funiformsocialcreditcode, fregisteredcapital, festablishmentdate, fbusinessterm, fstartdate, fenddate, fmasterid, fcountryid, fcityid, ftimezoneid, fpostcode, fcontactphone, fisplan, fisproject, fispresetbiz1, fispresetbiz2, fispresetbiz3, fispresetbiz4, fispresetbiz5, fispresetbiz6, fispresetbiz7, fispresetbiz8, fispresetbiz9, fispresetbiz10, fisbizorg, fname, fishrod, fishrop, fishrbg, fishrtr, fishrpa, fishrwt, fishrcmp, fishrbs, fishrpay, fishrtax, fishrsi, fishrlti, fishrbm, fishrtd, fishrtl, fishrip, fishrssc, fishrlc, fishrab, fistax, ftaxpayertype)
+        (fid, fyzjorgid, fnumber, fyzjimorted, forgpattern, forgpatternid, fisadministrative, fispurchase, fissale, fisproduce, fisinventory, fisqc, fissettlement, fisbankroll, fisasset, fisaccounting, fishr, fisscc, fisbudget, fiscontrolunit, ftaxregnum, fphone, fbankaccount, fstatus, fenable, fcreatorid, fcreatetime, fmodifytime, fmodifierid, fdisablerid, fdisabledate, funiformsocialcreditcode, fregisteredcapital, festablishmentdate, fbusinessterm, fstartdate, fenddate, fmasterid, fcountryid, fcityid, ftimezoneid, fpostcode, fcontactphone, fisplan, fisproject, fispresetbiz1, fispresetbiz2, fispresetbiz3, fispresetbiz4, fispresetbiz5, fispresetbiz6, fispresetbiz7, fispresetbiz8, fispresetbiz9, fispresetbiz10, fisbizorg, fname, fishrod, fishrop, fishrbg, fishrtr, fishrpa, fishrwt, fishrcmp, fishrbs, fishrpay, fishrtax, fishrsi, fishrlti, fishrbm, fishrtd, fishrtl, fishrip, fishrssc, fishrlc, fishrab, fistax, ftaxpayertype, fcompanyid)
         VALUES
-        (#{id}, #{yzjorgid}, #{number}, #{yzjimorted}, #{orgpattern}, #{orgpatternid}, #{isadministrative}, #{ispurchase}, #{issale}, #{isproduce}, #{isinventory}, #{isqc}, #{issettlement}, #{isbankroll}, #{isasset}, #{isaccounting}, #{ishr}, #{isscc}, #{isbudget}, #{iscontrolunit}, #{taxregnum}, #{phone}, #{bankaccount}, #{status}, #{enable}, #{creatorid}, #{createtime}, #{modifytime}, #{modifierid}, #{disablerid}, #{disabledate}, #{uniformsocialcreditcode}, #{registeredcapital}, #{establishmentdate}, #{businessterm}, #{startdate}, #{enddate}, #{masterid}, #{countryid}, #{cityid}, #{timezoneid}, #{postcode}, #{contactphone}, #{isplan}, #{isproject}, #{ispresetbiz1}, #{ispresetbiz2}, #{ispresetbiz3}, #{ispresetbiz4}, #{ispresetbiz5}, #{ispresetbiz6}, #{ispresetbiz7}, #{ispresetbiz8}, #{ispresetbiz9}, #{ispresetbiz10}, #{isbizorg}, #{name}, #{ishrod}, #{ishrop}, #{ishrbg}, #{ishrtr}, #{ishrpa}, #{ishrwt}, #{ishrcmp}, #{ishrbs}, #{ishrpay}, #{ishrtax}, #{ishrsi}, #{ishrlti}, #{ishrbm}, #{ishrtd}, #{ishrtl}, #{ishrip}, #{ishrssc}, #{ishrlc}, #{ishrab}, #{istax}, #{taxpayertype})
+        (#{id}, #{yzjorgid}, #{number}, #{yzjimorted}, #{orgpattern}, #{orgpatternid}, #{isadministrative}, #{ispurchase}, #{issale}, #{isproduce}, #{isinventory}, #{isqc}, #{issettlement}, #{isbankroll}, #{isasset}, #{isaccounting}, #{ishr}, #{isscc}, #{isbudget}, #{iscontrolunit}, #{taxregnum}, #{phone}, #{bankaccount}, #{status}, #{enable}, #{creatorid}, #{createtime}, #{modifytime}, #{modifierid}, #{disablerid}, #{disabledate}, #{uniformsocialcreditcode}, #{registeredcapital}, #{establishmentdate}, #{businessterm}, #{startdate}, #{enddate}, #{masterid}, #{countryid}, #{cityid}, #{timezoneid}, #{postcode}, #{contactphone}, #{isplan}, #{isproject}, #{ispresetbiz1}, #{ispresetbiz2}, #{ispresetbiz3}, #{ispresetbiz4}, #{ispresetbiz5}, #{ispresetbiz6}, #{ispresetbiz7}, #{ispresetbiz8}, #{ispresetbiz9}, #{ispresetbiz10}, #{isbizorg}, #{name}, #{ishrod}, #{ishrop}, #{ishrbg}, #{ishrtr}, #{ishrpa}, #{ishrwt}, #{ishrcmp}, #{ishrbs}, #{ishrpay}, #{ishrtax}, #{ishrsi}, #{ishrlti}, #{ishrbm}, #{ishrtd}, #{ishrtl}, #{ishrip}, #{ishrssc}, #{ishrlc}, #{ishrab}, #{istax}, #{taxpayertype}, #{companyid})
     </insert>
 
     <!-- 选择性插入记录 -->
@@ -837,6 +844,9 @@
             <if test="taxpayertype != null">
                 ftaxpayertype,
             </if>
+            <if test="companyid != null">
+                fcompanyid,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -1073,6 +1083,9 @@
             <if test="taxpayertype != null">
                 #{taxpayertype},
             </if>
+            <if test="companyid != null">
+                #{companyid},
+            </if>
         </trim>
     </insert>
 
@@ -1155,7 +1168,8 @@
             fishrlc = #{ishrlc},
             fishrab = #{ishrab},
             fistax = #{istax},
-            ftaxpayertype = #{taxpayertype}
+            ftaxpayertype = #{taxpayertype},
+            fcompanyid = #{companyid}
         WHERE fid = #{id}
     </update>
 
@@ -1393,6 +1407,9 @@
             </if>
             <if test="taxpayertype != null">
                 ftaxpayertype = #{taxpayertype},
+            </if>
+            <if test="companyid != null">
+                fcompanyid = #{companyid},
             </if>
         </set>
         WHERE fid = #{id}

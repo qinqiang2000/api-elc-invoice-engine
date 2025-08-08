@@ -910,23 +910,60 @@ public class CodeGeneratorService {
     /**
      * 保存内容到文件
      */
-    private void saveToFile(String filePath, String content) throws IOException {
+//    private void saveToFile(String filePath, String content) throws IOException {
+//        File file = new File(filePath);
+//
+//        // 创建目录
+//        File parentDir = file.getParentFile();
+//        if (!parentDir.exists()) {
+//            parentDir.mkdirs();
+//        }
+//
+//        // 写入文件
+//        try (FileWriter writer = new FileWriter(file)) {
+//            writer.write(content);
+//        }
+//
+//        log.info("文件已生成：{}", filePath);
+//    }
+    /**
+     * 保存内容到文件
+     * @param filePath 文件路径
+     * @param content 文件内容
+     * @param overwrite 是否允许覆盖已存在的文件
+     * @throws IOException 文件操作异常
+     */
+    private void saveToFile(String filePath, String content, boolean overwrite) throws IOException {
         File file = new File(filePath);
-        
+
         // 创建目录
         File parentDir = file.getParentFile();
         if (!parentDir.exists()) {
             parentDir.mkdirs();
         }
-        
+
+        // 检查文件是否已存在且不允许覆盖
+        if (file.exists() && !overwrite) {
+            return;
+//            throw new IOException("文件已存在且不允许覆盖: " + filePath);
+        }
+
         // 写入文件
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file, false)) { // false表示不追加，即覆盖模式
             writer.write(content);
         }
-        
+
         log.info("文件已生成：{}", filePath);
     }
-    
+
+    /**
+     * 保存内容到文件（默认允许覆盖）
+     */
+    private void saveToFile(String filePath, String content) throws IOException {
+        saveToFile(filePath, content, true); // 默认允许覆盖
+    }
+
+
     /**
      * 下划线转驼峰
      */
