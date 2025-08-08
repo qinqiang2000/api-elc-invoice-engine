@@ -85,19 +85,16 @@ public class JexlExecutionService {
     }
 
     public JexlContext createJexlContext() {
-        if(context == null){
-            context = new MapContext();
-            // 注册数据库函数
-            context.set("db", new DatabaseFunctions(dynamicQueryService));
-
-            // 注册工具类
-           /* context.set("math", Math.class);
-            context.set("strings", String.class);
-            context.set("util", Arrays.class);
-            context.set("date", Date.class);*/
-            context.set("Math", Math.class);
-        }
-        return BeanUtil.copyProperties(context, MapContext.class);
+        JexlContext    context = new MapContext();
+        // 注册数据库函数
+        context.set("db", new DatabaseFunctions(dynamicQueryService));
+        // 注册工具类
+       /* context.set("math", Math.class);
+        context.set("strings", String.class);
+        context.set("util", Arrays.class);
+        context.set("date", Date.class);*/
+        context.set("Math", Math.class);
+        return context;
     }
 
     public static class DatabaseFunctions {

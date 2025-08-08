@@ -37,7 +37,7 @@ public class JexlConfig {
                 .silent(false)        // 不静默，显示错误
                 .lexical(false)       // 禁用现代语法，使用传统语法
                 .debug(true)
-                //.permissions(null)    // 允许所有权限
+                .permissions(null)    // 允许所有权限
                 .namespaces(math)
 
                 .create();

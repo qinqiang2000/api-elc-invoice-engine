@@ -94,5 +94,5 @@ public interface InvoiceLineMapper {
      */
     List<InvoiceLine> selectByCondition(InvoiceLine invoiceLine);
 
-    void insertBatch(List<InvoiceLine> items);
+    void insertBatch(@Param("items")List<InvoiceLine> items);
 }

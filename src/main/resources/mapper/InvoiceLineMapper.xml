@@ -163,7 +163,7 @@
         INSERT INTO t_invoice_line (finvoice_request_id, fseq, finvoice_line_amount, fstatus, fhas_multiline, finvoice_id, famount, ftype, fitem_name, funit, fquantity, fprice, fcategory_code, ftax_rate) VALUES
         <foreach collection="items" item="item" separator=",">
             (#{item.invoiceRequestId}, #{item.seq}, #{item.invoiceLineAmount}, #{item.status}, #{item.hasMultiline}, #{item.invoiceId},
-            #{item.amount}, #{item.type}, #{item.itemName}, #{item.unit}, #{item.quantity},#{item.price}, #{item.categoryCode}, #{item.taxRate}})
+            #{item.amount}, #{item.type}, #{item.itemName}, #{item.unit}, #{item.quantity},#{item.price}, #{item.categoryCode}, #{item.taxRate})
         </foreach>
   </insert>
 </mapper>

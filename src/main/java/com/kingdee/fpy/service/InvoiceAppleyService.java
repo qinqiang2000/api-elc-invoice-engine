@@ -21,7 +21,9 @@ import com.kingdee.fpy.service.impl.InvoiceRequestServiceImpl;
 import com.kingdee.fpy.utils.ResultType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.jexl3.JexlContext;
@@ -84,17 +86,26 @@ public class InvoiceAppleyService {
         }
         // 入开票申请单,发票表，明细表，状态为待开票
         log.info("invoice:{}", invoice);
+       /* Map<String, Object> xmlMap = new HashMap<>();
+        xmlMap.put("invoice", invoice);
+        String s = xmlBuildService.buildXmlFromJson(xmlMap);
+        System.out.println(s);*/
         // 调通道接口提交开票
         //InvoiceRequest invoiceRequest = JSON.parseObject(JSON.toJSONString(invoice), InvoiceRequest.class);
+        String invoiceNo = invoice.getString("ID");
+        InvoiceRequest exist =  invoiceRequestService.queryByInvoiceNo(invoiceNo);
+        if(null != exist){
+            result.setResultType(ResultType.EXIST_FAIL);
+            return result;
+        }
         InvoiceRequest invoiceRequest = createInvoiceReuqEvent(invoice);
         invoiceRequestService.create(invoiceRequest);
         // 入发票表
         Invoice saveInvoice = new Invoice();
-        BeanUtil.copyProperties(invoiceRequest, invoice);
+        BeanUtil.copyProperties(invoiceRequest, saveInvoice);
         invoiceService.saveInvoice(saveInvoice);
         // 明细表
         saveItems(invoice, invoiceRequest, saveInvoice);
-
         /*// json 转为xml 调通道接口开票
         log.info("submit invoice", invoice);
         Map<String, Object> xmlMap = new HashMap<>();
@@ -107,31 +118,31 @@ public class InvoiceAppleyService {
 
     private InvoiceRequest createInvoiceReuqEvent(JSONObject invoice) {
         InvoiceRequest invoiceRequest = new InvoiceRequest();
-        invoiceRequest.setTenantId(invoice.getString("TODO"));
-        invoiceRequest.setCompanyId(invoice.getString("TODO"));
+        invoiceRequest.setTenantId("TODO");
+        invoiceRequest.setCompanyId("TODO");
         invoiceRequest.setInvoiceType(invoice.getString("InvoiceTypeCode"));
-        invoiceRequest.setInvoiceSubType(invoice.getString("TODO"));
-        invoiceRequest.setSubmissionType(invoice.getString("TODO"));
+        invoiceRequest.setInvoiceSubType("TODO");
+        invoiceRequest.setSubmissionType("TODO");
         invoiceRequest.setInvoiceNo(invoice.getString("ID"));
         invoiceRequest.setIssueDate(invoice.getDate("IssueDate"));
 
         invoiceRequest.setSellBilled(invoice.getString("SellBilled"));
 
-        invoiceRequest.setSendCompanyId(invoice.getString("TODO"));
-        invoiceRequest.setReceiveCompanyId(invoice.getString("TODO"));
-        invoiceRequest.setSendCompanyName(invoice.getString("TODO"));
-        invoiceRequest.setReceiverCompanyName(invoice.getString("TODO"));
+        invoiceRequest.setSendCompanyId("TODO");
+        invoiceRequest.setReceiveCompanyId("TODO");
+        invoiceRequest.setSendCompanyName("TODO");
+        invoiceRequest.setReceiverCompanyName("TODO");
 
-        invoiceRequest.setTotalAmount(invoice.getJSONObject("LegalMonetaryTotal").getBigDecimal("PayableAmount"));
-        BigDecimal bigDecimal = invoice.getJSONObject("LegalMonetaryTotal").getBigDecimal("LineExtensionAmount");
+        invoiceRequest.setTotalAmount(invoice.getJSONObject("LegalMonetaryTotal").getJSONObject("PayableAmount").getBigDecimal("value"));
+        BigDecimal bigDecimal = invoice.getJSONObject("LegalMonetaryTotal").getJSONObject("LineExtensionAmount").getBigDecimal("value");
         invoiceRequest.setTaxAmount(invoiceRequest.getTotalAmount().subtract(bigDecimal));
         invoiceRequest.setCurrency(invoice.getString("DocumentCurrencyCode"));
 
-        invoiceRequest.setOrderRefid(invoice.getString("TODO"));
-        invoiceRequest.setBillingRefid(invoice.getString("TODO"));
+        invoiceRequest.setOrderRefid("TODO");
+        invoiceRequest.setBillingRefid("TODO");
         invoiceRequest.setExtField(JSON.toJSONString(invoice));
-        invoiceRequest.setSourceDocumentType(invoice.getString("TODO"));
-        invoiceRequest.setTargetDocumentId(invoice.getString("TODO"));
+        invoiceRequest.setSourceDocumentType("TODO");
+        invoiceRequest.setTargetDocumentId("TODO");
         invoiceRequest.setStatus(1);
         return invoiceRequest;
     }
@@ -166,14 +177,14 @@ public class InvoiceAppleyService {
                 for (int j = 0; j < chargeArray.size(); j++) {
                     JSONObject chargeJson = chargeArray.getJSONObject(j);
                     InvoiceLine invoiceChageLine = new InvoiceLine();
-                    BeanUtil.copyProperties(invoiceChageLine, invoiceLine);
+                    BeanUtil.copyProperties(invoiceLine,invoiceChageLine);
                     Boolean chargeIndicator = chargeJson.getBoolean("ChargeIndicator");
                     if(chargeIndicator){
                         invoiceChageLine.setType(2);
                     }else{
                         invoiceChageLine.setType(1);
                     }
-                    invoiceChageLine.setAmount(chargeJson.getBigDecimal("ChargeIndicator"));
+                    invoiceChageLine.setAmount(chargeJson.getJSONObject("Amount").getBigDecimal("value"));
                     items.add(invoiceChageLine);
                 }
             }
@@ -188,8 +199,10 @@ public class InvoiceAppleyService {
                 invoiceDiscountLine.setInvoiceId(saveInvoice.getId());
                 invoiceDiscountLine.setSeq(seq);
                 seq++;
-                invoiceDiscountLine.setInvoiceLineAmount(discountJson.getBigDecimal("BaseAmount"));
-                invoiceDiscountLine.setAmount(discountJson.getBigDecimal("Amount"));
+                if(null != discountJson.getJSONObject("BaseAmount")){
+                    invoiceDiscountLine.setInvoiceLineAmount(discountJson.getJSONObject("BaseAmount").getBigDecimal("value"));
+                }
+                invoiceDiscountLine.setAmount(discountJson.getJSONObject("Amount").getBigDecimal("value"));
                 Boolean chargeIndicator = discountJson.getBoolean("ChargeIndicator");
                 if(chargeIndicator){
                     invoiceDiscountLine.setType(2);
@@ -199,6 +212,7 @@ public class InvoiceAppleyService {
                 invoiceDiscountLine.setItemName(discountJson.getString("Description"));
                 invoiceDiscountLine.setCategoryCode(discountJson.getJSONObject("TaxCategory").getString("ID"));
                 invoiceDiscountLine.setTaxRate(discountJson.getJSONObject("TaxCategory").getBigDecimal("Percent"));
+                invoiceDiscountLine.setStatus(1);
                 items.add(invoiceDiscountLine);
             }
         }

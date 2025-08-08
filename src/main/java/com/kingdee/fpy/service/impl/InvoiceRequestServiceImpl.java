@@ -156,4 +156,8 @@ public class InvoiceRequestServiceImpl implements InvoiceRequestService {
             throw new RuntimeException("查询发票申请失败: " + e.getMessage());
         }
     }
+
+    public InvoiceRequest queryByInvoiceNo(String invoiceNo) {
+        return invoiceRequestMapper.selectByInvoiceNo(invoiceNo);
+    }
 }

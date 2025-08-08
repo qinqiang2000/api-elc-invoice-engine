@@ -18,7 +18,10 @@ public enum ResultType {
     FORBIDDEN_OUTPUT("403001","OUTPUT FORBIDDEN"),
     QUERY_FAIL("500","Jexl db query fail"),
     VALID_FAIL("0001","params valid fail"),
-    COMPLETE_FAIL("0002","params valid fail");
+    COMPLETE_FAIL("0002","params valid fail"),
+    EXIST_FAIL("0003","invoice is exist"),
+
+    ;
 
     public String code;
     public String message;

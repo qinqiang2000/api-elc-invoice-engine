@@ -118,7 +118,7 @@
     <select id="selectByInvoiceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List"/>
         FROM t_invoice_request
-        WHERE finvoice_no = #{invoiceNo,jdbcType=VARCHAR}
+        WHERE finvoice_no = #{invoiceNo,jdbcType=VARCHAR} limit 1
     </select>
 
     <!-- 根据租户ID查询 -->
