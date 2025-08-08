@@ -1,15 +1,26 @@
 package com.kingdee.fpy.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.fpy.commom.Result;
 import com.kingdee.fpy.enums.RuleEnum;
+import com.kingdee.fpy.model.Invoice;
+import com.kingdee.fpy.model.InvoiceLine;
+import com.kingdee.fpy.model.InvoiceRequest;
 import com.kingdee.fpy.model.InvoiceRules;
 import com.kingdee.fpy.model.RuleLog;
 import com.kingdee.fpy.service.cel.JexlExecutionService;
+import com.kingdee.fpy.service.imp.InvoiceServiceImpl;
 import com.kingdee.fpy.service.imp.RuleLogServiceImpl;
+import com.kingdee.fpy.service.impl.InvoiceLineServiceImpl;
+import com.kingdee.fpy.service.impl.InvoiceRequestServiceImpl;
 import com.kingdee.fpy.utils.ResultType;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +51,14 @@ public class InvoiceAppleyService {
     XmlBuildService xmlBuildService;
 
     @Autowired
-    private JexlEngine jexlEngine;
+    InvoiceRequestServiceImpl invoiceRequestService;
+
+    @Autowired
+    InvoiceServiceImpl invoiceService;
+
+    @Autowired
+    InvoiceLineServiceImpl invoiceLineService;
+
 
     public Result createInvoice(JSONObject invoice) {
         Result result = new Result<>();
@@ -53,15 +71,13 @@ public class InvoiceAppleyService {
         // 先执行校验规则
         JexlContext context = jexlExecutionService.createJexlContext();
         context.set("invoice", invoice);
-        executeRule(validRuls, context, "rule:{},contition:{},valid fail:{}", result,
-                "rule:%s,valid fail:%s");
+        executeRule(validRuls, context, "rule:{},contition:{},valid fail:{}", result, "rule:%s,valid fail:%s");
         if (!result.getErrorMsgArray().isEmpty()) {
             result.setResultType(ResultType.VALID_FAIL);
             return result;
         }
         // 再执行补全逻辑
-        executeRule(invoiceRules, context, "rule:{},contition:{},complete fail:{}", result,
-                "rule:%s,complete fail:%s");
+        executeRule(invoiceRules, context, "rule:{},contition:{},complete fail:{}", result, "rule:%s,complete fail:%s");
         if (!result.getErrorMsgArray().isEmpty()) {
             result.setResultType(ResultType.VALID_FAIL);
             return result;
@@ -69,6 +85,15 @@ public class InvoiceAppleyService {
         // 入开票申请单,发票表，明细表，状态为待开票
         log.info("invoice:{}", invoice);
         // 调通道接口提交开票
+        //InvoiceRequest invoiceRequest = JSON.parseObject(JSON.toJSONString(invoice), InvoiceRequest.class);
+        InvoiceRequest invoiceRequest = createInvoiceReuqEvent(invoice);
+        invoiceRequestService.create(invoiceRequest);
+        // 入发票表
+        Invoice saveInvoice = new Invoice();
+        BeanUtil.copyProperties(invoiceRequest, invoice);
+        invoiceService.saveInvoice(saveInvoice);
+        // 明细表
+        saveItems(invoice, invoiceRequest, saveInvoice);
 
         /*// json 转为xml 调通道接口开票
         log.info("submit invoice", invoice);
@@ -78,6 +103,106 @@ public class InvoiceAppleyService {
         log.info("xml:{}", s);
         // 获取开票结果*/
         return result;
+    }
+
+    private InvoiceRequest createInvoiceReuqEvent(JSONObject invoice) {
+        InvoiceRequest invoiceRequest = new InvoiceRequest();
+        invoiceRequest.setTenantId(invoice.getString("TODO"));
+        invoiceRequest.setCompanyId(invoice.getString("TODO"));
+        invoiceRequest.setInvoiceType(invoice.getString("InvoiceTypeCode"));
+        invoiceRequest.setInvoiceSubType(invoice.getString("TODO"));
+        invoiceRequest.setSubmissionType(invoice.getString("TODO"));
+        invoiceRequest.setInvoiceNo(invoice.getString("ID"));
+        invoiceRequest.setIssueDate(invoice.getDate("IssueDate"));
+
+        invoiceRequest.setSellBilled(invoice.getString("SellBilled"));
+
+        invoiceRequest.setSendCompanyId(invoice.getString("TODO"));
+        invoiceRequest.setReceiveCompanyId(invoice.getString("TODO"));
+        invoiceRequest.setSendCompanyName(invoice.getString("TODO"));
+        invoiceRequest.setReceiverCompanyName(invoice.getString("TODO"));
+
+        invoiceRequest.setTotalAmount(invoice.getJSONObject("LegalMonetaryTotal").getBigDecimal("PayableAmount"));
+        BigDecimal bigDecimal = invoice.getJSONObject("LegalMonetaryTotal").getBigDecimal("LineExtensionAmount");
+        invoiceRequest.setTaxAmount(invoiceRequest.getTotalAmount().subtract(bigDecimal));
+        invoiceRequest.setCurrency(invoice.getString("DocumentCurrencyCode"));
+
+        invoiceRequest.setOrderRefid(invoice.getString("TODO"));
+        invoiceRequest.setBillingRefid(invoice.getString("TODO"));
+        invoiceRequest.setExtField(JSON.toJSONString(invoice));
+        invoiceRequest.setSourceDocumentType(invoice.getString("TODO"));
+        invoiceRequest.setTargetDocumentId(invoice.getString("TODO"));
+        invoiceRequest.setStatus(1);
+        return invoiceRequest;
+    }
+
+    private void saveItems(JSONObject invoice, InvoiceRequest invoiceRequest, Invoice saveInvoice) {
+        List<InvoiceLine> items = new java.util.ArrayList<>();
+        JSONArray jsonArray = invoice.getJSONArray("InvoiceLine");
+        int seq = 1;
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject itemJson = jsonArray.getJSONObject(i);
+            InvoiceLine invoiceLine = new InvoiceLine();
+            invoiceLine.setInvoiceRequestId(invoiceRequest.getId());
+            invoiceLine.setInvoiceId(saveInvoice.getId());
+            invoiceLine.setSeq(seq);
+            seq++;
+            invoiceLine.setInvoiceLineAmount(itemJson.getJSONObject("LineExtensionAmount").getBigDecimal("value"));
+            invoiceLine.setAmount(invoiceLine.getInvoiceLineAmount());
+            // 0:普通行 1折扣，2收费
+            invoiceLine.setType(0);
+            invoiceLine.setUnit(itemJson.getJSONObject("InvoicedQuantity").getString("unitCode"));
+            invoiceLine.setQuantity(itemJson.getJSONObject("InvoicedQuantity").getBigDecimal("value"));
+            invoiceLine.setPrice(itemJson.getJSONObject("Price").getJSONObject("PriceAmount").getBigDecimal("value"));
+            invoiceLine.setItemName(itemJson.getJSONObject("Item").getString("Name"));
+            invoiceLine.setCategoryCode(itemJson.getJSONObject("Item").getJSONObject("ClassifiedTaxCategory").getString("ID"));
+            invoiceLine.setTaxRate(itemJson.getJSONObject("Item").getJSONObject("ClassifiedTaxCategory").getBigDecimal("Percent"));
+            invoiceLine.setExtField(JSON.toJSONString(itemJson));
+            invoiceLine.setStatus(1);
+            items.add(invoiceLine);
+            // 明细行关联的折扣行
+            JSONArray chargeArray = itemJson.getJSONArray("AllowanceCharge");
+            if(CollectionUtil.isNotEmpty(chargeArray)){
+                for (int j = 0; j < chargeArray.size(); j++) {
+                    JSONObject chargeJson = chargeArray.getJSONObject(j);
+                    InvoiceLine invoiceChageLine = new InvoiceLine();
+                    BeanUtil.copyProperties(invoiceChageLine, invoiceLine);
+                    Boolean chargeIndicator = chargeJson.getBoolean("ChargeIndicator");
+                    if(chargeIndicator){
+                        invoiceChageLine.setType(2);
+                    }else{
+                        invoiceChageLine.setType(1);
+                    }
+                    invoiceChageLine.setAmount(chargeJson.getBigDecimal("ChargeIndicator"));
+                    items.add(invoiceChageLine);
+                }
+            }
+        }
+        // 表头折扣
+        JSONArray discountArray = invoice.getJSONArray("AllowanceCharge");
+        if(CollectionUtil.isNotEmpty(discountArray)){
+            for (int i = 0; i < discountArray.size(); i++) {
+                JSONObject discountJson = discountArray.getJSONObject(i);
+                InvoiceLine invoiceDiscountLine = new InvoiceLine();
+                invoiceDiscountLine.setInvoiceRequestId(invoiceRequest.getId());
+                invoiceDiscountLine.setInvoiceId(saveInvoice.getId());
+                invoiceDiscountLine.setSeq(seq);
+                seq++;
+                invoiceDiscountLine.setInvoiceLineAmount(discountJson.getBigDecimal("BaseAmount"));
+                invoiceDiscountLine.setAmount(discountJson.getBigDecimal("Amount"));
+                Boolean chargeIndicator = discountJson.getBoolean("ChargeIndicator");
+                if(chargeIndicator){
+                    invoiceDiscountLine.setType(2);
+                }else{
+                    invoiceDiscountLine.setType(1);
+                }
+                invoiceDiscountLine.setItemName(discountJson.getString("Description"));
+                invoiceDiscountLine.setCategoryCode(discountJson.getJSONObject("TaxCategory").getString("ID"));
+                invoiceDiscountLine.setTaxRate(discountJson.getJSONObject("TaxCategory").getBigDecimal("Percent"));
+                items.add(invoiceDiscountLine);
+            }
+        }
+        invoiceLineService.batchInsert(items);
     }
 
 
@@ -100,8 +225,10 @@ public class InvoiceAppleyService {
                 ruleLog.setExecutionResult(b ? 1 : 2);
                 if (!b) {
                     // 字段校验没过
-                    log.info(logStr, invoiceRule.getFieldPath(), invoiceRule.getRuleExpression(), invoiceRule.getErrorMessage());
-                    result.getErrorMsgArray().add(String.format(errMsg, invoiceRule.getRuleName(), invoiceRule.getErrorMessage()));
+                    log.info(logStr, invoiceRule.getFieldPath(), invoiceRule.getRuleExpression(),
+                            invoiceRule.getErrorMessage());
+                    result.getErrorMsgArray()
+                            .add(String.format(errMsg, invoiceRule.getRuleName(), invoiceRule.getErrorMessage()));
                     ruleLog.setErrorMessage(invoiceRule.getErrorMessage());
                 }
                 ruleLogs.add(ruleLog);

@@ -1,5 +1,6 @@
 package com.kingdee.fpy.model;
 
+import java.util.Date;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -54,7 +55,7 @@ public class InvoiceRequest {
     /**
      * 开票日期
      */
-    private LocalDateTime issueDate;
+    private Date issueDate;
     
     /**
      * 销方企业ID

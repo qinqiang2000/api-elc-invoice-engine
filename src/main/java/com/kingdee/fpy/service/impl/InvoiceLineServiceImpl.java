@@ -168,4 +168,8 @@ public class InvoiceLineServiceImpl implements InvoiceLineService {
             throw new RuntimeException("查询发票行失败: " + e.getMessage());
         }
     }
+
+    public void batchInsert(List<InvoiceLine> items) {
+        invoiceLineMapper.insertBatch(items);
+    }
 }

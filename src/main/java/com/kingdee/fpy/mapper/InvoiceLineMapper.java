@@ -93,4 +93,6 @@ public interface InvoiceLineMapper {
      * @return 发票行列表
      */
     List<InvoiceLine> selectByCondition(InvoiceLine invoiceLine);
+
+    void insertBatch(List<InvoiceLine> items);
 }
