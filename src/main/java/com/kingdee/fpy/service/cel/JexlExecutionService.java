@@ -88,12 +88,17 @@ public class JexlExecutionService {
         JexlContext    context = new MapContext();
         // 注册数据库函数
         context.set("db", new DatabaseFunctions(dynamicQueryService));
+        
+        // 注册数值类型类，支持静态方法调用（如 Double.parseDouble()）
+        context.set("Double", Double.class);
+        context.set("Integer", Integer.class);
+        context.set("Long", Long.class);
+        context.set("Float", Float.class);
+        
         // 注册工具类
-       /* context.set("math", Math.class);
-        context.set("strings", String.class);
-        context.set("util", Arrays.class);
-        context.set("date", Date.class);*/
         context.set("Math", Math.class);
+        context.set("String", String.class);
+        
         return context;
     }
 

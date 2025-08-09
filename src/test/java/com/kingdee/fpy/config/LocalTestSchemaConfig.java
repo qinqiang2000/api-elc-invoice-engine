@@ -19,6 +19,7 @@ public class LocalTestSchemaConfig {
     public void initSchema() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
         populator.addScript(new ClassPathResource("schema-h2.sql"));
+        populator.addScript(new ClassPathResource("data-h2.sql"));
         populator.execute(dataSource);
     }
 } 
