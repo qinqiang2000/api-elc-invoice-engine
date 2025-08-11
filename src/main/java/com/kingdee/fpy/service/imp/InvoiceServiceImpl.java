@@ -24,6 +24,11 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
+    public Invoice queryByInvoiceNo(String invoiceNo) {
+        return invoiceMapper.findByInvoiceNo(invoiceNo);
+    }
+
+    @Override
     public void updateInvoice(Invoice invoice) {
         invoiceMapper.update(invoice);
     }

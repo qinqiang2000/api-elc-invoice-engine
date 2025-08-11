@@ -189,6 +189,13 @@
         WHERE fid = #{id,jdbcType=BIGINT}
     </select>
 
+    <!-- 兼容性方法：根据发票号查找发票 -->
+    <select id="findByInvoiceNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice
+        WHERE finvoice_no = #{invoiceNo,jdbcType=VARCHAR}
+    </select>
+
     <!-- 兼容性方法：更新发票 -->
     <update id="update" parameterType="com.kingdee.fpy.model.Invoice">
         UPDATE t_invoice

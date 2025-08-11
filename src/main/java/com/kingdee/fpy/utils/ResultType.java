@@ -20,6 +20,7 @@ public enum ResultType {
     VALID_FAIL("0001","params valid fail"),
     COMPLETE_FAIL("0002","params valid fail"),
     EXIST_FAIL("0003","invoice is exist"),
+    SYSTEM_ERROR("500","System error"),
 
     ;
 

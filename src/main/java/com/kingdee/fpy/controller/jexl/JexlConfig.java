@@ -33,7 +33,7 @@ public class JexlConfig {
         math.put("double", Double.class);
         this.jexlEngine = new JexlBuilder()
                 .cache(512)          // 表达式缓存大小
-                .strict(true)        // 非严格模式，更宽松
+                .strict(false)        // 非严格模式，更宽松
                 .silent(false)        // 不静默，显示错误
                 .lexical(false)       // 禁用现代语法，使用传统语法
                 .debug(true)
