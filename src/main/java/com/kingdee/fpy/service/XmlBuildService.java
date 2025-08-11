@@ -204,21 +204,14 @@ public class XmlBuildService {
                     if (arrayItem != null && arrayItem.has(childElementName)) {
                         childData = arrayItem.get(childElementName);
                     }
-                    
                     if (childData != null && !childData.isNull()) {
-                        if (child.getMaxOccurs() != null &&
-                                (child.getMaxOccurs() > 1 || child.getMaxOccurs() == -1)) {
-                            // 嵌套数组处理
-                            if (childData.isArray()) {
-                                for (JsonNode item : childData) {
-                                    processArrayItem(rootJson, item, child, doc, element);
-                                }
-                            } else {
-                                processArrayItem(rootJson, childData, child, doc, element);
+                        // 嵌套数组处理
+                        if (childData.isArray()) {
+                            for (JsonNode item : childData) {
+                                processArrayItem(rootJson, item, child, doc, element);
                             }
                         } else {
-                            // 单个子元素
-                            processNodeWithData(childData, child, doc, element);
+                            processArrayItem(rootJson, childData, child, doc, element);
                         }
                     } 
                     // 不再为没有数据的情况创建空元素框架，严格按照数据存在性决定
