@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/code-generator")
 public class CodeGeneratorController {
-    
+//    devscm_test_up_pg_sys
     @Autowired
     private CodeGeneratorService codeGeneratorService;
     
@@ -26,7 +26,8 @@ public class CodeGeneratorController {
     
     // PostgreSQL数据库配置常量
 //    private static final String PG_JDBC_URL = "jdbc:postgresql://152.136.109.53:15432/template_piaozone";
-    private static final String PG_JDBC_URL = "jdbc:postgresql://172.18.9.62:5432/devscm_test_up_pg_taxc";
+//    private static final String PG_JDBC_URL = "jdbc:postgresql://172.18.9.62:5432/devscm_test_up_pg_taxc";
+    private static final String PG_JDBC_URL = "jdbc:postgresql://172.18.9.62:5432/devscm_test_up_pg_sys";
 //    private static final String PG_USERNAME = "postgres";
     private static final String PG_USERNAME = "mc_devscm_test_up_pg";
 //    private static final String PG_PASSWORD = "piaozone@ec3hCV";
@@ -412,6 +413,81 @@ public class CodeGeneratorController {
     }
     
     /**
+     * 批量数据同步：从PostgreSQL同步数据到MySQL
+     * @param request 同步请求参数
+     * @return 同步结果
+     */
+    @PostMapping("/sync-data")
+    public Map<String, Object> syncData(@RequestBody BatchSyncRequest request) {
+        log.info("开始批量数据同步，原始请求数：{}", request.getSyncRequests().size());
+        
+        try {
+            // 参数校验
+            if (request.getSyncRequests() == null || request.getSyncRequests().isEmpty()) {
+                return createErrorResponse("同步请求列表不能为空");
+            }
+            
+            // 检查数据库配置
+            if (PG_JDBC_URL.trim().isEmpty() || PG_USERNAME.trim().isEmpty()) {
+                return createErrorResponse("PostgreSQL数据库配置未设置，请联系管理员配置数据库连接信息");
+            }
+            
+            if (MYSQL_JDBC_URL.trim().isEmpty() || MYSQL_USERNAME.trim().isEmpty()) {
+                return createErrorResponse("MySQL数据库配置未设置，请联系管理员配置数据库连接信息");
+            }
+            
+            // 验证每个同步请求
+            for (SyncRequest syncRequest : request.getSyncRequests()) {
+                if (syncRequest.getTable() == null || syncRequest.getTable().trim().isEmpty()) {
+                    return createErrorResponse("表名不能为空");
+                }
+                
+                if (syncRequest.getConditions() == null) {
+                    syncRequest.setConditions(new java.util.ArrayList<>());
+                }
+            }
+            
+            // 转换请求参数格式，支持多表解析
+            List<Map<String, Object>> syncRequests = new java.util.ArrayList<>();
+            for (SyncRequest syncRequest : request.getSyncRequests()) {
+                // 解析表名，支持逗号分隔的多个表
+                String[] tableNames = syncRequest.getTable().split(",");
+                for (String tableName : tableNames) {
+                    String trimmedTableName = tableName.trim();
+                    if (!trimmedTableName.isEmpty()) {
+                        Map<String, Object> syncRequestMap = new HashMap<>();
+                        syncRequestMap.put("table", trimmedTableName);
+                        syncRequestMap.put("conditions", syncRequest.getConditions());
+                        syncRequests.add(syncRequestMap);
+                    }
+                }
+            }
+            
+            log.info("解析多表后的同步任务数：{}，详细请求：{}", syncRequests.size(), syncRequests);
+            
+            // 调用数据同步服务
+            Map<String, Object> result = codeGeneratorService.syncDataFromPostgresToMysql(
+                PG_JDBC_URL,
+                PG_USERNAME,
+                PG_PASSWORD,
+                PG_SCHEMA_NAME,
+                MYSQL_JDBC_URL,
+                MYSQL_USERNAME,
+                MYSQL_PASSWORD,
+                MYSQL_SCHEMA_NAME,
+                syncRequests
+            );
+            
+            log.info("批量数据同步完成，结果：{}", result.get("success"));
+            return result;
+            
+        } catch (Exception e) {
+            log.error("批量数据同步失败", e);
+            return createErrorResponse("批量数据同步失败：" + e.getMessage());
+        }
+    }
+    
+    /**
      * 创建错误响应
      */
     private Map<String, Object> createErrorResponse(String message) {
@@ -495,5 +571,31 @@ public class CodeGeneratorController {
         
         public String getSchemaName() { return schemaName; }
         public void setSchemaName(String schemaName) { this.schemaName = schemaName; }
+    }
+    
+    /**
+     * 数据同步请求参数
+     */
+    public static class SyncRequest {
+        private String table;           // 表名，支持多个表用逗号分隔，例如："t_user,t_role" 或 "t_org_org"
+        private List<String> conditions; // 查询条件列表，例如["id = 1", "status = 'active'"]
+        
+        // Getters and Setters
+        public String getTable() { return table; }
+        public void setTable(String table) { this.table = table; }
+        
+        public List<String> getConditions() { return conditions; }
+        public void setConditions(List<String> conditions) { this.conditions = conditions; }
+    }
+    
+    /**
+     * 批量数据同步请求参数
+     */
+    public static class BatchSyncRequest {
+        private List<SyncRequest> syncRequests; // 同步请求列表
+        
+        // Getters and Setters
+        public List<SyncRequest> getSyncRequests() { return syncRequests; }
+        public void setSyncRequests(List<SyncRequest> syncRequests) { this.syncRequests = syncRequests; }
     }
 }

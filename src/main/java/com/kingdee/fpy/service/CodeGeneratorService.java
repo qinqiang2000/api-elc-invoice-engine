@@ -2000,4 +2000,256 @@ public class CodeGeneratorService {
         }
         return null;
     }
+    
+    /**
+     * 批量数据同步：从PostgreSQL同步数据到MySQL
+     * @param pgJdbcUrl PostgreSQL数据库连接URL
+     * @param pgUsername PostgreSQL用户名
+     * @param pgPassword PostgreSQL密码
+     * @param pgSchemaName PostgreSQL模式名
+     * @param mysqlJdbcUrl MySQL数据库连接URL
+     * @param mysqlUsername MySQL用户名
+     * @param mysqlPassword MySQL密码
+     * @param mysqlSchemaName MySQL数据库名
+     * @param syncRequests 同步请求列表
+     * @return 同步结果
+     */
+    public Map<String, Object> syncDataFromPostgresToMysql(String pgJdbcUrl, String pgUsername, String pgPassword, String pgSchemaName,
+                                                          String mysqlJdbcUrl, String mysqlUsername, String mysqlPassword, String mysqlSchemaName,
+                                                          List<Map<String, Object>> syncRequests) {
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> syncResults = new ArrayList<>();
+        int totalSuccess = 0;
+        int totalFailed = 0;
+        
+        try {
+            log.info("开始批量数据同步，共{}个同步任务", syncRequests.size());
+            
+            // 建立数据库连接
+            try (Connection pgConn = DriverManager.getConnection(pgJdbcUrl, pgUsername, pgPassword);
+                 Connection mysqlConn = DriverManager.getConnection(mysqlJdbcUrl, mysqlUsername, mysqlPassword)) {
+                
+                // 设置MySQL连接使用指定的数据库
+                if (mysqlSchemaName != null && !mysqlSchemaName.trim().isEmpty()) {
+                    try (Statement stmt = mysqlConn.createStatement()) {
+                        stmt.execute("USE " + mysqlSchemaName);
+                    }
+                }
+                
+                // 逐个处理同步请求
+                for (Map<String, Object> syncRequest : syncRequests) {
+                    Map<String, Object> syncResult = new HashMap<>();
+                    String tableName = (String) syncRequest.get("table");
+                    @SuppressWarnings("unchecked")
+                    List<String> conditions = (List<String>) syncRequest.get("conditions");
+                    
+                    try {
+                        log.info("开始同步表：{}，条件：{}", tableName, conditions);
+                        
+                        // 验证表名
+                        if (tableName == null || tableName.trim().isEmpty()) {
+                            throw new IllegalArgumentException("表名不能为空");
+                        }
+                        
+                        // 检查表是否存在
+                        if (!isTableExists(pgConn, tableName, pgSchemaName)) {
+                            throw new IllegalArgumentException("PostgreSQL中不存在表：" + tableName);
+                        }
+                        
+                        if (!isTableExists(mysqlConn, tableName, mysqlSchemaName)) {
+                            throw new IllegalArgumentException("MySQL中不存在表：" + tableName);
+                        }
+                        
+                        // 获取表结构信息
+                        List<String> columnNames = getTableColumnNames(pgConn, tableName, pgSchemaName);
+                        if (columnNames.isEmpty()) {
+                            throw new IllegalArgumentException("无法获取表结构：" + tableName);
+                        }
+                        
+                        // 构建查询SQL
+                        String selectSql = buildSelectSql(tableName, columnNames, conditions, pgSchemaName);
+                        log.debug("PostgreSQL查询SQL：{}", selectSql);
+                        
+                        // 从PostgreSQL查询数据
+                        List<Map<String, Object>> dataList = new ArrayList<>();
+                        try (PreparedStatement selectStmt = pgConn.prepareStatement(selectSql);
+                             ResultSet rs = selectStmt.executeQuery()) {
+                            
+                            while (rs.next()) {
+                                Map<String, Object> row = new HashMap<>();
+                                for (String columnName : columnNames) {
+                                    row.put(columnName, rs.getObject(columnName));
+                                }
+                                dataList.add(row);
+                            }
+                        }
+                        
+                        log.info("从PostgreSQL查询到{}条数据", dataList.size());
+                        
+                        if (dataList.isEmpty()) {
+                            syncResult.put("success", true);
+                            syncResult.put("table", tableName);
+                            syncResult.put("message", "未找到符合条件的数据");
+                            syncResult.put("syncedRows", 0);
+                            syncResults.add(syncResult);
+                            continue;
+                        }
+                        
+                        // 构建插入SQL（使用REPLACE INTO实现upsert）
+                        String insertSql = buildInsertSql(tableName, columnNames);
+                        log.debug("MySQL插入SQL：{}", insertSql);
+                        
+                        // 批量插入到MySQL
+                        int syncedRows = 0;
+                        try (PreparedStatement insertStmt = mysqlConn.prepareStatement(insertSql)) {
+                            for (Map<String, Object> row : dataList) {
+                                int paramIndex = 1;
+                                for (String columnName : columnNames) {
+                                    insertStmt.setObject(paramIndex++, row.get(columnName));
+                                }
+                                insertStmt.addBatch();
+                            }
+                            
+                            int[] batchResults = insertStmt.executeBatch();
+                            for (int batchResult : batchResults) {
+                                if (batchResult >= 0) {
+                                    syncedRows++;
+                                }
+                            }
+                        }
+                        
+                        syncResult.put("success", true);
+                        syncResult.put("table", tableName);
+                        syncResult.put("message", "同步成功");
+                        syncResult.put("syncedRows", syncedRows);
+                        syncResult.put("totalRows", dataList.size());
+                        
+                        totalSuccess++;
+                        log.info("表{}同步完成，成功同步{}条数据", tableName, syncedRows);
+                        
+                    } catch (Exception e) {
+                        log.error("表{}同步失败", tableName, e);
+                        syncResult.put("success", false);
+                        syncResult.put("table", tableName);
+                        syncResult.put("message", "同步失败：" + e.getMessage());
+                        syncResult.put("syncedRows", 0);
+                        totalFailed++;
+                    }
+                    
+                    syncResults.add(syncResult);
+                }
+            }
+            
+            result.put("success", totalFailed == 0);
+            result.put("message", String.format("批量同步完成，成功：%d个，失败：%d个", totalSuccess, totalFailed));
+            result.put("totalTasks", syncRequests.size());
+            result.put("successCount", totalSuccess);
+            result.put("failedCount", totalFailed);
+            result.put("syncResults", syncResults);
+            
+            log.info("批量数据同步完成，总任务数：{}，成功：{}，失败：{}", syncRequests.size(), totalSuccess, totalFailed);
+            
+        } catch (Exception e) {
+            log.error("批量数据同步失败", e);
+            result.put("success", false);
+            result.put("message", "批量同步失败：" + e.getMessage());
+            result.put("totalTasks", syncRequests.size());
+            result.put("successCount", totalSuccess);
+            result.put("failedCount", totalFailed);
+            result.put("syncResults", syncResults);
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 检查表是否存在
+     */
+    private boolean isTableExists(Connection conn, String tableName, String schemaName) throws SQLException {
+        DatabaseMetaData metaData = conn.getMetaData();
+        try (ResultSet rs = metaData.getTables(null, schemaName, tableName, new String[]{"TABLE"})) {
+            return rs.next();
+        }
+    }
+    
+    /**
+     * 获取表的所有列名
+     */
+    private List<String> getTableColumnNames(Connection conn, String tableName, String schemaName) throws SQLException {
+        List<String> columnNames = new ArrayList<>();
+        DatabaseMetaData metaData = conn.getMetaData();
+        
+        try (ResultSet rs = metaData.getColumns(null, schemaName, tableName, null)) {
+            while (rs.next()) {
+                columnNames.add(rs.getString("COLUMN_NAME"));
+            }
+        }
+        
+        return columnNames;
+    }
+    
+    /**
+     * 构建查询SQL
+     */
+    private String buildSelectSql(String tableName, List<String> columnNames, List<String> conditions, String schemaName) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT ");
+        
+        // 添加列名
+        for (int i = 0; i < columnNames.size(); i++) {
+            if (i > 0) {
+                sql.append(", ");
+            }
+            sql.append("\"").append(columnNames.get(i)).append("\"");
+        }
+        
+        sql.append(" FROM ");
+        if (schemaName != null && !schemaName.trim().isEmpty()) {
+            sql.append("\"").append(schemaName).append("\".");
+        }
+        sql.append("\"").append(tableName).append("\"");
+        
+        // 添加WHERE条件
+        if (conditions != null && !conditions.isEmpty()) {
+            sql.append(" WHERE ");
+            for (int i = 0; i < conditions.size(); i++) {
+                if (i > 0) {
+                    sql.append(" AND ");
+                }
+                sql.append("(").append(conditions.get(i)).append(")");
+            }
+        }
+        
+        return sql.toString();
+    }
+    
+    /**
+     * 构建插入SQL（使用REPLACE INTO实现upsert）
+     */
+    private String buildInsertSql(String tableName, List<String> columnNames) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("REPLACE INTO `").append(tableName).append("` (");
+        
+        // 添加列名
+        for (int i = 0; i < columnNames.size(); i++) {
+            if (i > 0) {
+                sql.append(", ");
+            }
+            sql.append("`").append(columnNames.get(i)).append("`");
+        }
+        
+        sql.append(") VALUES (");
+        
+        // 添加占位符
+        for (int i = 0; i < columnNames.size(); i++) {
+            if (i > 0) {
+                sql.append(", ");
+            }
+            sql.append("?");
+        }
+        
+        sql.append(")");
+        
+        return sql.toString();
+    }
 }
