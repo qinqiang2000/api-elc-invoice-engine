@@ -574,7 +574,11 @@ public class CodeGeneratorService {
         sb.append("/**\n");
         sb.append(" * ").append(className).append("实体类\n");
         sb.append(" * 对应数据库表：").append(tableName).append("\n");
-        sb.append(" * 自动生成，请勿手动修改\n");
+        sb.append(" *\n");
+        sb.append(" * @author CodeGenerator\n");
+        sb.append(" * @version 1.0\n");
+        sb.append(" * @since ").append(new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())).append("\n");
+        sb.append(" * @description 自动生成的实体类，请勿手动修改\n");
         sb.append(" */\n");
         
         // Lombok注解
@@ -619,7 +623,12 @@ public class CodeGeneratorService {
         // 接口注释
         sb.append("/**\n");
         sb.append(" * ").append(className).append("Mapper接口\n");
-        sb.append(" * 自动生成，请勿手动修改\n");
+        sb.append(" * 数据访问层，提供").append(className).append("的CRUD操作\n");
+        sb.append(" *\n");
+        sb.append(" * @author CodeGenerator\n");
+        sb.append(" * @version 1.0\n");
+        sb.append(" * @since ").append(new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())).append("\n");
+        sb.append(" * @description 自动生成的Mapper接口，请勿手动修改\n");
         sb.append(" */\n");
         
         sb.append("@Mapper\n");
