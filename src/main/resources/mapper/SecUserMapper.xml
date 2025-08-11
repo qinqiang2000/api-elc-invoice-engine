@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.SecUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.SecUser">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="feid" jdbcType="BIGINT" property="eid" />
+        <result column="ftid" jdbcType="BIGINT" property="tid" />
+        <result column="fuid" jdbcType="BIGINT" property="uid" />
+        <result column="fopenid" jdbcType="VARCHAR" property="openid" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="fphone" jdbcType="VARCHAR" property="phone" />
+        <result column="femail" jdbcType="VARCHAR" property="email" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fgender" jdbcType="VARCHAR" property="gender" />
+        <result column="fbirthday" jdbcType="VARCHAR" property="birthday" />
+        <result column="fidcard" jdbcType="VARCHAR" property="idcard" />
+        <result column="favatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="fusertype" jdbcType="VARCHAR" property="usertype" />
+        <result column="fnickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="ffullpinyin" jdbcType="VARCHAR" property="fullpinyin" />
+        <result column="fsimplepinyin" jdbcType="VARCHAR" property="simplepinyin" />
+        <result column="fdptid" jdbcType="BIGINT" property="dptid" />
+        <result column="fpositionid" jdbcType="BIGINT" property="positionid" />
+        <result column="fsortcode" jdbcType="VARCHAR" property="sortcode" />
+        <result column="fbillssatusfield" jdbcType="VARCHAR" property="billssatusfield" />
+        <result column="fhiredate" jdbcType="VARCHAR" property="hiredate" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="fdisablerid" jdbcType="BIGINT" property="disablerid" />
+        <result column="fdisabledate" jdbcType="VARCHAR" property="disabledate" />
+        <result column="fsource" jdbcType="VARCHAR" property="source" />
+        <result column="fmaintain" jdbcType="VARCHAR" property="maintain" />
+        <result column="fstartdate" jdbcType="VARCHAR" property="startdate" />
+        <result column="fenddate" jdbcType="VARCHAR" property="enddate" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fheadsculpture" jdbcType="VARCHAR" property="headsculpture" />
+        <result column="ftruename" jdbcType="VARCHAR" property="truename" />
+        <result column="fcountryid" jdbcType="BIGINT" property="countryid" />
+        <result column="fsortnumber" jdbcType="BIGINT" property="sortnumber" />
+        <result column="fidtype" jdbcType="BIGINT" property="idtype" />
+        <result column="fns_country" jdbcType="BIGINT" property="nsCountry" />
+        <result column="fns_namestyle" jdbcType="BIGINT" property="nsNamestyle" />
+        <result column="fns_firstname" jdbcType="VARCHAR" property="nsFirstname" />
+        <result column="fns_middlename" jdbcType="VARCHAR" property="nsMiddlename" />
+        <result column="fns_lastname" jdbcType="VARCHAR" property="nsLastname" />
+        <result column="fns_title" jdbcType="VARCHAR" property="nsTitle" />
+        <result column="fns_abbr" jdbcType="VARCHAR" property="nsAbbr" />
+        <result column="fns_nickname" jdbcType="VARCHAR" property="nsNickname" />
+        <result column="fns_posttitle" jdbcType="VARCHAR" property="nsPosttitle" />
+        <result column="fns_customfield1" jdbcType="VARCHAR" property="nsCustomfield1" />
+        <result column="fns_customfield2" jdbcType="VARCHAR" property="nsCustomfield2" />
+        <result column="fns_customfield3" jdbcType="VARCHAR" property="nsCustomfield3" />
+        <result column="fns_customfield4" jdbcType="VARCHAR" property="nsCustomfield4" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, feid, ftid, fuid, fopenid, fnumber, fphone, femail, fstatus, fgender, fbirthday, fidcard, favatar, fusertype, fnickname, ffullpinyin, fsimplepinyin, fdptid, fpositionid, fsortcode, fbillssatusfield, fhiredate, fenable, fcreatorid, fcreatetime, fmodifierid, fmodifytime, fdisablerid, fdisabledate, fsource, fmaintain, fstartdate, fenddate, fmasterid, fheadsculpture, ftruename, fcountryid, fsortnumber, fidtype, fns_country, fns_namestyle, fns_firstname, fns_middlename, fns_lastname, fns_title, fns_abbr, fns_nickname, fns_posttitle, fns_customfield1, fns_customfield2, fns_customfield3, fns_customfield4
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_user
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_user
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_user
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.eid != null">
+                AND feid = #{condition.eid}
+            </if>
+            <if test="condition.tid != null">
+                AND ftid = #{condition.tid}
+            </if>
+            <if test="condition.uid != null">
+                AND fuid = #{condition.uid}
+            </if>
+            <if test="condition.openid != null">
+                AND fopenid = #{condition.openid}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.phone != null">
+                AND fphone = #{condition.phone}
+            </if>
+            <if test="condition.email != null">
+                AND femail = #{condition.email}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.gender != null">
+                AND fgender = #{condition.gender}
+            </if>
+            <if test="condition.birthday != null">
+                AND fbirthday = #{condition.birthday}
+            </if>
+            <if test="condition.idcard != null">
+                AND fidcard = #{condition.idcard}
+            </if>
+            <if test="condition.avatar != null">
+                AND favatar = #{condition.avatar}
+            </if>
+            <if test="condition.usertype != null">
+                AND fusertype = #{condition.usertype}
+            </if>
+            <if test="condition.nickname != null">
+                AND fnickname = #{condition.nickname}
+            </if>
+            <if test="condition.fullpinyin != null">
+                AND ffullpinyin = #{condition.fullpinyin}
+            </if>
+            <if test="condition.simplepinyin != null">
+                AND fsimplepinyin = #{condition.simplepinyin}
+            </if>
+            <if test="condition.dptid != null">
+                AND fdptid = #{condition.dptid}
+            </if>
+            <if test="condition.positionid != null">
+                AND fpositionid = #{condition.positionid}
+            </if>
+            <if test="condition.sortcode != null">
+                AND fsortcode = #{condition.sortcode}
+            </if>
+            <if test="condition.billssatusfield != null">
+                AND fbillssatusfield = #{condition.billssatusfield}
+            </if>
+            <if test="condition.hiredate != null">
+                AND fhiredate = #{condition.hiredate}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.source != null">
+                AND fsource = #{condition.source}
+            </if>
+            <if test="condition.maintain != null">
+                AND fmaintain = #{condition.maintain}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.headsculpture != null">
+                AND fheadsculpture = #{condition.headsculpture}
+            </if>
+            <if test="condition.truename != null">
+                AND ftruename = #{condition.truename}
+            </if>
+            <if test="condition.countryid != null">
+                AND fcountryid = #{condition.countryid}
+            </if>
+            <if test="condition.sortnumber != null">
+                AND fsortnumber = #{condition.sortnumber}
+            </if>
+            <if test="condition.idtype != null">
+                AND fidtype = #{condition.idtype}
+            </if>
+            <if test="condition.nsCountry != null">
+                AND fns_country = #{condition.nsCountry}
+            </if>
+            <if test="condition.nsNamestyle != null">
+                AND fns_namestyle = #{condition.nsNamestyle}
+            </if>
+            <if test="condition.nsFirstname != null">
+                AND fns_firstname = #{condition.nsFirstname}
+            </if>
+            <if test="condition.nsMiddlename != null">
+                AND fns_middlename = #{condition.nsMiddlename}
+            </if>
+            <if test="condition.nsLastname != null">
+                AND fns_lastname = #{condition.nsLastname}
+            </if>
+            <if test="condition.nsTitle != null">
+                AND fns_title = #{condition.nsTitle}
+            </if>
+            <if test="condition.nsAbbr != null">
+                AND fns_abbr = #{condition.nsAbbr}
+            </if>
+            <if test="condition.nsNickname != null">
+                AND fns_nickname = #{condition.nsNickname}
+            </if>
+            <if test="condition.nsPosttitle != null">
+                AND fns_posttitle = #{condition.nsPosttitle}
+            </if>
+            <if test="condition.nsCustomfield1 != null">
+                AND fns_customfield1 = #{condition.nsCustomfield1}
+            </if>
+            <if test="condition.nsCustomfield2 != null">
+                AND fns_customfield2 = #{condition.nsCustomfield2}
+            </if>
+            <if test="condition.nsCustomfield3 != null">
+                AND fns_customfield3 = #{condition.nsCustomfield3}
+            </if>
+            <if test="condition.nsCustomfield4 != null">
+                AND fns_customfield4 = #{condition.nsCustomfield4}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_sec_user
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.eid != null">
+                AND feid = #{condition.eid}
+            </if>
+            <if test="condition.tid != null">
+                AND ftid = #{condition.tid}
+            </if>
+            <if test="condition.uid != null">
+                AND fuid = #{condition.uid}
+            </if>
+            <if test="condition.openid != null">
+                AND fopenid = #{condition.openid}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.phone != null">
+                AND fphone = #{condition.phone}
+            </if>
+            <if test="condition.email != null">
+                AND femail = #{condition.email}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.gender != null">
+                AND fgender = #{condition.gender}
+            </if>
+            <if test="condition.birthday != null">
+                AND fbirthday = #{condition.birthday}
+            </if>
+            <if test="condition.idcard != null">
+                AND fidcard = #{condition.idcard}
+            </if>
+            <if test="condition.avatar != null">
+                AND favatar = #{condition.avatar}
+            </if>
+            <if test="condition.usertype != null">
+                AND fusertype = #{condition.usertype}
+            </if>
+            <if test="condition.nickname != null">
+                AND fnickname = #{condition.nickname}
+            </if>
+            <if test="condition.fullpinyin != null">
+                AND ffullpinyin = #{condition.fullpinyin}
+            </if>
+            <if test="condition.simplepinyin != null">
+                AND fsimplepinyin = #{condition.simplepinyin}
+            </if>
+            <if test="condition.dptid != null">
+                AND fdptid = #{condition.dptid}
+            </if>
+            <if test="condition.positionid != null">
+                AND fpositionid = #{condition.positionid}
+            </if>
+            <if test="condition.sortcode != null">
+                AND fsortcode = #{condition.sortcode}
+            </if>
+            <if test="condition.billssatusfield != null">
+                AND fbillssatusfield = #{condition.billssatusfield}
+            </if>
+            <if test="condition.hiredate != null">
+                AND fhiredate = #{condition.hiredate}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.source != null">
+                AND fsource = #{condition.source}
+            </if>
+            <if test="condition.maintain != null">
+                AND fmaintain = #{condition.maintain}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.headsculpture != null">
+                AND fheadsculpture = #{condition.headsculpture}
+            </if>
+            <if test="condition.truename != null">
+                AND ftruename = #{condition.truename}
+            </if>
+            <if test="condition.countryid != null">
+                AND fcountryid = #{condition.countryid}
+            </if>
+            <if test="condition.sortnumber != null">
+                AND fsortnumber = #{condition.sortnumber}
+            </if>
+            <if test="condition.idtype != null">
+                AND fidtype = #{condition.idtype}
+            </if>
+            <if test="condition.nsCountry != null">
+                AND fns_country = #{condition.nsCountry}
+            </if>
+            <if test="condition.nsNamestyle != null">
+                AND fns_namestyle = #{condition.nsNamestyle}
+            </if>
+            <if test="condition.nsFirstname != null">
+                AND fns_firstname = #{condition.nsFirstname}
+            </if>
+            <if test="condition.nsMiddlename != null">
+                AND fns_middlename = #{condition.nsMiddlename}
+            </if>
+            <if test="condition.nsLastname != null">
+                AND fns_lastname = #{condition.nsLastname}
+            </if>
+            <if test="condition.nsTitle != null">
+                AND fns_title = #{condition.nsTitle}
+            </if>
+            <if test="condition.nsAbbr != null">
+                AND fns_abbr = #{condition.nsAbbr}
+            </if>
+            <if test="condition.nsNickname != null">
+                AND fns_nickname = #{condition.nsNickname}
+            </if>
+            <if test="condition.nsPosttitle != null">
+                AND fns_posttitle = #{condition.nsPosttitle}
+            </if>
+            <if test="condition.nsCustomfield1 != null">
+                AND fns_customfield1 = #{condition.nsCustomfield1}
+            </if>
+            <if test="condition.nsCustomfield2 != null">
+                AND fns_customfield2 = #{condition.nsCustomfield2}
+            </if>
+            <if test="condition.nsCustomfield3 != null">
+                AND fns_customfield3 = #{condition.nsCustomfield3}
+            </if>
+            <if test="condition.nsCustomfield4 != null">
+                AND fns_customfield4 = #{condition.nsCustomfield4}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sec_user
+        (fid, feid, ftid, fuid, fopenid, fnumber, fphone, femail, fstatus, fgender, fbirthday, fidcard, favatar, fusertype, fnickname, ffullpinyin, fsimplepinyin, fdptid, fpositionid, fsortcode, fbillssatusfield, fhiredate, fenable, fcreatorid, fcreatetime, fmodifierid, fmodifytime, fdisablerid, fdisabledate, fsource, fmaintain, fstartdate, fenddate, fmasterid, fheadsculpture, ftruename, fcountryid, fsortnumber, fidtype, fns_country, fns_namestyle, fns_firstname, fns_middlename, fns_lastname, fns_title, fns_abbr, fns_nickname, fns_posttitle, fns_customfield1, fns_customfield2, fns_customfield3, fns_customfield4)
+        VALUES
+        (#{id}, #{eid}, #{tid}, #{uid}, #{openid}, #{number}, #{phone}, #{email}, #{status}, #{gender}, #{birthday}, #{idcard}, #{avatar}, #{usertype}, #{nickname}, #{fullpinyin}, #{simplepinyin}, #{dptid}, #{positionid}, #{sortcode}, #{billssatusfield}, #{hiredate}, #{enable}, #{creatorid}, #{createtime}, #{modifierid}, #{modifytime}, #{disablerid}, #{disabledate}, #{source}, #{maintain}, #{startdate}, #{enddate}, #{masterid}, #{headsculpture}, #{truename}, #{countryid}, #{sortnumber}, #{idtype}, #{nsCountry}, #{nsNamestyle}, #{nsFirstname}, #{nsMiddlename}, #{nsLastname}, #{nsTitle}, #{nsAbbr}, #{nsNickname}, #{nsPosttitle}, #{nsCustomfield1}, #{nsCustomfield2}, #{nsCustomfield3}, #{nsCustomfield4})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sec_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="eid != null">
+                feid,
+            </if>
+            <if test="tid != null">
+                ftid,
+            </if>
+            <if test="uid != null">
+                fuid,
+            </if>
+            <if test="openid != null">
+                fopenid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="phone != null">
+                fphone,
+            </if>
+            <if test="email != null">
+                femail,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="gender != null">
+                fgender,
+            </if>
+            <if test="birthday != null">
+                fbirthday,
+            </if>
+            <if test="idcard != null">
+                fidcard,
+            </if>
+            <if test="avatar != null">
+                favatar,
+            </if>
+            <if test="usertype != null">
+                fusertype,
+            </if>
+            <if test="nickname != null">
+                fnickname,
+            </if>
+            <if test="fullpinyin != null">
+                ffullpinyin,
+            </if>
+            <if test="simplepinyin != null">
+                fsimplepinyin,
+            </if>
+            <if test="dptid != null">
+                fdptid,
+            </if>
+            <if test="positionid != null">
+                fpositionid,
+            </if>
+            <if test="sortcode != null">
+                fsortcode,
+            </if>
+            <if test="billssatusfield != null">
+                fbillssatusfield,
+            </if>
+            <if test="hiredate != null">
+                fhiredate,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="disablerid != null">
+                fdisablerid,
+            </if>
+            <if test="disabledate != null">
+                fdisabledate,
+            </if>
+            <if test="source != null">
+                fsource,
+            </if>
+            <if test="maintain != null">
+                fmaintain,
+            </if>
+            <if test="startdate != null">
+                fstartdate,
+            </if>
+            <if test="enddate != null">
+                fenddate,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="headsculpture != null">
+                fheadsculpture,
+            </if>
+            <if test="truename != null">
+                ftruename,
+            </if>
+            <if test="countryid != null">
+                fcountryid,
+            </if>
+            <if test="sortnumber != null">
+                fsortnumber,
+            </if>
+            <if test="idtype != null">
+                fidtype,
+            </if>
+            <if test="nsCountry != null">
+                fns_country,
+            </if>
+            <if test="nsNamestyle != null">
+                fns_namestyle,
+            </if>
+            <if test="nsFirstname != null">
+                fns_firstname,
+            </if>
+            <if test="nsMiddlename != null">
+                fns_middlename,
+            </if>
+            <if test="nsLastname != null">
+                fns_lastname,
+            </if>
+            <if test="nsTitle != null">
+                fns_title,
+            </if>
+            <if test="nsAbbr != null">
+                fns_abbr,
+            </if>
+            <if test="nsNickname != null">
+                fns_nickname,
+            </if>
+            <if test="nsPosttitle != null">
+                fns_posttitle,
+            </if>
+            <if test="nsCustomfield1 != null">
+                fns_customfield1,
+            </if>
+            <if test="nsCustomfield2 != null">
+                fns_customfield2,
+            </if>
+            <if test="nsCustomfield3 != null">
+                fns_customfield3,
+            </if>
+            <if test="nsCustomfield4 != null">
+                fns_customfield4,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="eid != null">
+                #{eid},
+            </if>
+            <if test="tid != null">
+                #{tid},
+            </if>
+            <if test="uid != null">
+                #{uid},
+            </if>
+            <if test="openid != null">
+                #{openid},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="gender != null">
+                #{gender},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="idcard != null">
+                #{idcard},
+            </if>
+            <if test="avatar != null">
+                #{avatar},
+            </if>
+            <if test="usertype != null">
+                #{usertype},
+            </if>
+            <if test="nickname != null">
+                #{nickname},
+            </if>
+            <if test="fullpinyin != null">
+                #{fullpinyin},
+            </if>
+            <if test="simplepinyin != null">
+                #{simplepinyin},
+            </if>
+            <if test="dptid != null">
+                #{dptid},
+            </if>
+            <if test="positionid != null">
+                #{positionid},
+            </if>
+            <if test="sortcode != null">
+                #{sortcode},
+            </if>
+            <if test="billssatusfield != null">
+                #{billssatusfield},
+            </if>
+            <if test="hiredate != null">
+                #{hiredate},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="disablerid != null">
+                #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                #{disabledate},
+            </if>
+            <if test="source != null">
+                #{source},
+            </if>
+            <if test="maintain != null">
+                #{maintain},
+            </if>
+            <if test="startdate != null">
+                #{startdate},
+            </if>
+            <if test="enddate != null">
+                #{enddate},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="headsculpture != null">
+                #{headsculpture},
+            </if>
+            <if test="truename != null">
+                #{truename},
+            </if>
+            <if test="countryid != null">
+                #{countryid},
+            </if>
+            <if test="sortnumber != null">
+                #{sortnumber},
+            </if>
+            <if test="idtype != null">
+                #{idtype},
+            </if>
+            <if test="nsCountry != null">
+                #{nsCountry},
+            </if>
+            <if test="nsNamestyle != null">
+                #{nsNamestyle},
+            </if>
+            <if test="nsFirstname != null">
+                #{nsFirstname},
+            </if>
+            <if test="nsMiddlename != null">
+                #{nsMiddlename},
+            </if>
+            <if test="nsLastname != null">
+                #{nsLastname},
+            </if>
+            <if test="nsTitle != null">
+                #{nsTitle},
+            </if>
+            <if test="nsAbbr != null">
+                #{nsAbbr},
+            </if>
+            <if test="nsNickname != null">
+                #{nsNickname},
+            </if>
+            <if test="nsPosttitle != null">
+                #{nsPosttitle},
+            </if>
+            <if test="nsCustomfield1 != null">
+                #{nsCustomfield1},
+            </if>
+            <if test="nsCustomfield2 != null">
+                #{nsCustomfield2},
+            </if>
+            <if test="nsCustomfield3 != null">
+                #{nsCustomfield3},
+            </if>
+            <if test="nsCustomfield4 != null">
+                #{nsCustomfield4},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_sec_user
+        SET feid = #{eid},
+            ftid = #{tid},
+            fuid = #{uid},
+            fopenid = #{openid},
+            fnumber = #{number},
+            fphone = #{phone},
+            femail = #{email},
+            fstatus = #{status},
+            fgender = #{gender},
+            fbirthday = #{birthday},
+            fidcard = #{idcard},
+            favatar = #{avatar},
+            fusertype = #{usertype},
+            fnickname = #{nickname},
+            ffullpinyin = #{fullpinyin},
+            fsimplepinyin = #{simplepinyin},
+            fdptid = #{dptid},
+            fpositionid = #{positionid},
+            fsortcode = #{sortcode},
+            fbillssatusfield = #{billssatusfield},
+            fhiredate = #{hiredate},
+            fenable = #{enable},
+            fcreatorid = #{creatorid},
+            fcreatetime = #{createtime},
+            fmodifierid = #{modifierid},
+            fmodifytime = #{modifytime},
+            fdisablerid = #{disablerid},
+            fdisabledate = #{disabledate},
+            fsource = #{source},
+            fmaintain = #{maintain},
+            fstartdate = #{startdate},
+            fenddate = #{enddate},
+            fmasterid = #{masterid},
+            fheadsculpture = #{headsculpture},
+            ftruename = #{truename},
+            fcountryid = #{countryid},
+            fsortnumber = #{sortnumber},
+            fidtype = #{idtype},
+            fns_country = #{nsCountry},
+            fns_namestyle = #{nsNamestyle},
+            fns_firstname = #{nsFirstname},
+            fns_middlename = #{nsMiddlename},
+            fns_lastname = #{nsLastname},
+            fns_title = #{nsTitle},
+            fns_abbr = #{nsAbbr},
+            fns_nickname = #{nsNickname},
+            fns_posttitle = #{nsPosttitle},
+            fns_customfield1 = #{nsCustomfield1},
+            fns_customfield2 = #{nsCustomfield2},
+            fns_customfield3 = #{nsCustomfield3},
+            fns_customfield4 = #{nsCustomfield4}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_sec_user
+        <set>
+            <if test="eid != null">
+                feid = #{eid},
+            </if>
+            <if test="tid != null">
+                ftid = #{tid},
+            </if>
+            <if test="uid != null">
+                fuid = #{uid},
+            </if>
+            <if test="openid != null">
+                fopenid = #{openid},
+            </if>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="phone != null">
+                fphone = #{phone},
+            </if>
+            <if test="email != null">
+                femail = #{email},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="gender != null">
+                fgender = #{gender},
+            </if>
+            <if test="birthday != null">
+                fbirthday = #{birthday},
+            </if>
+            <if test="idcard != null">
+                fidcard = #{idcard},
+            </if>
+            <if test="avatar != null">
+                favatar = #{avatar},
+            </if>
+            <if test="usertype != null">
+                fusertype = #{usertype},
+            </if>
+            <if test="nickname != null">
+                fnickname = #{nickname},
+            </if>
+            <if test="fullpinyin != null">
+                ffullpinyin = #{fullpinyin},
+            </if>
+            <if test="simplepinyin != null">
+                fsimplepinyin = #{simplepinyin},
+            </if>
+            <if test="dptid != null">
+                fdptid = #{dptid},
+            </if>
+            <if test="positionid != null">
+                fpositionid = #{positionid},
+            </if>
+            <if test="sortcode != null">
+                fsortcode = #{sortcode},
+            </if>
+            <if test="billssatusfield != null">
+                fbillssatusfield = #{billssatusfield},
+            </if>
+            <if test="hiredate != null">
+                fhiredate = #{hiredate},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="disablerid != null">
+                fdisablerid = #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                fdisabledate = #{disabledate},
+            </if>
+            <if test="source != null">
+                fsource = #{source},
+            </if>
+            <if test="maintain != null">
+                fmaintain = #{maintain},
+            </if>
+            <if test="startdate != null">
+                fstartdate = #{startdate},
+            </if>
+            <if test="enddate != null">
+                fenddate = #{enddate},
+            </if>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="headsculpture != null">
+                fheadsculpture = #{headsculpture},
+            </if>
+            <if test="truename != null">
+                ftruename = #{truename},
+            </if>
+            <if test="countryid != null">
+                fcountryid = #{countryid},
+            </if>
+            <if test="sortnumber != null">
+                fsortnumber = #{sortnumber},
+            </if>
+            <if test="idtype != null">
+                fidtype = #{idtype},
+            </if>
+            <if test="nsCountry != null">
+                fns_country = #{nsCountry},
+            </if>
+            <if test="nsNamestyle != null">
+                fns_namestyle = #{nsNamestyle},
+            </if>
+            <if test="nsFirstname != null">
+                fns_firstname = #{nsFirstname},
+            </if>
+            <if test="nsMiddlename != null">
+                fns_middlename = #{nsMiddlename},
+            </if>
+            <if test="nsLastname != null">
+                fns_lastname = #{nsLastname},
+            </if>
+            <if test="nsTitle != null">
+                fns_title = #{nsTitle},
+            </if>
+            <if test="nsAbbr != null">
+                fns_abbr = #{nsAbbr},
+            </if>
+            <if test="nsNickname != null">
+                fns_nickname = #{nsNickname},
+            </if>
+            <if test="nsPosttitle != null">
+                fns_posttitle = #{nsPosttitle},
+            </if>
+            <if test="nsCustomfield1 != null">
+                fns_customfield1 = #{nsCustomfield1},
+            </if>
+            <if test="nsCustomfield2 != null">
+                fns_customfield2 = #{nsCustomfield2},
+            </if>
+            <if test="nsCustomfield3 != null">
+                fns_customfield3 = #{nsCustomfield3},
+            </if>
+            <if test="nsCustomfield4 != null">
+                fns_customfield4 = #{nsCustomfield4},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_sec_user
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_sec_user
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

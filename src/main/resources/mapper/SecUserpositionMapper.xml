@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.SecUserpositionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.SecUserposition">
+        <id column="fentryid" jdbcType="BIGINT" property="entryid" />
+        <result column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fseq" jdbcType="BIGINT" property="seq" />
+        <result column="fdptid" jdbcType="BIGINT" property="dptid" />
+        <result column="fpositionid" jdbcType="BIGINT" property="positionid" />
+        <result column="fispartjob" jdbcType="CHAR" property="ispartjob" />
+        <result column="fisincharge" jdbcType="CHAR" property="isincharge" />
+        <result column="fpostid" jdbcType="VARCHAR" property="postid" />
+        <result column="fsource" jdbcType="VARCHAR" property="source" />
+        <result column="fmaintain" jdbcType="VARCHAR" property="maintain" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fstartdate" jdbcType="VARCHAR" property="startdate" />
+        <result column="fenddate" jdbcType="VARCHAR" property="enddate" />
+        <result column="fsuperiorid" jdbcType="BIGINT" property="superiorid" />
+        <result column="forgstructureid" jdbcType="BIGINT" property="orgstructureid" />
+        <result column="fposition" jdbcType="VARCHAR" property="position" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fentryid, fid, fseq, fdptid, fpositionid, fispartjob, fisincharge, fpostid, fsource, fmaintain, fenable, fstartdate, fenddate, fsuperiorid, forgstructureid, fposition
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_userposition
+        WHERE fentryid = #{entryid}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_userposition
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_sec_userposition
+        <where>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.dptid != null">
+                AND fdptid = #{condition.dptid}
+            </if>
+            <if test="condition.positionid != null">
+                AND fpositionid = #{condition.positionid}
+            </if>
+            <if test="condition.ispartjob != null">
+                AND fispartjob = #{condition.ispartjob}
+            </if>
+            <if test="condition.isincharge != null">
+                AND fisincharge = #{condition.isincharge}
+            </if>
+            <if test="condition.postid != null">
+                AND fpostid = #{condition.postid}
+            </if>
+            <if test="condition.source != null">
+                AND fsource = #{condition.source}
+            </if>
+            <if test="condition.maintain != null">
+                AND fmaintain = #{condition.maintain}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.superiorid != null">
+                AND fsuperiorid = #{condition.superiorid}
+            </if>
+            <if test="condition.orgstructureid != null">
+                AND forgstructureid = #{condition.orgstructureid}
+            </if>
+            <if test="condition.position != null">
+                AND fposition = #{condition.position}
+            </if>
+        </where>
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_sec_userposition
+        <where>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.dptid != null">
+                AND fdptid = #{condition.dptid}
+            </if>
+            <if test="condition.positionid != null">
+                AND fpositionid = #{condition.positionid}
+            </if>
+            <if test="condition.ispartjob != null">
+                AND fispartjob = #{condition.ispartjob}
+            </if>
+            <if test="condition.isincharge != null">
+                AND fisincharge = #{condition.isincharge}
+            </if>
+            <if test="condition.postid != null">
+                AND fpostid = #{condition.postid}
+            </if>
+            <if test="condition.source != null">
+                AND fsource = #{condition.source}
+            </if>
+            <if test="condition.maintain != null">
+                AND fmaintain = #{condition.maintain}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.superiorid != null">
+                AND fsuperiorid = #{condition.superiorid}
+            </if>
+            <if test="condition.orgstructureid != null">
+                AND forgstructureid = #{condition.orgstructureid}
+            </if>
+            <if test="condition.position != null">
+                AND fposition = #{condition.position}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_sec_userposition
+        (fentryid, fid, fseq, fdptid, fpositionid, fispartjob, fisincharge, fpostid, fsource, fmaintain, fenable, fstartdate, fenddate, fsuperiorid, forgstructureid, fposition)
+        VALUES
+        (#{entryid}, #{id}, #{seq}, #{dptid}, #{positionid}, #{ispartjob}, #{isincharge}, #{postid}, #{source}, #{maintain}, #{enable}, #{startdate}, #{enddate}, #{superiorid}, #{orgstructureid}, #{position})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_sec_userposition
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="entryid != null">
+                fentryid,
+            </if>
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="seq != null">
+                fseq,
+            </if>
+            <if test="dptid != null">
+                fdptid,
+            </if>
+            <if test="positionid != null">
+                fpositionid,
+            </if>
+            <if test="ispartjob != null">
+                fispartjob,
+            </if>
+            <if test="isincharge != null">
+                fisincharge,
+            </if>
+            <if test="postid != null">
+                fpostid,
+            </if>
+            <if test="source != null">
+                fsource,
+            </if>
+            <if test="maintain != null">
+                fmaintain,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="startdate != null">
+                fstartdate,
+            </if>
+            <if test="enddate != null">
+                fenddate,
+            </if>
+            <if test="superiorid != null">
+                fsuperiorid,
+            </if>
+            <if test="orgstructureid != null">
+                forgstructureid,
+            </if>
+            <if test="position != null">
+                fposition,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="entryid != null">
+                #{entryid},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="seq != null">
+                #{seq},
+            </if>
+            <if test="dptid != null">
+                #{dptid},
+            </if>
+            <if test="positionid != null">
+                #{positionid},
+            </if>
+            <if test="ispartjob != null">
+                #{ispartjob},
+            </if>
+            <if test="isincharge != null">
+                #{isincharge},
+            </if>
+            <if test="postid != null">
+                #{postid},
+            </if>
+            <if test="source != null">
+                #{source},
+            </if>
+            <if test="maintain != null">
+                #{maintain},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="startdate != null">
+                #{startdate},
+            </if>
+            <if test="enddate != null">
+                #{enddate},
+            </if>
+            <if test="superiorid != null">
+                #{superiorid},
+            </if>
+            <if test="orgstructureid != null">
+                #{orgstructureid},
+            </if>
+            <if test="position != null">
+                #{position},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_sec_userposition
+        SET fid = #{id},
+            fseq = #{seq},
+            fdptid = #{dptid},
+            fpositionid = #{positionid},
+            fispartjob = #{ispartjob},
+            fisincharge = #{isincharge},
+            fpostid = #{postid},
+            fsource = #{source},
+            fmaintain = #{maintain},
+            fenable = #{enable},
+            fstartdate = #{startdate},
+            fenddate = #{enddate},
+            fsuperiorid = #{superiorid},
+            forgstructureid = #{orgstructureid},
+            fposition = #{position}
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_sec_userposition
+        <set>
+            <if test="id != null">
+                fid = #{id},
+            </if>
+            <if test="seq != null">
+                fseq = #{seq},
+            </if>
+            <if test="dptid != null">
+                fdptid = #{dptid},
+            </if>
+            <if test="positionid != null">
+                fpositionid = #{positionid},
+            </if>
+            <if test="ispartjob != null">
+                fispartjob = #{ispartjob},
+            </if>
+            <if test="isincharge != null">
+                fisincharge = #{isincharge},
+            </if>
+            <if test="postid != null">
+                fpostid = #{postid},
+            </if>
+            <if test="source != null">
+                fsource = #{source},
+            </if>
+            <if test="maintain != null">
+                fmaintain = #{maintain},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="startdate != null">
+                fstartdate = #{startdate},
+            </if>
+            <if test="enddate != null">
+                fenddate = #{enddate},
+            </if>
+            <if test="superiorid != null">
+                fsuperiorid = #{superiorid},
+            </if>
+            <if test="orgstructureid != null">
+                forgstructureid = #{orgstructureid},
+            </if>
+            <if test="position != null">
+                fposition = #{position},
+            </if>
+        </set>
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_sec_userposition
+        WHERE fentryid = #{entryid}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_sec_userposition
+        WHERE fentryid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

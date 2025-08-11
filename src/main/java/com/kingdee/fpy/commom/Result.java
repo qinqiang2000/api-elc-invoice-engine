@@ -67,4 +67,98 @@ public class Result<T> {
     public static <T> Result<T> error(String errcode, String message) {
         return new Result<>(errcode, message);
     }
+
+    /**
+     * 创建成功结果（无数据）
+     * @return Result对象
+     */
+    public static <T> Result<T> success() {
+        return new Result<>();
+    }
+
+    /**
+     * 创建成功结果（带数据）
+     * @param data 数据
+     * @return Result对象
+     */
+    public static <T> Result<T> success(T data) {
+        return new Result<>(data);
+    }
+
+    /**
+     * 创建成功结果（带数据和消息）
+     * @param data 数据
+     * @param message 消息
+     * @return Result对象
+     */
+    public static <T> Result<T> success(T data, String message) {
+        Result<T> result = new Result<>(data);
+        result.setMessage(message);
+        return result;
+    }
+
+    /**
+     * 创建成功结果（仅消息）
+     * @param message 消息
+     * @return Result对象
+     */
+    public static <T> Result<T> success(String message) {
+        Result<T> result = new Result<>();
+        result.setMessage(message);
+        return result;
+    }
+
+    /**
+     * 创建失败结果（仅消息）
+     * @param message 错误消息
+     * @return Result对象
+     */
+    public static <T> Result<T> error(String message) {
+        return new Result<>(ResultType.CLIENT_FAIL.getCode(), message);
+    }
+
+    /**
+     * 创建失败结果（错误码和消息）
+     * @param errcode 错误码
+     * @param message 错误消息
+     * @return Result对象
+     */
+    public static <T> Result<T> error(String errcode, String message) {
+        return new Result<>(errcode, message);
+    }
+
+    /**
+     * 创建失败结果（使用ResultType）
+     * @param resultType 结果类型
+     * @return Result对象
+     */
+    public static <T> Result<T> error(ResultType resultType) {
+        return new Result<>(resultType);
+    }
+
+    /**
+     * 创建失败结果（使用ResultType和自定义消息）
+     * @param resultType 结果类型
+     * @param message 自定义错误消息
+     * @return Result对象
+     */
+    public static <T> Result<T> error(ResultType resultType, String message) {
+        return new Result<>(resultType, message);
+    }
+
+    /**
+     * 判断是否成功
+     * @return 是否成功
+     */
+    public boolean isSuccess() {
+        return ResultType.SUCCESS.getCode().equals(this.errcode);
+    }
+
+    /**
+     * 判断是否失败
+     * @return 是否失败
+     */
+    public boolean isError() {
+        return !isSuccess();
+    }
 }

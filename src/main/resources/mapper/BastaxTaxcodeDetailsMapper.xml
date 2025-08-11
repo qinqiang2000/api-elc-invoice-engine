@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BastaxTaxcodeDetailsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BastaxTaxcodeDetails">
+        <id column="fentryid" jdbcType="BIGINT" property="entryid" />
+        <result column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fseq" jdbcType="INTEGER" property="seq" />
+        <result column="fresult" jdbcType="BIGINT" property="result" />
+        <result column="fvaluetype" jdbcType="VARCHAR" property="valuetype" />
+        <result column="fvaluesource" jdbcType="VARCHAR" property="valuesource" />
+        <result column="fdecimalprecision" jdbcType="BIGINT" property="decimalprecision" />
+        <result column="fvaluedecimal" jdbcType="DECIMAL" property="valuedecimal" />
+        <result column="fvaluenumber" jdbcType="VARCHAR" property="valuenumber" />
+        <result column="fvalueid" jdbcType="VARCHAR" property="valueid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fentryid, fseq, fresult, fvaluetype, fvaluesource, fdecimalprecision, fvaluedecimal, fvaluenumber, fvalueid
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxcode_details
+        WHERE fentryid = #{entryid}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxcode_details
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxcode_details
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.result != null">
+                AND fresult = #{condition.result}
+            </if>
+            <if test="condition.valuetype != null">
+                AND fvaluetype = #{condition.valuetype}
+            </if>
+            <if test="condition.valuesource != null">
+                AND fvaluesource = #{condition.valuesource}
+            </if>
+            <if test="condition.decimalprecision != null">
+                AND fdecimalprecision = #{condition.decimalprecision}
+            </if>
+            <if test="condition.valuedecimal != null">
+                AND fvaluedecimal = #{condition.valuedecimal}
+            </if>
+            <if test="condition.valuenumber != null">
+                AND fvaluenumber = #{condition.valuenumber}
+            </if>
+            <if test="condition.valueid != null">
+                AND fvalueid = #{condition.valueid}
+            </if>
+        </where>
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bastax_taxcode_details
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.result != null">
+                AND fresult = #{condition.result}
+            </if>
+            <if test="condition.valuetype != null">
+                AND fvaluetype = #{condition.valuetype}
+            </if>
+            <if test="condition.valuesource != null">
+                AND fvaluesource = #{condition.valuesource}
+            </if>
+            <if test="condition.decimalprecision != null">
+                AND fdecimalprecision = #{condition.decimalprecision}
+            </if>
+            <if test="condition.valuedecimal != null">
+                AND fvaluedecimal = #{condition.valuedecimal}
+            </if>
+            <if test="condition.valuenumber != null">
+                AND fvaluenumber = #{condition.valuenumber}
+            </if>
+            <if test="condition.valueid != null">
+                AND fvalueid = #{condition.valueid}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_bastax_taxcode_details
+        (fid, fentryid, fseq, fresult, fvaluetype, fvaluesource, fdecimalprecision, fvaluedecimal, fvaluenumber, fvalueid)
+        VALUES
+        (#{id}, #{entryid}, #{seq}, #{result}, #{valuetype}, #{valuesource}, #{decimalprecision}, #{valuedecimal}, #{valuenumber}, #{valueid})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_bastax_taxcode_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="entryid != null">
+                fentryid,
+            </if>
+            <if test="seq != null">
+                fseq,
+            </if>
+            <if test="result != null">
+                fresult,
+            </if>
+            <if test="valuetype != null">
+                fvaluetype,
+            </if>
+            <if test="valuesource != null">
+                fvaluesource,
+            </if>
+            <if test="decimalprecision != null">
+                fdecimalprecision,
+            </if>
+            <if test="valuedecimal != null">
+                fvaluedecimal,
+            </if>
+            <if test="valuenumber != null">
+                fvaluenumber,
+            </if>
+            <if test="valueid != null">
+                fvalueid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="entryid != null">
+                #{entryid},
+            </if>
+            <if test="seq != null">
+                #{seq},
+            </if>
+            <if test="result != null">
+                #{result},
+            </if>
+            <if test="valuetype != null">
+                #{valuetype},
+            </if>
+            <if test="valuesource != null">
+                #{valuesource},
+            </if>
+            <if test="decimalprecision != null">
+                #{decimalprecision},
+            </if>
+            <if test="valuedecimal != null">
+                #{valuedecimal},
+            </if>
+            <if test="valuenumber != null">
+                #{valuenumber},
+            </if>
+            <if test="valueid != null">
+                #{valueid},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bastax_taxcode_details
+        SET fid = #{id},
+            fseq = #{seq},
+            fresult = #{result},
+            fvaluetype = #{valuetype},
+            fvaluesource = #{valuesource},
+            fdecimalprecision = #{decimalprecision},
+            fvaluedecimal = #{valuedecimal},
+            fvaluenumber = #{valuenumber},
+            fvalueid = #{valueid}
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bastax_taxcode_details
+        <set>
+            <if test="id != null">
+                fid = #{id},
+            </if>
+            <if test="seq != null">
+                fseq = #{seq},
+            </if>
+            <if test="result != null">
+                fresult = #{result},
+            </if>
+            <if test="valuetype != null">
+                fvaluetype = #{valuetype},
+            </if>
+            <if test="valuesource != null">
+                fvaluesource = #{valuesource},
+            </if>
+            <if test="decimalprecision != null">
+                fdecimalprecision = #{decimalprecision},
+            </if>
+            <if test="valuedecimal != null">
+                fvaluedecimal = #{valuedecimal},
+            </if>
+            <if test="valuenumber != null">
+                fvaluenumber = #{valuenumber},
+            </if>
+            <if test="valueid != null">
+                fvalueid = #{valueid},
+            </if>
+        </set>
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bastax_taxcode_details
+        WHERE fentryid = #{entryid}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bastax_taxcode_details
+        WHERE fentryid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

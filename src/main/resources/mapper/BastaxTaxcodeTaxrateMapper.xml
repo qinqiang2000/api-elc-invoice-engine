@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BastaxTaxcodeTaxrateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BastaxTaxcodeTaxrate">
+        <id column="fentryid" jdbcType="BIGINT" property="entryid" />
+        <result column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fseq" jdbcType="BIGINT" property="seq" />
+        <result column="ftaxrate" jdbcType="BIGINT" property="taxrate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fentryid, fseq, ftaxrate
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxcode_taxrate
+        WHERE fentryid = #{entryid}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxcode_taxrate
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxcode_taxrate
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.taxrate != null">
+                AND ftaxrate = #{condition.taxrate}
+            </if>
+        </where>
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bastax_taxcode_taxrate
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.taxrate != null">
+                AND ftaxrate = #{condition.taxrate}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_bastax_taxcode_taxrate
+        (fid, fentryid, fseq, ftaxrate)
+        VALUES
+        (#{id}, #{entryid}, #{seq}, #{taxrate})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_bastax_taxcode_taxrate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="entryid != null">
+                fentryid,
+            </if>
+            <if test="seq != null">
+                fseq,
+            </if>
+            <if test="taxrate != null">
+                ftaxrate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="entryid != null">
+                #{entryid},
+            </if>
+            <if test="seq != null">
+                #{seq},
+            </if>
+            <if test="taxrate != null">
+                #{taxrate},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bastax_taxcode_taxrate
+        SET fid = #{id},
+            fseq = #{seq},
+            ftaxrate = #{taxrate}
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bastax_taxcode_taxrate
+        <set>
+            <if test="id != null">
+                fid = #{id},
+            </if>
+            <if test="seq != null">
+                fseq = #{seq},
+            </if>
+            <if test="taxrate != null">
+                ftaxrate = #{taxrate},
+            </if>
+        </set>
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bastax_taxcode_taxrate
+        WHERE fentryid = #{entryid}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bastax_taxcode_taxrate
+        WHERE fentryid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

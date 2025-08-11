@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BdTaxrateMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BdTaxrate">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="ftaxrate" jdbcType="DECIMAL" property="taxrate" />
+        <result column="ftaxcategoryid" jdbcType="BIGINT" property="taxcategoryid" />
+        <result column="factivedate" jdbcType="VARCHAR" property="activedate" />
+        <result column="fexpdate" jdbcType="VARCHAR" property="expdate" />
+        <result column="fissystem" jdbcType="CHAR" property="issystem" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="fdisablerid" jdbcType="BIGINT" property="disablerid" />
+        <result column="fdisabledate" jdbcType="VARCHAR" property="disabledate" />
+        <result column="forgid" jdbcType="BIGINT" property="orgid" />
+        <result column="fcreateorgid" jdbcType="BIGINT" property="createorgid" />
+        <result column="fuserorg" jdbcType="BIGINT" property="userorg" />
+        <result column="fctrlstrategy" jdbcType="VARCHAR" property="ctrlstrategy" />
+        <result column="fcountry" jdbcType="BIGINT" property="country" />
+        <result column="fsourcedataid" jdbcType="BIGINT" property="sourcedataid" />
+        <result column="fbitindex" jdbcType="INTEGER" property="bitindex" />
+        <result column="fsourcebitindex" jdbcType="INTEGER" property="sourcebitindex" />
+        <result column="ftaxationsys" jdbcType="BIGINT" property="taxationsys" />
+        <result column="fvaluetype" jdbcType="VARCHAR" property="valuetype" />
+        <result column="ftaxunit" jdbcType="BIGINT" property="taxunit" />
+        <result column="ftaxratetype" jdbcType="BIGINT" property="taxratetype" />
+        <result column="ftaxarea" jdbcType="BIGINT" property="taxarea" />
+        <result column="fsrccreateorgid" jdbcType="BIGINT" property="srccreateorgid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fmasterid, fnumber, ftaxrate, ftaxcategoryid, factivedate, fexpdate, fissystem, fenable, fstatus, fcreatorid, fcreatetime, fmodifierid, fmodifytime, fdisablerid, fdisabledate, forgid, fcreateorgid, fuserorg, fctrlstrategy, fcountry, fsourcedataid, fbitindex, fsourcebitindex, ftaxationsys, fvaluetype, ftaxunit, ftaxratetype, ftaxarea, fsrccreateorgid
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_taxrate
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_taxrate
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_taxrate
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.taxrate != null">
+                AND ftaxrate = #{condition.taxrate}
+            </if>
+            <if test="condition.taxcategoryid != null">
+                AND ftaxcategoryid = #{condition.taxcategoryid}
+            </if>
+            <if test="condition.activedate != null">
+                AND factivedate = #{condition.activedate}
+            </if>
+            <if test="condition.expdate != null">
+                AND fexpdate = #{condition.expdate}
+            </if>
+            <if test="condition.issystem != null">
+                AND fissystem = #{condition.issystem}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.orgid != null">
+                AND forgid = #{condition.orgid}
+            </if>
+            <if test="condition.createorgid != null">
+                AND fcreateorgid = #{condition.createorgid}
+            </if>
+            <if test="condition.userorg != null">
+                AND fuserorg = #{condition.userorg}
+            </if>
+            <if test="condition.ctrlstrategy != null">
+                AND fctrlstrategy = #{condition.ctrlstrategy}
+            </if>
+            <if test="condition.country != null">
+                AND fcountry = #{condition.country}
+            </if>
+            <if test="condition.sourcedataid != null">
+                AND fsourcedataid = #{condition.sourcedataid}
+            </if>
+            <if test="condition.bitindex != null">
+                AND fbitindex = #{condition.bitindex}
+            </if>
+            <if test="condition.sourcebitindex != null">
+                AND fsourcebitindex = #{condition.sourcebitindex}
+            </if>
+            <if test="condition.taxationsys != null">
+                AND ftaxationsys = #{condition.taxationsys}
+            </if>
+            <if test="condition.valuetype != null">
+                AND fvaluetype = #{condition.valuetype}
+            </if>
+            <if test="condition.taxunit != null">
+                AND ftaxunit = #{condition.taxunit}
+            </if>
+            <if test="condition.taxratetype != null">
+                AND ftaxratetype = #{condition.taxratetype}
+            </if>
+            <if test="condition.taxarea != null">
+                AND ftaxarea = #{condition.taxarea}
+            </if>
+            <if test="condition.srccreateorgid != null">
+                AND fsrccreateorgid = #{condition.srccreateorgid}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bd_taxrate
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.taxrate != null">
+                AND ftaxrate = #{condition.taxrate}
+            </if>
+            <if test="condition.taxcategoryid != null">
+                AND ftaxcategoryid = #{condition.taxcategoryid}
+            </if>
+            <if test="condition.activedate != null">
+                AND factivedate = #{condition.activedate}
+            </if>
+            <if test="condition.expdate != null">
+                AND fexpdate = #{condition.expdate}
+            </if>
+            <if test="condition.issystem != null">
+                AND fissystem = #{condition.issystem}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.orgid != null">
+                AND forgid = #{condition.orgid}
+            </if>
+            <if test="condition.createorgid != null">
+                AND fcreateorgid = #{condition.createorgid}
+            </if>
+            <if test="condition.userorg != null">
+                AND fuserorg = #{condition.userorg}
+            </if>
+            <if test="condition.ctrlstrategy != null">
+                AND fctrlstrategy = #{condition.ctrlstrategy}
+            </if>
+            <if test="condition.country != null">
+                AND fcountry = #{condition.country}
+            </if>
+            <if test="condition.sourcedataid != null">
+                AND fsourcedataid = #{condition.sourcedataid}
+            </if>
+            <if test="condition.bitindex != null">
+                AND fbitindex = #{condition.bitindex}
+            </if>
+            <if test="condition.sourcebitindex != null">
+                AND fsourcebitindex = #{condition.sourcebitindex}
+            </if>
+            <if test="condition.taxationsys != null">
+                AND ftaxationsys = #{condition.taxationsys}
+            </if>
+            <if test="condition.valuetype != null">
+                AND fvaluetype = #{condition.valuetype}
+            </if>
+            <if test="condition.taxunit != null">
+                AND ftaxunit = #{condition.taxunit}
+            </if>
+            <if test="condition.taxratetype != null">
+                AND ftaxratetype = #{condition.taxratetype}
+            </if>
+            <if test="condition.taxarea != null">
+                AND ftaxarea = #{condition.taxarea}
+            </if>
+            <if test="condition.srccreateorgid != null">
+                AND fsrccreateorgid = #{condition.srccreateorgid}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_taxrate
+        (fid, fmasterid, fnumber, ftaxrate, ftaxcategoryid, factivedate, fexpdate, fissystem, fenable, fstatus, fcreatorid, fcreatetime, fmodifierid, fmodifytime, fdisablerid, fdisabledate, forgid, fcreateorgid, fuserorg, fctrlstrategy, fcountry, fsourcedataid, fbitindex, fsourcebitindex, ftaxationsys, fvaluetype, ftaxunit, ftaxratetype, ftaxarea, fsrccreateorgid)
+        VALUES
+        (#{id}, #{masterid}, #{number}, #{taxrate}, #{taxcategoryid}, #{activedate}, #{expdate}, #{issystem}, #{enable}, #{status}, #{creatorid}, #{createtime}, #{modifierid}, #{modifytime}, #{disablerid}, #{disabledate}, #{orgid}, #{createorgid}, #{userorg}, #{ctrlstrategy}, #{country}, #{sourcedataid}, #{bitindex}, #{sourcebitindex}, #{taxationsys}, #{valuetype}, #{taxunit}, #{taxratetype}, #{taxarea}, #{srccreateorgid})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_taxrate
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="taxrate != null">
+                ftaxrate,
+            </if>
+            <if test="taxcategoryid != null">
+                ftaxcategoryid,
+            </if>
+            <if test="activedate != null">
+                factivedate,
+            </if>
+            <if test="expdate != null">
+                fexpdate,
+            </if>
+            <if test="issystem != null">
+                fissystem,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="disablerid != null">
+                fdisablerid,
+            </if>
+            <if test="disabledate != null">
+                fdisabledate,
+            </if>
+            <if test="orgid != null">
+                forgid,
+            </if>
+            <if test="createorgid != null">
+                fcreateorgid,
+            </if>
+            <if test="userorg != null">
+                fuserorg,
+            </if>
+            <if test="ctrlstrategy != null">
+                fctrlstrategy,
+            </if>
+            <if test="country != null">
+                fcountry,
+            </if>
+            <if test="sourcedataid != null">
+                fsourcedataid,
+            </if>
+            <if test="bitindex != null">
+                fbitindex,
+            </if>
+            <if test="sourcebitindex != null">
+                fsourcebitindex,
+            </if>
+            <if test="taxationsys != null">
+                ftaxationsys,
+            </if>
+            <if test="valuetype != null">
+                fvaluetype,
+            </if>
+            <if test="taxunit != null">
+                ftaxunit,
+            </if>
+            <if test="taxratetype != null">
+                ftaxratetype,
+            </if>
+            <if test="taxarea != null">
+                ftaxarea,
+            </if>
+            <if test="srccreateorgid != null">
+                fsrccreateorgid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="taxrate != null">
+                #{taxrate},
+            </if>
+            <if test="taxcategoryid != null">
+                #{taxcategoryid},
+            </if>
+            <if test="activedate != null">
+                #{activedate},
+            </if>
+            <if test="expdate != null">
+                #{expdate},
+            </if>
+            <if test="issystem != null">
+                #{issystem},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="disablerid != null">
+                #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                #{disabledate},
+            </if>
+            <if test="orgid != null">
+                #{orgid},
+            </if>
+            <if test="createorgid != null">
+                #{createorgid},
+            </if>
+            <if test="userorg != null">
+                #{userorg},
+            </if>
+            <if test="ctrlstrategy != null">
+                #{ctrlstrategy},
+            </if>
+            <if test="country != null">
+                #{country},
+            </if>
+            <if test="sourcedataid != null">
+                #{sourcedataid},
+            </if>
+            <if test="bitindex != null">
+                #{bitindex},
+            </if>
+            <if test="sourcebitindex != null">
+                #{sourcebitindex},
+            </if>
+            <if test="taxationsys != null">
+                #{taxationsys},
+            </if>
+            <if test="valuetype != null">
+                #{valuetype},
+            </if>
+            <if test="taxunit != null">
+                #{taxunit},
+            </if>
+            <if test="taxratetype != null">
+                #{taxratetype},
+            </if>
+            <if test="taxarea != null">
+                #{taxarea},
+            </if>
+            <if test="srccreateorgid != null">
+                #{srccreateorgid},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bd_taxrate
+        SET fmasterid = #{masterid},
+            fnumber = #{number},
+            ftaxrate = #{taxrate},
+            ftaxcategoryid = #{taxcategoryid},
+            factivedate = #{activedate},
+            fexpdate = #{expdate},
+            fissystem = #{issystem},
+            fenable = #{enable},
+            fstatus = #{status},
+            fcreatorid = #{creatorid},
+            fcreatetime = #{createtime},
+            fmodifierid = #{modifierid},
+            fmodifytime = #{modifytime},
+            fdisablerid = #{disablerid},
+            fdisabledate = #{disabledate},
+            forgid = #{orgid},
+            fcreateorgid = #{createorgid},
+            fuserorg = #{userorg},
+            fctrlstrategy = #{ctrlstrategy},
+            fcountry = #{country},
+            fsourcedataid = #{sourcedataid},
+            fbitindex = #{bitindex},
+            fsourcebitindex = #{sourcebitindex},
+            ftaxationsys = #{taxationsys},
+            fvaluetype = #{valuetype},
+            ftaxunit = #{taxunit},
+            ftaxratetype = #{taxratetype},
+            ftaxarea = #{taxarea},
+            fsrccreateorgid = #{srccreateorgid}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bd_taxrate
+        <set>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="taxrate != null">
+                ftaxrate = #{taxrate},
+            </if>
+            <if test="taxcategoryid != null">
+                ftaxcategoryid = #{taxcategoryid},
+            </if>
+            <if test="activedate != null">
+                factivedate = #{activedate},
+            </if>
+            <if test="expdate != null">
+                fexpdate = #{expdate},
+            </if>
+            <if test="issystem != null">
+                fissystem = #{issystem},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="disablerid != null">
+                fdisablerid = #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                fdisabledate = #{disabledate},
+            </if>
+            <if test="orgid != null">
+                forgid = #{orgid},
+            </if>
+            <if test="createorgid != null">
+                fcreateorgid = #{createorgid},
+            </if>
+            <if test="userorg != null">
+                fuserorg = #{userorg},
+            </if>
+            <if test="ctrlstrategy != null">
+                fctrlstrategy = #{ctrlstrategy},
+            </if>
+            <if test="country != null">
+                fcountry = #{country},
+            </if>
+            <if test="sourcedataid != null">
+                fsourcedataid = #{sourcedataid},
+            </if>
+            <if test="bitindex != null">
+                fbitindex = #{bitindex},
+            </if>
+            <if test="sourcebitindex != null">
+                fsourcebitindex = #{sourcebitindex},
+            </if>
+            <if test="taxationsys != null">
+                ftaxationsys = #{taxationsys},
+            </if>
+            <if test="valuetype != null">
+                fvaluetype = #{valuetype},
+            </if>
+            <if test="taxunit != null">
+                ftaxunit = #{taxunit},
+            </if>
+            <if test="taxratetype != null">
+                ftaxratetype = #{taxratetype},
+            </if>
+            <if test="taxarea != null">
+                ftaxarea = #{taxarea},
+            </if>
+            <if test="srccreateorgid != null">
+                fsrccreateorgid = #{srccreateorgid},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bd_taxrate
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bd_taxrate
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

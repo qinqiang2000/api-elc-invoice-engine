@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.OrgStructureMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.OrgStructure">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fcreateorgid" jdbcType="BIGINT" property="createorgid" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifyorgid" jdbcType="BIGINT" property="modifyorgid" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="fviewid" jdbcType="BIGINT" property="viewid" />
+        <result column="forgid" jdbcType="BIGINT" property="orgid" />
+        <result column="fyzjorgid" jdbcType="VARCHAR" property="yzjorgid" />
+        <result column="fparentid" jdbcType="BIGINT" property="parentid" />
+        <result column="fyzjparentorgid" jdbcType="VARCHAR" property="yzjparentorgid" />
+        <result column="fisleaf" jdbcType="CHAR" property="isleaf" />
+        <result column="flongnumber" jdbcType="VARCHAR" property="longnumber" />
+        <result column="flevel" jdbcType="BIGINT" property="level" />
+        <result column="fisstatsum" jdbcType="CHAR" property="isstatsum" />
+        <result column="fisfreeze" jdbcType="CHAR" property="isfreeze" />
+        <result column="fsealuptime" jdbcType="VARCHAR" property="sealuptime" />
+        <result column="fsortcode" jdbcType="VARCHAR" property="sortcode" />
+        <result column="fisctrlunit" jdbcType="CHAR" property="isctrlunit" />
+        <result column="fishr" jdbcType="CHAR" property="ishr" />
+        <result column="fstartdate" jdbcType="VARCHAR" property="startdate" />
+        <result column="fenddate" jdbcType="VARCHAR" property="enddate" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fisbizunit" jdbcType="CHAR" property="isbizunit" />
+        <result column="ffullname" jdbcType="VARCHAR" property="fullname" />
+        <result column="fseq" jdbcType="INTEGER" property="seq" />
+        <result column="fsortnumber" jdbcType="BIGINT" property="sortnumber" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fnumber, fenable, fstatus, fcreateorgid, fcreatorid, fcreatetime, fmodifyorgid, fmodifierid, fmodifytime, fviewid, forgid, fyzjorgid, fparentid, fyzjparentorgid, fisleaf, flongnumber, flevel, fisstatsum, fisfreeze, fsealuptime, fsortcode, fisctrlunit, fishr, fstartdate, fenddate, fmasterid, fisbizunit, ffullname, fseq, fsortnumber
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_org_structure
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_org_structure
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_org_structure
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.createorgid != null">
+                AND fcreateorgid = #{condition.createorgid}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifyorgid != null">
+                AND fmodifyorgid = #{condition.modifyorgid}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.viewid != null">
+                AND fviewid = #{condition.viewid}
+            </if>
+            <if test="condition.orgid != null">
+                AND forgid = #{condition.orgid}
+            </if>
+            <if test="condition.yzjorgid != null">
+                AND fyzjorgid = #{condition.yzjorgid}
+            </if>
+            <if test="condition.parentid != null">
+                AND fparentid = #{condition.parentid}
+            </if>
+            <if test="condition.yzjparentorgid != null">
+                AND fyzjparentorgid = #{condition.yzjparentorgid}
+            </if>
+            <if test="condition.isleaf != null">
+                AND fisleaf = #{condition.isleaf}
+            </if>
+            <if test="condition.longnumber != null">
+                AND flongnumber = #{condition.longnumber}
+            </if>
+            <if test="condition.level != null">
+                AND flevel = #{condition.level}
+            </if>
+            <if test="condition.isstatsum != null">
+                AND fisstatsum = #{condition.isstatsum}
+            </if>
+            <if test="condition.isfreeze != null">
+                AND fisfreeze = #{condition.isfreeze}
+            </if>
+            <if test="condition.sealuptime != null">
+                AND fsealuptime = #{condition.sealuptime}
+            </if>
+            <if test="condition.sortcode != null">
+                AND fsortcode = #{condition.sortcode}
+            </if>
+            <if test="condition.isctrlunit != null">
+                AND fisctrlunit = #{condition.isctrlunit}
+            </if>
+            <if test="condition.ishr != null">
+                AND fishr = #{condition.ishr}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.isbizunit != null">
+                AND fisbizunit = #{condition.isbizunit}
+            </if>
+            <if test="condition.fullname != null">
+                AND ffullname = #{condition.fullname}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.sortnumber != null">
+                AND fsortnumber = #{condition.sortnumber}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_org_structure
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.createorgid != null">
+                AND fcreateorgid = #{condition.createorgid}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifyorgid != null">
+                AND fmodifyorgid = #{condition.modifyorgid}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.viewid != null">
+                AND fviewid = #{condition.viewid}
+            </if>
+            <if test="condition.orgid != null">
+                AND forgid = #{condition.orgid}
+            </if>
+            <if test="condition.yzjorgid != null">
+                AND fyzjorgid = #{condition.yzjorgid}
+            </if>
+            <if test="condition.parentid != null">
+                AND fparentid = #{condition.parentid}
+            </if>
+            <if test="condition.yzjparentorgid != null">
+                AND fyzjparentorgid = #{condition.yzjparentorgid}
+            </if>
+            <if test="condition.isleaf != null">
+                AND fisleaf = #{condition.isleaf}
+            </if>
+            <if test="condition.longnumber != null">
+                AND flongnumber = #{condition.longnumber}
+            </if>
+            <if test="condition.level != null">
+                AND flevel = #{condition.level}
+            </if>
+            <if test="condition.isstatsum != null">
+                AND fisstatsum = #{condition.isstatsum}
+            </if>
+            <if test="condition.isfreeze != null">
+                AND fisfreeze = #{condition.isfreeze}
+            </if>
+            <if test="condition.sealuptime != null">
+                AND fsealuptime = #{condition.sealuptime}
+            </if>
+            <if test="condition.sortcode != null">
+                AND fsortcode = #{condition.sortcode}
+            </if>
+            <if test="condition.isctrlunit != null">
+                AND fisctrlunit = #{condition.isctrlunit}
+            </if>
+            <if test="condition.ishr != null">
+                AND fishr = #{condition.ishr}
+            </if>
+            <if test="condition.startdate != null">
+                AND fstartdate = #{condition.startdate}
+            </if>
+            <if test="condition.enddate != null">
+                AND fenddate = #{condition.enddate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.isbizunit != null">
+                AND fisbizunit = #{condition.isbizunit}
+            </if>
+            <if test="condition.fullname != null">
+                AND ffullname = #{condition.fullname}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.sortnumber != null">
+                AND fsortnumber = #{condition.sortnumber}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_org_structure
+        (fid, fnumber, fenable, fstatus, fcreateorgid, fcreatorid, fcreatetime, fmodifyorgid, fmodifierid, fmodifytime, fviewid, forgid, fyzjorgid, fparentid, fyzjparentorgid, fisleaf, flongnumber, flevel, fisstatsum, fisfreeze, fsealuptime, fsortcode, fisctrlunit, fishr, fstartdate, fenddate, fmasterid, fisbizunit, ffullname, fseq, fsortnumber)
+        VALUES
+        (#{id}, #{number}, #{enable}, #{status}, #{createorgid}, #{creatorid}, #{createtime}, #{modifyorgid}, #{modifierid}, #{modifytime}, #{viewid}, #{orgid}, #{yzjorgid}, #{parentid}, #{yzjparentorgid}, #{isleaf}, #{longnumber}, #{level}, #{isstatsum}, #{isfreeze}, #{sealuptime}, #{sortcode}, #{isctrlunit}, #{ishr}, #{startdate}, #{enddate}, #{masterid}, #{isbizunit}, #{fullname}, #{seq}, #{sortnumber})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_org_structure
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="createorgid != null">
+                fcreateorgid,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifyorgid != null">
+                fmodifyorgid,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="viewid != null">
+                fviewid,
+            </if>
+            <if test="orgid != null">
+                forgid,
+            </if>
+            <if test="yzjorgid != null">
+                fyzjorgid,
+            </if>
+            <if test="parentid != null">
+                fparentid,
+            </if>
+            <if test="yzjparentorgid != null">
+                fyzjparentorgid,
+            </if>
+            <if test="isleaf != null">
+                fisleaf,
+            </if>
+            <if test="longnumber != null">
+                flongnumber,
+            </if>
+            <if test="level != null">
+                flevel,
+            </if>
+            <if test="isstatsum != null">
+                fisstatsum,
+            </if>
+            <if test="isfreeze != null">
+                fisfreeze,
+            </if>
+            <if test="sealuptime != null">
+                fsealuptime,
+            </if>
+            <if test="sortcode != null">
+                fsortcode,
+            </if>
+            <if test="isctrlunit != null">
+                fisctrlunit,
+            </if>
+            <if test="ishr != null">
+                fishr,
+            </if>
+            <if test="startdate != null">
+                fstartdate,
+            </if>
+            <if test="enddate != null">
+                fenddate,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="isbizunit != null">
+                fisbizunit,
+            </if>
+            <if test="fullname != null">
+                ffullname,
+            </if>
+            <if test="seq != null">
+                fseq,
+            </if>
+            <if test="sortnumber != null">
+                fsortnumber,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createorgid != null">
+                #{createorgid},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifyorgid != null">
+                #{modifyorgid},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="viewid != null">
+                #{viewid},
+            </if>
+            <if test="orgid != null">
+                #{orgid},
+            </if>
+            <if test="yzjorgid != null">
+                #{yzjorgid},
+            </if>
+            <if test="parentid != null">
+                #{parentid},
+            </if>
+            <if test="yzjparentorgid != null">
+                #{yzjparentorgid},
+            </if>
+            <if test="isleaf != null">
+                #{isleaf},
+            </if>
+            <if test="longnumber != null">
+                #{longnumber},
+            </if>
+            <if test="level != null">
+                #{level},
+            </if>
+            <if test="isstatsum != null">
+                #{isstatsum},
+            </if>
+            <if test="isfreeze != null">
+                #{isfreeze},
+            </if>
+            <if test="sealuptime != null">
+                #{sealuptime},
+            </if>
+            <if test="sortcode != null">
+                #{sortcode},
+            </if>
+            <if test="isctrlunit != null">
+                #{isctrlunit},
+            </if>
+            <if test="ishr != null">
+                #{ishr},
+            </if>
+            <if test="startdate != null">
+                #{startdate},
+            </if>
+            <if test="enddate != null">
+                #{enddate},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="isbizunit != null">
+                #{isbizunit},
+            </if>
+            <if test="fullname != null">
+                #{fullname},
+            </if>
+            <if test="seq != null">
+                #{seq},
+            </if>
+            <if test="sortnumber != null">
+                #{sortnumber},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_org_structure
+        SET fnumber = #{number},
+            fenable = #{enable},
+            fstatus = #{status},
+            fcreateorgid = #{createorgid},
+            fcreatorid = #{creatorid},
+            fcreatetime = #{createtime},
+            fmodifyorgid = #{modifyorgid},
+            fmodifierid = #{modifierid},
+            fmodifytime = #{modifytime},
+            fviewid = #{viewid},
+            forgid = #{orgid},
+            fyzjorgid = #{yzjorgid},
+            fparentid = #{parentid},
+            fyzjparentorgid = #{yzjparentorgid},
+            fisleaf = #{isleaf},
+            flongnumber = #{longnumber},
+            flevel = #{level},
+            fisstatsum = #{isstatsum},
+            fisfreeze = #{isfreeze},
+            fsealuptime = #{sealuptime},
+            fsortcode = #{sortcode},
+            fisctrlunit = #{isctrlunit},
+            fishr = #{ishr},
+            fstartdate = #{startdate},
+            fenddate = #{enddate},
+            fmasterid = #{masterid},
+            fisbizunit = #{isbizunit},
+            ffullname = #{fullname},
+            fseq = #{seq},
+            fsortnumber = #{sortnumber}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_org_structure
+        <set>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="createorgid != null">
+                fcreateorgid = #{createorgid},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifyorgid != null">
+                fmodifyorgid = #{modifyorgid},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="viewid != null">
+                fviewid = #{viewid},
+            </if>
+            <if test="orgid != null">
+                forgid = #{orgid},
+            </if>
+            <if test="yzjorgid != null">
+                fyzjorgid = #{yzjorgid},
+            </if>
+            <if test="parentid != null">
+                fparentid = #{parentid},
+            </if>
+            <if test="yzjparentorgid != null">
+                fyzjparentorgid = #{yzjparentorgid},
+            </if>
+            <if test="isleaf != null">
+                fisleaf = #{isleaf},
+            </if>
+            <if test="longnumber != null">
+                flongnumber = #{longnumber},
+            </if>
+            <if test="level != null">
+                flevel = #{level},
+            </if>
+            <if test="isstatsum != null">
+                fisstatsum = #{isstatsum},
+            </if>
+            <if test="isfreeze != null">
+                fisfreeze = #{isfreeze},
+            </if>
+            <if test="sealuptime != null">
+                fsealuptime = #{sealuptime},
+            </if>
+            <if test="sortcode != null">
+                fsortcode = #{sortcode},
+            </if>
+            <if test="isctrlunit != null">
+                fisctrlunit = #{isctrlunit},
+            </if>
+            <if test="ishr != null">
+                fishr = #{ishr},
+            </if>
+            <if test="startdate != null">
+                fstartdate = #{startdate},
+            </if>
+            <if test="enddate != null">
+                fenddate = #{enddate},
+            </if>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="isbizunit != null">
+                fisbizunit = #{isbizunit},
+            </if>
+            <if test="fullname != null">
+                ffullname = #{fullname},
+            </if>
+            <if test="seq != null">
+                fseq = #{seq},
+            </if>
+            <if test="sortnumber != null">
+                fsortnumber = #{sortnumber},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_org_structure
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_org_structure
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

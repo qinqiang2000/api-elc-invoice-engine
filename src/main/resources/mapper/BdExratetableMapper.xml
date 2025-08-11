@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BdExratetableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BdExratetable">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="fcurid" jdbcType="BIGINT" property="curid" />
+        <result column="fisallowrev" jdbcType="CHAR" property="isallowrev" />
+        <result column="fisenableexc" jdbcType="CHAR" property="isenableexc" />
+        <result column="fiscreateorg" jdbcType="CHAR" property="iscreateorg" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="fdisablerid" jdbcType="BIGINT" property="disablerid" />
+        <result column="fdisabledate" jdbcType="VARCHAR" property="disabledate" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fforbidmodifyrate" jdbcType="CHAR" property="forbidmodifyrate" />
+        <result column="fexpirydate" jdbcType="CHAR" property="expirydate" />
+        <result column="fname" jdbcType="VARCHAR" property="name" />
+        <result column="fdescription" jdbcType="VARCHAR" property="description" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fnumber, fcurid, fisallowrev, fisenableexc, fiscreateorg, fenable, fstatus, fcreatorid, fcreatetime, fmodifierid, fmodifytime, fdisablerid, fdisabledate, fmasterid, fforbidmodifyrate, fexpirydate, fname, fdescription
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_exratetable
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_exratetable
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_exratetable
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.curid != null">
+                AND fcurid = #{condition.curid}
+            </if>
+            <if test="condition.isallowrev != null">
+                AND fisallowrev = #{condition.isallowrev}
+            </if>
+            <if test="condition.isenableexc != null">
+                AND fisenableexc = #{condition.isenableexc}
+            </if>
+            <if test="condition.iscreateorg != null">
+                AND fiscreateorg = #{condition.iscreateorg}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.forbidmodifyrate != null">
+                AND fforbidmodifyrate = #{condition.forbidmodifyrate}
+            </if>
+            <if test="condition.expirydate != null">
+                AND fexpirydate = #{condition.expirydate}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.description != null">
+                AND fdescription = #{condition.description}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bd_exratetable
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.curid != null">
+                AND fcurid = #{condition.curid}
+            </if>
+            <if test="condition.isallowrev != null">
+                AND fisallowrev = #{condition.isallowrev}
+            </if>
+            <if test="condition.isenableexc != null">
+                AND fisenableexc = #{condition.isenableexc}
+            </if>
+            <if test="condition.iscreateorg != null">
+                AND fiscreateorg = #{condition.iscreateorg}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.forbidmodifyrate != null">
+                AND fforbidmodifyrate = #{condition.forbidmodifyrate}
+            </if>
+            <if test="condition.expirydate != null">
+                AND fexpirydate = #{condition.expirydate}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.description != null">
+                AND fdescription = #{condition.description}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_exratetable
+        (fid, fnumber, fcurid, fisallowrev, fisenableexc, fiscreateorg, fenable, fstatus, fcreatorid, fcreatetime, fmodifierid, fmodifytime, fdisablerid, fdisabledate, fmasterid, fforbidmodifyrate, fexpirydate, fname, fdescription)
+        VALUES
+        (#{id}, #{number}, #{curid}, #{isallowrev}, #{isenableexc}, #{iscreateorg}, #{enable}, #{status}, #{creatorid}, #{createtime}, #{modifierid}, #{modifytime}, #{disablerid}, #{disabledate}, #{masterid}, #{forbidmodifyrate}, #{expirydate}, #{name}, #{description})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_exratetable
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="curid != null">
+                fcurid,
+            </if>
+            <if test="isallowrev != null">
+                fisallowrev,
+            </if>
+            <if test="isenableexc != null">
+                fisenableexc,
+            </if>
+            <if test="iscreateorg != null">
+                fiscreateorg,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="disablerid != null">
+                fdisablerid,
+            </if>
+            <if test="disabledate != null">
+                fdisabledate,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="forbidmodifyrate != null">
+                fforbidmodifyrate,
+            </if>
+            <if test="expirydate != null">
+                fexpirydate,
+            </if>
+            <if test="name != null">
+                fname,
+            </if>
+            <if test="description != null">
+                fdescription,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="curid != null">
+                #{curid},
+            </if>
+            <if test="isallowrev != null">
+                #{isallowrev},
+            </if>
+            <if test="isenableexc != null">
+                #{isenableexc},
+            </if>
+            <if test="iscreateorg != null">
+                #{iscreateorg},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="disablerid != null">
+                #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                #{disabledate},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="forbidmodifyrate != null">
+                #{forbidmodifyrate},
+            </if>
+            <if test="expirydate != null">
+                #{expirydate},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bd_exratetable
+        SET fnumber = #{number},
+            fcurid = #{curid},
+            fisallowrev = #{isallowrev},
+            fisenableexc = #{isenableexc},
+            fiscreateorg = #{iscreateorg},
+            fenable = #{enable},
+            fstatus = #{status},
+            fcreatorid = #{creatorid},
+            fcreatetime = #{createtime},
+            fmodifierid = #{modifierid},
+            fmodifytime = #{modifytime},
+            fdisablerid = #{disablerid},
+            fdisabledate = #{disabledate},
+            fmasterid = #{masterid},
+            fforbidmodifyrate = #{forbidmodifyrate},
+            fexpirydate = #{expirydate},
+            fname = #{name},
+            fdescription = #{description}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bd_exratetable
+        <set>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="curid != null">
+                fcurid = #{curid},
+            </if>
+            <if test="isallowrev != null">
+                fisallowrev = #{isallowrev},
+            </if>
+            <if test="isenableexc != null">
+                fisenableexc = #{isenableexc},
+            </if>
+            <if test="iscreateorg != null">
+                fiscreateorg = #{iscreateorg},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="disablerid != null">
+                fdisablerid = #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                fdisabledate = #{disabledate},
+            </if>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="forbidmodifyrate != null">
+                fforbidmodifyrate = #{forbidmodifyrate},
+            </if>
+            <if test="expirydate != null">
+                fexpirydate = #{expirydate},
+            </if>
+            <if test="name != null">
+                fname = #{name},
+            </if>
+            <if test="description != null">
+                fdescription = #{description},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bd_exratetable
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bd_exratetable
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

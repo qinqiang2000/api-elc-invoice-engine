@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BdCountryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BdCountry">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="fenable" jdbcType="CHAR" property="enable" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fcreateorgid" jdbcType="BIGINT" property="createorgid" />
+        <result column="forgid" jdbcType="BIGINT" property="orgid" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifyorgid" jdbcType="BIGINT" property="modifyorgid" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="flogo" jdbcType="VARCHAR" property="logo" />
+        <result column="fdisablerid" jdbcType="BIGINT" property="disablerid" />
+        <result column="fdisabledate" jdbcType="VARCHAR" property="disabledate" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fsimplespell" jdbcType="VARCHAR" property="simplespell" />
+        <result column="ftwocountrycode" jdbcType="VARCHAR" property="twocountrycode" />
+        <result column="fthreecountrycode" jdbcType="VARCHAR" property="threecountrycode" />
+        <result column="fformatplanid" jdbcType="BIGINT" property="formatplanid" />
+        <result column="fareacode" jdbcType="VARCHAR" property="areacode" />
+        <result column="fname" jdbcType="VARCHAR" property="name" />
+        <result column="ffullname" jdbcType="VARCHAR" property="fullname" />
+        <result column="fdescription" jdbcType="VARCHAR" property="description" />
+        <result column="fissystem" jdbcType="CHAR" property="issystem" />
+        <result column="fnumericcode" jdbcType="VARCHAR" property="numericcode" />
+        <result column="ftimezone" jdbcType="BIGINT" property="timezone" />
+        <result column="fregionalformat" jdbcType="BIGINT" property="regionalformat" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fnumber, fenable, fstatus, fcreateorgid, forgid, fcreatorid, fcreatetime, fmodifyorgid, fmodifierid, fmodifytime, flogo, fdisablerid, fdisabledate, fmasterid, fsimplespell, ftwocountrycode, fthreecountrycode, fformatplanid, fareacode, fname, ffullname, fdescription, fissystem, fnumericcode, ftimezone, fregionalformat
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_country
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_country
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_country
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.createorgid != null">
+                AND fcreateorgid = #{condition.createorgid}
+            </if>
+            <if test="condition.orgid != null">
+                AND forgid = #{condition.orgid}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifyorgid != null">
+                AND fmodifyorgid = #{condition.modifyorgid}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.logo != null">
+                AND flogo = #{condition.logo}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.simplespell != null">
+                AND fsimplespell = #{condition.simplespell}
+            </if>
+            <if test="condition.twocountrycode != null">
+                AND ftwocountrycode = #{condition.twocountrycode}
+            </if>
+            <if test="condition.threecountrycode != null">
+                AND fthreecountrycode = #{condition.threecountrycode}
+            </if>
+            <if test="condition.formatplanid != null">
+                AND fformatplanid = #{condition.formatplanid}
+            </if>
+            <if test="condition.areacode != null">
+                AND fareacode = #{condition.areacode}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.fullname != null">
+                AND ffullname = #{condition.fullname}
+            </if>
+            <if test="condition.description != null">
+                AND fdescription = #{condition.description}
+            </if>
+            <if test="condition.issystem != null">
+                AND fissystem = #{condition.issystem}
+            </if>
+            <if test="condition.numericcode != null">
+                AND fnumericcode = #{condition.numericcode}
+            </if>
+            <if test="condition.timezone != null">
+                AND ftimezone = #{condition.timezone}
+            </if>
+            <if test="condition.regionalformat != null">
+                AND fregionalformat = #{condition.regionalformat}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bd_country
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.createorgid != null">
+                AND fcreateorgid = #{condition.createorgid}
+            </if>
+            <if test="condition.orgid != null">
+                AND forgid = #{condition.orgid}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifyorgid != null">
+                AND fmodifyorgid = #{condition.modifyorgid}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.logo != null">
+                AND flogo = #{condition.logo}
+            </if>
+            <if test="condition.disablerid != null">
+                AND fdisablerid = #{condition.disablerid}
+            </if>
+            <if test="condition.disabledate != null">
+                AND fdisabledate = #{condition.disabledate}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.simplespell != null">
+                AND fsimplespell = #{condition.simplespell}
+            </if>
+            <if test="condition.twocountrycode != null">
+                AND ftwocountrycode = #{condition.twocountrycode}
+            </if>
+            <if test="condition.threecountrycode != null">
+                AND fthreecountrycode = #{condition.threecountrycode}
+            </if>
+            <if test="condition.formatplanid != null">
+                AND fformatplanid = #{condition.formatplanid}
+            </if>
+            <if test="condition.areacode != null">
+                AND fareacode = #{condition.areacode}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.fullname != null">
+                AND ffullname = #{condition.fullname}
+            </if>
+            <if test="condition.description != null">
+                AND fdescription = #{condition.description}
+            </if>
+            <if test="condition.issystem != null">
+                AND fissystem = #{condition.issystem}
+            </if>
+            <if test="condition.numericcode != null">
+                AND fnumericcode = #{condition.numericcode}
+            </if>
+            <if test="condition.timezone != null">
+                AND ftimezone = #{condition.timezone}
+            </if>
+            <if test="condition.regionalformat != null">
+                AND fregionalformat = #{condition.regionalformat}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_country
+        (fid, fnumber, fenable, fstatus, fcreateorgid, forgid, fcreatorid, fcreatetime, fmodifyorgid, fmodifierid, fmodifytime, flogo, fdisablerid, fdisabledate, fmasterid, fsimplespell, ftwocountrycode, fthreecountrycode, fformatplanid, fareacode, fname, ffullname, fdescription, fissystem, fnumericcode, ftimezone, fregionalformat)
+        VALUES
+        (#{id}, #{number}, #{enable}, #{status}, #{createorgid}, #{orgid}, #{creatorid}, #{createtime}, #{modifyorgid}, #{modifierid}, #{modifytime}, #{logo}, #{disablerid}, #{disabledate}, #{masterid}, #{simplespell}, #{twocountrycode}, #{threecountrycode}, #{formatplanid}, #{areacode}, #{name}, #{fullname}, #{description}, #{issystem}, #{numericcode}, #{timezone}, #{regionalformat})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_country
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="createorgid != null">
+                fcreateorgid,
+            </if>
+            <if test="orgid != null">
+                forgid,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifyorgid != null">
+                fmodifyorgid,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="logo != null">
+                flogo,
+            </if>
+            <if test="disablerid != null">
+                fdisablerid,
+            </if>
+            <if test="disabledate != null">
+                fdisabledate,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="simplespell != null">
+                fsimplespell,
+            </if>
+            <if test="twocountrycode != null">
+                ftwocountrycode,
+            </if>
+            <if test="threecountrycode != null">
+                fthreecountrycode,
+            </if>
+            <if test="formatplanid != null">
+                fformatplanid,
+            </if>
+            <if test="areacode != null">
+                fareacode,
+            </if>
+            <if test="name != null">
+                fname,
+            </if>
+            <if test="fullname != null">
+                ffullname,
+            </if>
+            <if test="description != null">
+                fdescription,
+            </if>
+            <if test="issystem != null">
+                fissystem,
+            </if>
+            <if test="numericcode != null">
+                fnumericcode,
+            </if>
+            <if test="timezone != null">
+                ftimezone,
+            </if>
+            <if test="regionalformat != null">
+                fregionalformat,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createorgid != null">
+                #{createorgid},
+            </if>
+            <if test="orgid != null">
+                #{orgid},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifyorgid != null">
+                #{modifyorgid},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="logo != null">
+                #{logo},
+            </if>
+            <if test="disablerid != null">
+                #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                #{disabledate},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="simplespell != null">
+                #{simplespell},
+            </if>
+            <if test="twocountrycode != null">
+                #{twocountrycode},
+            </if>
+            <if test="threecountrycode != null">
+                #{threecountrycode},
+            </if>
+            <if test="formatplanid != null">
+                #{formatplanid},
+            </if>
+            <if test="areacode != null">
+                #{areacode},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="fullname != null">
+                #{fullname},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="issystem != null">
+                #{issystem},
+            </if>
+            <if test="numericcode != null">
+                #{numericcode},
+            </if>
+            <if test="timezone != null">
+                #{timezone},
+            </if>
+            <if test="regionalformat != null">
+                #{regionalformat},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bd_country
+        SET fnumber = #{number},
+            fenable = #{enable},
+            fstatus = #{status},
+            fcreateorgid = #{createorgid},
+            forgid = #{orgid},
+            fcreatorid = #{creatorid},
+            fcreatetime = #{createtime},
+            fmodifyorgid = #{modifyorgid},
+            fmodifierid = #{modifierid},
+            fmodifytime = #{modifytime},
+            flogo = #{logo},
+            fdisablerid = #{disablerid},
+            fdisabledate = #{disabledate},
+            fmasterid = #{masterid},
+            fsimplespell = #{simplespell},
+            ftwocountrycode = #{twocountrycode},
+            fthreecountrycode = #{threecountrycode},
+            fformatplanid = #{formatplanid},
+            fareacode = #{areacode},
+            fname = #{name},
+            ffullname = #{fullname},
+            fdescription = #{description},
+            fissystem = #{issystem},
+            fnumericcode = #{numericcode},
+            ftimezone = #{timezone},
+            fregionalformat = #{regionalformat}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bd_country
+        <set>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="createorgid != null">
+                fcreateorgid = #{createorgid},
+            </if>
+            <if test="orgid != null">
+                forgid = #{orgid},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifyorgid != null">
+                fmodifyorgid = #{modifyorgid},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="logo != null">
+                flogo = #{logo},
+            </if>
+            <if test="disablerid != null">
+                fdisablerid = #{disablerid},
+            </if>
+            <if test="disabledate != null">
+                fdisabledate = #{disabledate},
+            </if>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="simplespell != null">
+                fsimplespell = #{simplespell},
+            </if>
+            <if test="twocountrycode != null">
+                ftwocountrycode = #{twocountrycode},
+            </if>
+            <if test="threecountrycode != null">
+                fthreecountrycode = #{threecountrycode},
+            </if>
+            <if test="formatplanid != null">
+                fformatplanid = #{formatplanid},
+            </if>
+            <if test="areacode != null">
+                fareacode = #{areacode},
+            </if>
+            <if test="name != null">
+                fname = #{name},
+            </if>
+            <if test="fullname != null">
+                ffullname = #{fullname},
+            </if>
+            <if test="description != null">
+                fdescription = #{description},
+            </if>
+            <if test="issystem != null">
+                fissystem = #{issystem},
+            </if>
+            <if test="numericcode != null">
+                fnumericcode = #{numericcode},
+            </if>
+            <if test="timezone != null">
+                ftimezone = #{timezone},
+            </if>
+            <if test="regionalformat != null">
+                fregionalformat = #{regionalformat},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bd_country
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bd_country
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

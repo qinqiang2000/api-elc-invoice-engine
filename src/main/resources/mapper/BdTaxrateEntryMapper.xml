@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BdTaxrateEntryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BdTaxrateEntry">
+        <id column="fentryid" jdbcType="BIGINT" property="entryid" />
+        <result column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fseq" jdbcType="INTEGER" property="seq" />
+        <result column="fextent" jdbcType="VARCHAR" property="extent" />
+        <result column="fminimumtax" jdbcType="DECIMAL" property="minimumtax" />
+        <result column="fextentjson" jdbcType="VARCHAR" property="extentjson" />
+        <result column="fextentjson_tag" jdbcType="LONGVARCHAR" property="extentjsonTag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fentryid, fseq, fextent, fminimumtax, fextentjson, fextentjson_tag
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_taxrate_entry
+        WHERE fentryid = #{entryid}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_taxrate_entry
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_taxrate_entry
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.extent != null">
+                AND fextent = #{condition.extent}
+            </if>
+            <if test="condition.minimumtax != null">
+                AND fminimumtax = #{condition.minimumtax}
+            </if>
+            <if test="condition.extentjson != null">
+                AND fextentjson = #{condition.extentjson}
+            </if>
+            <if test="condition.extentjsonTag != null">
+                AND fextentjson_tag = #{condition.extentjsonTag}
+            </if>
+        </where>
+        ORDER BY fentryid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bd_taxrate_entry
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.entryid != null">
+                AND fentryid = #{condition.entryid}
+            </if>
+            <if test="condition.seq != null">
+                AND fseq = #{condition.seq}
+            </if>
+            <if test="condition.extent != null">
+                AND fextent = #{condition.extent}
+            </if>
+            <if test="condition.minimumtax != null">
+                AND fminimumtax = #{condition.minimumtax}
+            </if>
+            <if test="condition.extentjson != null">
+                AND fextentjson = #{condition.extentjson}
+            </if>
+            <if test="condition.extentjsonTag != null">
+                AND fextentjson_tag = #{condition.extentjsonTag}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_bd_taxrate_entry
+        (fid, fentryid, fseq, fextent, fminimumtax, fextentjson, fextentjson_tag)
+        VALUES
+        (#{id}, #{entryid}, #{seq}, #{extent}, #{minimumtax}, #{extentjson}, #{extentjsonTag})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="entryid">
+        INSERT INTO t_bd_taxrate_entry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="entryid != null">
+                fentryid,
+            </if>
+            <if test="seq != null">
+                fseq,
+            </if>
+            <if test="extent != null">
+                fextent,
+            </if>
+            <if test="minimumtax != null">
+                fminimumtax,
+            </if>
+            <if test="extentjson != null">
+                fextentjson,
+            </if>
+            <if test="extentjsonTag != null">
+                fextentjson_tag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="entryid != null">
+                #{entryid},
+            </if>
+            <if test="seq != null">
+                #{seq},
+            </if>
+            <if test="extent != null">
+                #{extent},
+            </if>
+            <if test="minimumtax != null">
+                #{minimumtax},
+            </if>
+            <if test="extentjson != null">
+                #{extentjson},
+            </if>
+            <if test="extentjsonTag != null">
+                #{extentjsonTag},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bd_taxrate_entry
+        SET fid = #{id},
+            fseq = #{seq},
+            fextent = #{extent},
+            fminimumtax = #{minimumtax},
+            fextentjson = #{extentjson},
+            fextentjson_tag = #{extentjsonTag}
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bd_taxrate_entry
+        <set>
+            <if test="id != null">
+                fid = #{id},
+            </if>
+            <if test="seq != null">
+                fseq = #{seq},
+            </if>
+            <if test="extent != null">
+                fextent = #{extent},
+            </if>
+            <if test="minimumtax != null">
+                fminimumtax = #{minimumtax},
+            </if>
+            <if test="extentjson != null">
+                fextentjson = #{extentjson},
+            </if>
+            <if test="extentjsonTag != null">
+                fextentjson_tag = #{extentjsonTag},
+            </if>
+        </set>
+        WHERE fentryid = #{entryid}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bd_taxrate_entry
+        WHERE fentryid = #{entryid}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bd_taxrate_entry
+        WHERE fentryid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

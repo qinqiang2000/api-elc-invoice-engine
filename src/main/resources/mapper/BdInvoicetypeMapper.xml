@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BdInvoicetypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BdInvoicetype">
+        <id column="fid" jdbcType="BIGINT" property="id" />
+        <result column="fnumber" jdbcType="VARCHAR" property="number" />
+        <result column="fstatus" jdbcType="VARCHAR" property="status" />
+        <result column="fcreatorid" jdbcType="BIGINT" property="creatorid" />
+        <result column="fmodifierid" jdbcType="BIGINT" property="modifierid" />
+        <result column="fenable" jdbcType="VARCHAR" property="enable" />
+        <result column="fcreatetime" jdbcType="VARCHAR" property="createtime" />
+        <result column="fmodifytime" jdbcType="VARCHAR" property="modifytime" />
+        <result column="fmasterid" jdbcType="BIGINT" property="masterid" />
+        <result column="fgroupid" jdbcType="BIGINT" property="groupid" />
+        <result column="fissystem" jdbcType="VARCHAR" property="issystem" />
+        <result column="ffullname" jdbcType="VARCHAR" property="fullname" />
+        <result column="fname" jdbcType="VARCHAR" property="name" />
+        <result column="fdesc" jdbcType="VARCHAR" property="desc" />
+        <result column="ftaxcontrolcode" jdbcType="VARCHAR" property="taxcontrolcode" />
+        <result column="fis_ele_invoice" jdbcType="VARCHAR" property="isEleInvoice" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fid, fnumber, fstatus, fcreatorid, fmodifierid, fenable, fcreatetime, fmodifytime, fmasterid, fgroupid, fissystem, ffullname, fname, fdesc, ftaxcontrolcode, fis_ele_invoice
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_invoicetype
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_invoicetype
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bd_invoicetype
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.groupid != null">
+                AND fgroupid = #{condition.groupid}
+            </if>
+            <if test="condition.issystem != null">
+                AND fissystem = #{condition.issystem}
+            </if>
+            <if test="condition.fullname != null">
+                AND ffullname = #{condition.fullname}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.desc != null">
+                AND fdesc = #{condition.desc}
+            </if>
+            <if test="condition.taxcontrolcode != null">
+                AND ftaxcontrolcode = #{condition.taxcontrolcode}
+            </if>
+            <if test="condition.isEleInvoice != null">
+                AND fis_ele_invoice = #{condition.isEleInvoice}
+            </if>
+        </where>
+        ORDER BY fid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bd_invoicetype
+        <where>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.number != null">
+                AND fnumber = #{condition.number}
+            </if>
+            <if test="condition.status != null">
+                AND fstatus = #{condition.status}
+            </if>
+            <if test="condition.creatorid != null">
+                AND fcreatorid = #{condition.creatorid}
+            </if>
+            <if test="condition.modifierid != null">
+                AND fmodifierid = #{condition.modifierid}
+            </if>
+            <if test="condition.enable != null">
+                AND fenable = #{condition.enable}
+            </if>
+            <if test="condition.createtime != null">
+                AND fcreatetime = #{condition.createtime}
+            </if>
+            <if test="condition.modifytime != null">
+                AND fmodifytime = #{condition.modifytime}
+            </if>
+            <if test="condition.masterid != null">
+                AND fmasterid = #{condition.masterid}
+            </if>
+            <if test="condition.groupid != null">
+                AND fgroupid = #{condition.groupid}
+            </if>
+            <if test="condition.issystem != null">
+                AND fissystem = #{condition.issystem}
+            </if>
+            <if test="condition.fullname != null">
+                AND ffullname = #{condition.fullname}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+            <if test="condition.desc != null">
+                AND fdesc = #{condition.desc}
+            </if>
+            <if test="condition.taxcontrolcode != null">
+                AND ftaxcontrolcode = #{condition.taxcontrolcode}
+            </if>
+            <if test="condition.isEleInvoice != null">
+                AND fis_ele_invoice = #{condition.isEleInvoice}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_invoicetype
+        (fid, fnumber, fstatus, fcreatorid, fmodifierid, fenable, fcreatetime, fmodifytime, fmasterid, fgroupid, fissystem, ffullname, fname, fdesc, ftaxcontrolcode, fis_ele_invoice)
+        VALUES
+        (#{id}, #{number}, #{status}, #{creatorid}, #{modifierid}, #{enable}, #{createtime}, #{modifytime}, #{masterid}, #{groupid}, #{issystem}, #{fullname}, #{name}, #{desc}, #{taxcontrolcode}, #{isEleInvoice})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_bd_invoicetype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="number != null">
+                fnumber,
+            </if>
+            <if test="status != null">
+                fstatus,
+            </if>
+            <if test="creatorid != null">
+                fcreatorid,
+            </if>
+            <if test="modifierid != null">
+                fmodifierid,
+            </if>
+            <if test="enable != null">
+                fenable,
+            </if>
+            <if test="createtime != null">
+                fcreatetime,
+            </if>
+            <if test="modifytime != null">
+                fmodifytime,
+            </if>
+            <if test="masterid != null">
+                fmasterid,
+            </if>
+            <if test="groupid != null">
+                fgroupid,
+            </if>
+            <if test="issystem != null">
+                fissystem,
+            </if>
+            <if test="fullname != null">
+                ffullname,
+            </if>
+            <if test="name != null">
+                fname,
+            </if>
+            <if test="desc != null">
+                fdesc,
+            </if>
+            <if test="taxcontrolcode != null">
+                ftaxcontrolcode,
+            </if>
+            <if test="isEleInvoice != null">
+                fis_ele_invoice,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="number != null">
+                #{number},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="creatorid != null">
+                #{creatorid},
+            </if>
+            <if test="modifierid != null">
+                #{modifierid},
+            </if>
+            <if test="enable != null">
+                #{enable},
+            </if>
+            <if test="createtime != null">
+                #{createtime},
+            </if>
+            <if test="modifytime != null">
+                #{modifytime},
+            </if>
+            <if test="masterid != null">
+                #{masterid},
+            </if>
+            <if test="groupid != null">
+                #{groupid},
+            </if>
+            <if test="issystem != null">
+                #{issystem},
+            </if>
+            <if test="fullname != null">
+                #{fullname},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="desc != null">
+                #{desc},
+            </if>
+            <if test="taxcontrolcode != null">
+                #{taxcontrolcode},
+            </if>
+            <if test="isEleInvoice != null">
+                #{isEleInvoice},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bd_invoicetype
+        SET fnumber = #{number},
+            fstatus = #{status},
+            fcreatorid = #{creatorid},
+            fmodifierid = #{modifierid},
+            fenable = #{enable},
+            fcreatetime = #{createtime},
+            fmodifytime = #{modifytime},
+            fmasterid = #{masterid},
+            fgroupid = #{groupid},
+            fissystem = #{issystem},
+            ffullname = #{fullname},
+            fname = #{name},
+            fdesc = #{desc},
+            ftaxcontrolcode = #{taxcontrolcode},
+            fis_ele_invoice = #{isEleInvoice}
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bd_invoicetype
+        <set>
+            <if test="number != null">
+                fnumber = #{number},
+            </if>
+            <if test="status != null">
+                fstatus = #{status},
+            </if>
+            <if test="creatorid != null">
+                fcreatorid = #{creatorid},
+            </if>
+            <if test="modifierid != null">
+                fmodifierid = #{modifierid},
+            </if>
+            <if test="enable != null">
+                fenable = #{enable},
+            </if>
+            <if test="createtime != null">
+                fcreatetime = #{createtime},
+            </if>
+            <if test="modifytime != null">
+                fmodifytime = #{modifytime},
+            </if>
+            <if test="masterid != null">
+                fmasterid = #{masterid},
+            </if>
+            <if test="groupid != null">
+                fgroupid = #{groupid},
+            </if>
+            <if test="issystem != null">
+                fissystem = #{issystem},
+            </if>
+            <if test="fullname != null">
+                ffullname = #{fullname},
+            </if>
+            <if test="name != null">
+                fname = #{name},
+            </if>
+            <if test="desc != null">
+                fdesc = #{desc},
+            </if>
+            <if test="taxcontrolcode != null">
+                ftaxcontrolcode = #{taxcontrolcode},
+            </if>
+            <if test="isEleInvoice != null">
+                fis_ele_invoice = #{isEleInvoice},
+            </if>
+        </set>
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bd_invoicetype
+        WHERE fid = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bd_invoicetype
+        WHERE fid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
