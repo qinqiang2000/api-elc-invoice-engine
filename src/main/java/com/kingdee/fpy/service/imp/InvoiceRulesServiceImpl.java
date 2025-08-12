@@ -47,4 +47,32 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
        // String country = "CN";
         return invoiceRulesMapper.selectByTenantIdOrCompanyId(tenantId, companyId,country);
     }
+
+    @Override
+    public List<InvoiceRules> selectByCompanyIdAndRuleCode(String companyId, String ruleCode) {
+        return invoiceRulesMapper.selectByCompanyIdAndRuleCode(companyId, ruleCode);
+    }
+    
+    @Override
+    public synchronized String generateCode(String country, String invoiceType, String companyId) {
+        // 参数校验
+        if (country == null || country.trim().isEmpty()) {
+            throw new IllegalArgumentException("国家参数不能为空");
+        }
+        if (invoiceType == null || invoiceType.trim().isEmpty()) {
+            throw new IllegalArgumentException("票种类型参数不能为空");
+        }
+        
+        // 查询当前最大序号
+        Integer maxSequence = invoiceRulesMapper.selectMaxSequenceByCountryAndType(country, invoiceType,companyId);
+        
+        // 计算下一个序号
+        int nextSequence = (maxSequence == null ? 0 : maxSequence) + 1;
+        
+        // 格式化为4位数字
+        String sequenceStr = String.format("%04d", nextSequence);
+        
+        // 生成编码字符串
+        return "custom-" + country + "-" + invoiceType + "-" + sequenceStr;
+    }
 }

@@ -1,6 +1,7 @@
 package com.kingdee.fpy.controller;
 
 import com.kingdee.fpy.commom.Result;
+import com.kingdee.fpy.dto.CodeGenerationRequest;
 import com.kingdee.fpy.model.InvoiceRules;
 import com.kingdee.fpy.service.imp.InvoiceRulesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,23 @@ InvoiceRulesController {
     public Result<List<InvoiceRules>> selectAll() {
         List<InvoiceRules> result = invoiceRulesService.selectAll();
         return new Result<>(result);
+    }
+    
+    /**
+     * 生成编码字符串
+     * @param request 编码生成请求
+     * @return Result结果
+     */
+    @PostMapping("/generate-code")
+    public Result<String> generateCode(@RequestBody CodeGenerationRequest request) {
+        try {
+            String code = invoiceRulesService.generateCode(request.getCountry(), request.getInvoiceType(),
+                    request.getCompanyId());
+            return new Result<>(code);
+        } catch (IllegalArgumentException e) {
+            return Result.error(e.getMessage());
+        } catch (Exception e) {
+            return Result.error("生成编码失败：" + e.getMessage());
+        }
     }
 }

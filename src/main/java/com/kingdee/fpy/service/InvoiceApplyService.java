@@ -79,22 +79,25 @@ public class InvoiceApplyService {
         Result result = new Result();
 
         try {
-            // 1. 执行规则校验和补全
+            // 1. 执行规则校验和补全l
             if (!validateAndCompleteInvoice(invoice, result)) {
                 return result;
             }
+
             // 2. 检查发票是否已存在
             String invoiceNo = invoice.getString("ID");
             if (isInvoiceExist(invoiceNo)) {
                 result.setResultType(ResultType.EXIST_FAIL);
                 return result;
             }
-            // 4. 保存发票数据
+            // 3. 保存发票数据
             saveInvoiceData(invoice);
 
-            log.info("发票创建成功，发票号：{}", invoiceNo);
-            // 3. 生成XML
+            // 4. 生成XML
             generateInvoiceXml(invoice);
+
+            log.info("发票创建成功，发票号：{}", invoiceNo);
+
             return result;
 
         } catch (Exception e) {
@@ -192,7 +195,7 @@ public class InvoiceApplyService {
         InvoiceRequest invoiceRequest = new InvoiceRequest();
         invoiceRequest.setTenantId("TODO");
         invoiceRequest.setCompanyId("TODO");
-        invoiceRequest.setInvoiceType(invoice.getString("InvoiceTypeCode"));
+        invoiceRequest.setInvoiceType(invoice.getJSONObject("InvoiceTypeCode").getString("value"));
         invoiceRequest.setInvoiceSubType("TODO");
         invoiceRequest.setSubmissionType("TODO");
         invoiceRequest.setInvoiceNo(invoice.getString("ID"));
@@ -460,6 +463,65 @@ public class InvoiceApplyService {
             log.info("发票状态已更新为开票中，发票号：{}，请求ID：{}", invoiceNo, requestId);
         } else {
             log.warn("未找到发票记录，发票号：{}", invoiceNo);
+        }
+    }
+
+    /**
+     * 根据企业编码和规则编码校验发票数据
+     *
+     * @param companyId 企业编码
+     * @param ruleCode 规则编码，可选
+     * @param invoice 发票JSON数据
+     * @return 校验结果
+     */
+    public Result validateInvoiceByRule(String companyId, String ruleCode, JSONObject invoice) {
+        Assert.notNull(invoice, "发票数据不能为空");
+        
+        Result result = new Result();
+        
+        try {
+            // 根据是否提供规则编码来查询规则
+            List<InvoiceRules> rules  = invoiceRulesService.selectByCompanyIdAndRuleCode(companyId, ruleCode);
+            if (CollectionUtil.isEmpty(rules)) {
+                log.warn("未找到对应的规则配置，企业编码：{}，规则编码：{}", companyId, ruleCode);
+                return result;
+            }
+
+            // 分离校验规则和补全规则
+            List<InvoiceRules> validationRules = rules.stream()
+                    .filter(rule -> Objects.equals(RuleEnum.CHECK.getValue(), rule.getRuleType()))
+                    .collect(Collectors.toList());
+
+            List<InvoiceRules> completionRules = rules.stream()
+                    .filter(rule -> !Objects.equals(RuleEnum.CHECK.getValue(), rule.getRuleType()))
+                    .collect(Collectors.toList());
+
+            // 创建执行上下文
+            JexlContext context = jexlExecutionService.createJexlContext();
+            context.set("invoice", invoice);
+
+            // 执行校验规则
+            executeRules(validationRules, context, result, "校验规则失败");
+            if (!result.getErrorMsgArray().isEmpty()) {
+                return result;
+            }
+
+            // 执行补全规则
+            executeRules(completionRules, context, result, "补全规则失败");
+            if (!result.getErrorMsgArray().isEmpty()) {
+                return result;
+            }
+
+            // 返回处理后的发票数据
+            result.setData(invoice);
+            return result;
+
+        } catch (Exception e) {
+            log.error("规则校验失败", e);
+            result.setResultType(ResultType.SYSTEM_ERROR);
+            result.getErrorMsgArray().add("系统异常：" + e.getMessage());
+            result.setData(invoice);
+            return result;
         }
     }
 }

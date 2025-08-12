@@ -90,4 +90,24 @@
         order by fpriority asc
     </select>
 
+    <select id="selectByCompanyIdAndRuleCode" resultMap="InvoiceRulesResultMap">
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
+        FROM t_invoice_rules 
+        WHERE 1=1
+        <if test="ruleCode != null and ruleCode != ''">
+            AND frule_code = #{ruleCode}
+        </if>
+        AND factive = 1
+        AND fstart_time <![CDATA[ <= ]]> now()
+        AND fend_time <![CDATA[ >= ]]> now()
+        ORDER BY fpriority ASC
+    </select>
+    
+    <select id="selectMaxSequenceByCountryAndType" resultType="java.lang.Integer">
+        SELECT MAX(CAST(SUBSTRING(frule_code, LENGTH('custom-' + #{country} + '-' + #{invoiceType} + '-') + 1) AS UNSIGNED)) as max_seq
+        FROM t_invoice_rules 
+        WHERE frule_code LIKE CONCAT('custom-', #{country}, '-', #{invoiceType}, '-%')
+        and fcompany_id = #{companyId}
+    </select>
+
 </mapper>
