@@ -49,6 +49,16 @@ public class RuleLog {
     private String outputData;
 
     /**
+     * 企业ID
+     */
+    private String companyId;
+
+    /**
+     * 请求ID
+     */
+    private String requestId;
+
+    /**
      * 创建时间
      */
     private Date createTime;

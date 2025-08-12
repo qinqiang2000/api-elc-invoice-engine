@@ -39,6 +39,11 @@ public class InvoiceRules {
     private String tags;
 
     /**
+     * 发票类型
+     */
+    private String invoiceType;
+
+    /**
      * 规则唯一编码，三段式，洲-sys/user-流水号
      */
     private String ruleCode;
