@@ -4,14 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.fpy.ai.config.LlmProperties;
 import com.kingdee.fpy.ai.llm.LlmClient;
-import com.kingdee.fpy.ai.llm.LlmClient.Message;
 import com.kingdee.fpy.ai.validation.JexlValidationService;
 import com.kingdee.fpy.model.InvoiceRules;
 import com.kingdee.fpy.service.InvoiceRulesService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +31,7 @@ public class LlmRuleGenerationService implements RuleGenerationService {
     @Override
     public Response generate(Request req) {
         RulePromptBuilder.BuildParams params = new RulePromptBuilder.BuildParams(
-            req.ruleType, req.fieldPath, req.businessIntent, req.country, req.tags, req.priority, req.invoiceSample
+            req.ruleType, req.fieldPath, req.businessIntent, req.country, req.tags, req.priority, req.invoiceSample, req.generationType
         );
 
         LlmClient.Options options = new LlmClient.Options();
@@ -46,7 +44,7 @@ public class LlmRuleGenerationService implements RuleGenerationService {
 
         // initial
         LlmClient.ChatResult initial = llmClient.chat(promptBuilder.buildInitial(params), options);
-        AttemptInfo a1 = validateAttempt(1, initial.content);
+        AttemptInfo a1 = validateAttempt(1, initial.content, req.generationType);
         attempts.add(a1);
         log.info("LLM attempt {} validation: syntaxOk={}, errorSummary={}", 1, a1.syntaxOk, a1.errorSummary);
 
@@ -61,7 +59,7 @@ public class LlmRuleGenerationService implements RuleGenerationService {
                 LlmClient.ChatResult repaired = llmClient.chat(
                     promptBuilder.buildRepair(params, prevJson, error), options
                 );
-                AttemptInfo ai = validateAttempt(2 + i, repaired.content);
+                AttemptInfo ai = validateAttempt(2 + i, repaired.content, req.generationType);
                 attempts.add(ai);
                 log.info("LLM attempt {} validation: syntaxOk={}, errorSummary={}", 2 + i, ai.syntaxOk, ai.errorSummary);
                 if (ai.syntaxOk) {
@@ -102,7 +100,7 @@ public class LlmRuleGenerationService implements RuleGenerationService {
         return resp;
     }
 
-    private AttemptInfo validateAttempt(int index, String content) {
+    private AttemptInfo validateAttempt(int index, String content, GenerationType generationType) {
         AttemptInfo ai = new AttemptInfo();
         ai.index = index;
         ai.candidateJson = content;
@@ -110,15 +108,31 @@ public class LlmRuleGenerationService implements RuleGenerationService {
             JSONObject obj = JSON.parseObject(content);
             String applyTo = obj.getString("applyTo");
             String ruleExpression = obj.getString("ruleExpression");
-            List<JexlValidationService.ValidationError> errors = jexlValidationService.validate(applyTo, ruleExpression);
-
-            // Note: 仅记录重复条件，不触发修复循环（性能考量）
-            List<String> repeats = findRepeatedNullChecks(applyTo, ruleExpression);
-            if (!repeats.isEmpty()) {
-                log.warn("ruleExpression contains conditions repeated from applyTo: {}", String.join(" | ", repeats));
+            
+            // 根据生成类型调整验证逻辑
+            List<JexlValidationService.ValidationError> errors = new ArrayList<>();
+            switch (generationType) {
+                case RULE_EXPRESSION_ONLY:
+                    // 仅验证ruleExpression，applyTo不是必需的
+                    errors.addAll(jexlValidationService.validate(applyTo, ruleExpression, false, true));
+                    break;
+                case APPLY_TO_ONLY:
+                    // 仅验证applyTo，ruleExpression不是必需的
+                    errors.addAll(jexlValidationService.validate(applyTo, ruleExpression, true, false));
+                    break;
+                default: // FULL
+                    // 验证完整规则，两个字段都是必需的
+                    errors.addAll(jexlValidationService.validate(applyTo, ruleExpression, true, true));
+                    
+                    // Note: 仅记录重复条件，不触发修复循环（性能考量）
+                    List<String> repeats = findRepeatedNullChecks(applyTo, ruleExpression);
+                    if (!repeats.isEmpty()) {
+                        log.warn("ruleExpression contains conditions repeated from applyTo: {}", String.join(" | ", repeats));
+                    }
+                    break;
             }
 
-            ai.syntaxOk = errors == null || errors.isEmpty();
+            ai.syntaxOk = errors.isEmpty();
             if (!ai.syntaxOk) {
                 StringBuilder sb = new StringBuilder();
                 for (JexlValidationService.ValidationError e : errors) {

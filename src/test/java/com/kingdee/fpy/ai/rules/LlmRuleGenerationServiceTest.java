@@ -25,7 +25,7 @@ public class LlmRuleGenerationServiceTest {
                 // invalid JSON
                 res.content = "{";
             } else {
-                res.content = "{\"ruleType\":1,\"fieldPath\":\"invoice.total\",\"ruleExpression\":\"1 + 1 == 2\",\"active\":true}";
+                res.content = "{\"ruleType\":1,\"fieldPath\":\"invoice.total\",\"applyTo\":\"invoice.total != null\",\"ruleExpression\":\"1 + 1 == 2\",\"active\":true}";
             }
             return res;
         }
@@ -38,6 +38,10 @@ public class LlmRuleGenerationServiceTest {
         @Override public InvoiceRules selectById(Long id) { return null; }
         @Override public List<InvoiceRules> selectAll() { return new ArrayList<>(); }
         @Override public List<InvoiceRules> selectByTenantIdOrCompanyId(String tenantId, String companyId, String country) { return new ArrayList<>(); }
+        @Override public List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules) { return new ArrayList<>(); }
+        @Override public int updateStatus(String ruleCode, Integer status) { return 0; }
+        @Override public List<InvoiceRules> selectByCompanyIdAndRuleCode(String companyId, String ruleCode) { return new ArrayList<>(); }
+        @Override public String generateCode(String country, String invoiceType, String companyId) { return "test-code"; }
     }
 
     private LlmRuleGenerationService service;

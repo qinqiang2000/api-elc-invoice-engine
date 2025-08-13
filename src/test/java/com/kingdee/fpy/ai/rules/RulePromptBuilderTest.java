@@ -15,7 +15,7 @@ public class RulePromptBuilderTest {
         RulePromptBuilder builder = new RulePromptBuilder();
         Map<String, Object> sample = new HashMap<>();
         sample.put("invoiceNo", "INV-1");
-        RulePromptBuilder.BuildParams params = new RulePromptBuilder.BuildParams(1, "invoice.total", "校验总额大于0", "CN", "Retail", 10, sample);
+        RulePromptBuilder.BuildParams params = new RulePromptBuilder.BuildParams(1, "invoice.total", "校验总额大于0", "CN", "Retail", 10, sample, GenerationType.FULL);
         List<Message> msgs = builder.buildInitial(params);
         assertTrue(msgs.get(0).content.contains("db.query("));
         assertTrue(msgs.get(1).content.contains("ruleType: 1"));
