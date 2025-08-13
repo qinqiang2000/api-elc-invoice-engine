@@ -88,7 +88,6 @@
         <if test="companyId != null and companyId != ''">
             OR fcompany_id = #{companyId}
         </if>
-        and factive = 1
         and fstart_time <![CDATA[ <= ]]> now()
         and fend_time <![CDATA[ >= ]]> now()
         order by fpriority asc
@@ -101,7 +100,6 @@
         <if test="ruleCode != null and ruleCode != ''">
             AND frule_code = #{ruleCode}
         </if>
-        AND factive = 1
         AND fstart_time <![CDATA[ <= ]]> now()
         AND fend_time <![CDATA[ >= ]]> now()
         ORDER BY fpriority ASC

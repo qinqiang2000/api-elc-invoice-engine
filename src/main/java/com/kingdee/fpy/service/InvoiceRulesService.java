@@ -70,6 +70,20 @@ public interface InvoiceRulesService {
      * @return 更新结果
      */
     int updateStatus(String ruleCode, Integer status);
+    
+    /**
+     * 启用规则
+     * @param ruleCode 规则编码
+     * @return 更新结果
+     */
+    int enableRule(String ruleCode);
+    
+    /**
+     * 停用规则
+     * @param ruleCode 规则编码
+     * @return 更新结果
+     */
+    int disableRule(String ruleCode);
 
     /**
      * 根据企业ID查询订阅的规则
