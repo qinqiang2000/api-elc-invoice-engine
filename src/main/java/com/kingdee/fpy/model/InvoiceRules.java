@@ -98,6 +98,11 @@ public class InvoiceRules {
     private String ruleExpression;
 
     /**
+     * 规则描述
+     */
+    private String description;
+
+    /**
      * 规则生效开始时间
      */
     private Date startTime;

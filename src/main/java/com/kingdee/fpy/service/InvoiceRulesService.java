@@ -1,5 +1,6 @@
 package com.kingdee.fpy.service;
 
+import com.kingdee.fpy.dto.RuleLogDetailDto;
 import com.kingdee.fpy.model.InvoiceRules;
 import java.util.List;
 
@@ -77,4 +78,12 @@ public interface InvoiceRulesService {
      * @return 规则列表
      */
     List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules);
+
+    /**
+     * 根据请求ID和单据编码查询规则日志详情
+     * @param requestId 请求ID
+     * @param billNo 单据编码
+     * @return 规则日志详情列表
+     */
+    List<RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo);
 }

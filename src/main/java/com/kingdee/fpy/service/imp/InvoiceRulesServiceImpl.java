@@ -1,6 +1,8 @@
 package com.kingdee.fpy.service.imp;
 
+import com.kingdee.fpy.dto.RuleLogDetailDto;
 import com.kingdee.fpy.mapper.InvoiceRulesMapper;
+import com.kingdee.fpy.mapper.RuleLogMapper;
 import com.kingdee.fpy.model.InvoiceRules;
 import com.kingdee.fpy.service.InvoiceRulesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
 
     @Autowired
     private InvoiceRulesMapper invoiceRulesMapper;
+
+    @Autowired
+    private RuleLogMapper ruleLogMapper;
 
     @Override
     public int insert(InvoiceRules invoiceRules) {
@@ -84,5 +89,10 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
     @Override
     public List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules) {
         return invoiceRulesMapper.selectSubscribedRulesByCompanyId(invoiceRules);
+    }
+
+    @Override
+    public List<RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo) {
+        return ruleLogMapper.selectRuleLogsWithDetailsByRequestIdAndBillNo(requestId, billNo);
     }
 }

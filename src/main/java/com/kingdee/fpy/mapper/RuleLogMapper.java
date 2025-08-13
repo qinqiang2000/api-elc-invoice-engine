@@ -1,7 +1,9 @@
 package com.kingdee.fpy.mapper;
 
+import com.kingdee.fpy.dto.RuleLogDetailDto;
 import com.kingdee.fpy.model.RuleLog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -46,4 +48,12 @@ public interface RuleLogMapper {
     List<RuleLog> selectAll();
 
     void insertBatch(List<RuleLog> ruleLogs);
+
+    /**
+     * 根据请求ID和单据编码查询规则日志详情
+     * @param requestId 请求ID
+     * @param billNo 单据编码
+     * @return 规则日志详情列表
+     */
+    List<RuleLogDetailDto> selectRuleLogsWithDetailsByRequestIdAndBillNo(@Param("requestId") String requestId, @Param("billNo") String billNo);
 }

@@ -11,6 +11,8 @@ CREATE TABLE `t_invoice_request` (
   `fsend_company_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '销方企业ID',
   `freceive_company_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '购方企业id',
   `fsend_company_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '销方企业名称',
+  `fcountry` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '销方国家',
+  `frequest_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '请求id',
   `freceiver_company_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '购方企业名称',
   `ftotal_amount` decimal(23,10) NOT NULL COMMENT '总金额',
   `ftax_amount` decimal(23,10) NOT NULL COMMENT '税额',

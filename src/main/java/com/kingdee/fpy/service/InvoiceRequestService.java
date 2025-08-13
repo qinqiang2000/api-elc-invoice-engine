@@ -1,7 +1,10 @@
 package com.kingdee.fpy.service;
 
 import com.kingdee.fpy.model.InvoiceRequest;
+import com.kingdee.fpy.model.InvoiceRequestQuery;
+import com.kingdee.fpy.commom.ResultPage;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 发票申请服务接口
@@ -72,6 +75,13 @@ public interface InvoiceRequestService {
     List<InvoiceRequest> getPage(int pageNum, int pageSize);
     
     /**
+     * 分页查询发票申请（支持过滤条件）
+     * @param query 查询参数
+     * @return 分页结果
+     */
+    ResultPage getPageWithFilter(InvoiceRequestQuery query);
+    
+    /**
      * 统计总数
      * @return 总数
      */
@@ -83,4 +93,18 @@ public interface InvoiceRequestService {
      * @return 发票申请列表
      */
     List<InvoiceRequest> getByCondition(InvoiceRequest invoiceRequest);
+    
+    /**
+     * 统计各单据综合状态的开票请求数量
+     * @param companyId 企业ID
+     * @return 以状态名称为key，数量为value的Map
+     */
+    Map<String, Long> getStatusStatistics(String companyId);
+    
+    /**
+     * 统计企业最近24小时按小时维度的各状态开票请求数量
+     * @param companyId 企业ID
+     * @return 按小时分组的状态统计，格式为[{hour, statuses: {status1: count1, status2: count2}}]
+     */
+    List<Map<String, Object>> getHourlyStatusStatistics(String companyId);
 }

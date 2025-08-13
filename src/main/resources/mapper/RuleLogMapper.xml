@@ -60,5 +60,66 @@
         <foreach item="item" index="index" collection="list" separator=",">
             (#{item.billNo}, #{item.invoiceNo}, #{item.ruleCode}, #{item.executionResult}, #{item.errorMessage}, #{item.inputData}, #{item.outputData}, #{item.companyId}, #{item.requestId})
         </foreach>
-  </insert>
+    </insert>
+
+    <resultMap id="RuleLogDetailResultMap" type="com.kingdee.fpy.dto.RuleLogDetailDto">
+        <!-- RuleLog 字段映射 -->
+        <id property="id" column="log_id" />
+        <result property="billNo" column="log_bill_no" />
+        <result property="invoiceNo" column="log_invoice_no" />
+        <result property="ruleCode" column="log_rule_code" />
+        <result property="executionResult" column="log_execution_result" />
+        <result property="errorMessage" column="log_error_message" />
+        <result property="inputData" column="log_input_data" />
+        <result property="outputData" column="log_output_data" />
+        <result property="companyId" column="log_company_id" />
+        <result property="requestId" column="log_request_id" />
+        <result property="createTime" column="log_create_time" />
+        <result property="updateTime" column="log_update_time" />
+        
+        <!-- InvoiceRules 字段映射 -->
+        <result property="ruleName" column="rule_name" />
+        <result property="ruleType" column="rule_type" />
+        <result property="fieldPath" column="rule_field_path" />
+        <result property="ruleExpression" column="rule_expression" />
+        <result property="description" column="rule_description" />
+        <result property="applyTo" column="rule_apply_to" />
+        <result property="priority" column="rule_priority" />
+        <result property="active" column="rule_active" />
+        <result property="status" column="rule_status" />
+        <result property="country" column="rule_country" />
+        <result property="invoiceType" column="rule_invoice_type" />
+    </resultMap>
+
+    <select id="selectRuleLogsWithDetailsByRequestIdAndBillNo" resultMap="RuleLogDetailResultMap">
+        SELECT 
+            rl.fid as log_id,
+            rl.fbill_no as log_bill_no,
+            rl.finvoice_no as log_invoice_no,
+            rl.frule_code as log_rule_code,
+            rl.fexecution_result as log_execution_result,
+            rl.ferror_message as log_error_message,
+            rl.frequest_id as log_request_id,
+            ir.frule_name as rule_name,
+            ir.frule_type as rule_type,
+            ir.ffield_path as rule_field_path,
+            ir.frule_expression as rule_expression,
+            ir.fdescription as rule_description,
+            ir.fapply_to as rule_apply_to,
+            ir.fpriority as rule_priority,
+            ir.factive as rule_active,
+            ir.fstatus as rule_status,
+            ir.fcountry as rule_country,
+            ir.finvoice_type as rule_invoice_type
+        FROM t_rule_log rl
+        LEFT JOIN t_invoice_rules ir ON rl.frule_code = ir.frule_code
+        WHERE 1=1
+        <if test="requestId != null and requestId != ''">
+            AND rl.frequest_id = #{requestId}
+        </if>
+        <if test="billNo != null and billNo != ''">
+            AND rl.fbill_no = #{billNo}
+        </if>
+        ORDER BY rl.fcreate_time DESC
+    </select>
 </mapper>
