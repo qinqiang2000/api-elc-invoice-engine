@@ -166,19 +166,14 @@ public class InvoiceApplyServiceTest {
         }
         
         Method m = InvoiceApplyService.class.getDeclaredMethod(
-                "executeRule", List.class, JexlContext.class, String.class, Result.class, String.class);
+                "executeRules", List.class, JexlContext.class, Result.class, String.class);
         m.setAccessible(true);
-        String logTpl = isCompletion ?
-                "rule:{},condition:{},complete fail:{}" :
-                "rule:{},condition:{},valid fail:{}";
-        String errTpl = isCompletion ?
-                "rule:%s,complete fail:%s" :
-                "rule:%s,valid fail:%s";
+        String errType = isCompletion ? "补全规则失败" : "校验规则失败";
         
         // 记录执行前的错误数量
         int errorsBefore = result.getErrorMsgArray().size();
         
-        m.invoke(invoiceApplyService, rules, context, logTpl, result, errTpl);
+        m.invoke(invoiceApplyService, rules, context, result, errType);
         
         // 执行后的结果
         int errorsAfter = result.getErrorMsgArray().size();

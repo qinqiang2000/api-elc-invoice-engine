@@ -42,6 +42,7 @@ public class LlmRuleGenerationServiceTest {
         @Override public int updateStatus(String ruleCode, Integer status) { return 0; }
         @Override public List<InvoiceRules> selectByCompanyIdAndRuleCode(String companyId, String ruleCode) { return new ArrayList<>(); }
         @Override public String generateCode(String country, String invoiceType, String companyId) { return "test-code"; }
+        @Override public java.util.List<com.kingdee.fpy.dto.RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo) { return new java.util.ArrayList<>(); }
     }
 
     private LlmRuleGenerationService service;

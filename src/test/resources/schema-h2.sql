@@ -32,11 +32,13 @@ CREATE TABLE IF NOT EXISTS t_invoice_rules (
   frule_name VARCHAR(100) NOT NULL,
   frule_type TINYINT NOT NULL DEFAULT 2,
   factive TINYINT(1) NOT NULL DEFAULT 1,
+  fstatus TINYINT(1) NOT NULL DEFAULT 1,
   fapply_to VARCHAR(1024) NOT NULL,
   ferror_message VARCHAR(255) NOT NULL,
   ffield_path VARCHAR(100) NOT NULL,
   fpriority INT NOT NULL DEFAULT 0,
   frule_expression VARCHAR(2048) NOT NULL,
+  fdescription VARCHAR(1024) DEFAULT '',
   fstart_time TIMESTAMP NULL,
   fend_time TIMESTAMP NULL,
   fcreate_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -172,4 +174,26 @@ CREATE TABLE IF NOT EXISTS t_rule_subscription (
   frule_code VARCHAR(64) NOT NULL,
   fcreate_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   fupdate_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bastax tax area group master table
+CREATE TABLE IF NOT EXISTS t_bastax_taxareagroup (
+  fid BIGINT PRIMARY KEY,
+  fnumber VARCHAR(64),
+  fstatus VARCHAR(32),
+  fcreatorid BIGINT,
+  fmodifierid BIGINT,
+  fenable VARCHAR(8),
+  fcreatetime VARCHAR(32),
+  fmodifytime VARCHAR(32),
+  fmasterid BIGINT,
+  fissystem VARCHAR(8)
+);
+
+-- Bastax tax area group language table
+CREATE TABLE IF NOT EXISTS t_bastax_taxareagroup_l (
+  fpkid VARCHAR(64) PRIMARY KEY,
+  fid BIGINT,
+  flocaleid VARCHAR(16),
+  fname VARCHAR(255)
 ); 
