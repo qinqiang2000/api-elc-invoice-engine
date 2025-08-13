@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.BastaxTaxareagroupLMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.BastaxTaxareagroupL">
+        <id column="fpkid" jdbcType="VARCHAR" property="pkid" />
+        <result column="fid" jdbcType="BIGINT" property="id" />
+        <result column="flocaleid" jdbcType="VARCHAR" property="localeid" />
+        <result column="fname" jdbcType="VARCHAR" property="name" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        fpkid, fid, flocaleid, fname
+    </sql>
+
+    <!-- 根据主键查询 -->
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxareagroup_l
+        WHERE fpkid = #{pkid}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxareagroup_l
+        ORDER BY fpkid DESC
+    </select>
+
+    <!-- 根据条件查询 -->
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_bastax_taxareagroup_l
+        <where>
+            <if test="condition.pkid != null">
+                AND fpkid = #{condition.pkid}
+            </if>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.localeid != null">
+                AND flocaleid = #{condition.localeid}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+        </where>
+        ORDER BY fpkid DESC
+    </select>
+
+    <!-- 根据条件统计数量 -->
+    <select id="countByCondition" resultType="int">
+        SELECT COUNT(*)
+        FROM t_bastax_taxareagroup_l
+        <where>
+            <if test="condition.pkid != null">
+                AND fpkid = #{condition.pkid}
+            </if>
+            <if test="condition.id != null">
+                AND fid = #{condition.id}
+            </if>
+            <if test="condition.localeid != null">
+                AND flocaleid = #{condition.localeid}
+            </if>
+            <if test="condition.name != null">
+                AND fname = #{condition.name}
+            </if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insert">
+        INSERT INTO t_bastax_taxareagroup_l
+        (fpkid, fid, flocaleid, fname)
+        VALUES
+        (#{pkid}, #{id}, #{localeid}, #{name})
+    </insert>
+
+    <!-- 选择性插入记录 -->
+    <insert id="insertSelective">
+        INSERT INTO t_bastax_taxareagroup_l
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pkid != null">
+                fpkid,
+            </if>
+            <if test="id != null">
+                fid,
+            </if>
+            <if test="localeid != null">
+                flocaleid,
+            </if>
+            <if test="name != null">
+                fname,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pkid != null">
+                #{pkid},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="localeid != null">
+                #{localeid},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键更新 -->
+    <update id="updateByPrimaryKey">
+        UPDATE t_bastax_taxareagroup_l
+        SET fid = #{id},
+            flocaleid = #{localeid},
+            fname = #{name}
+        WHERE fpkid = #{pkid}
+    </update>
+
+    <!-- 根据主键选择性更新 -->
+    <update id="updateByPrimaryKeySelective">
+        UPDATE t_bastax_taxareagroup_l
+        <set>
+            <if test="id != null">
+                fid = #{id},
+            </if>
+            <if test="localeid != null">
+                flocaleid = #{localeid},
+            </if>
+            <if test="name != null">
+                fname = #{name},
+            </if>
+        </set>
+        WHERE fpkid = #{pkid}
+    </update>
+
+    <!-- 根据主键删除 -->
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM t_bastax_taxareagroup_l
+        WHERE fpkid = #{pkid}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteByIds">
+        DELETE FROM t_bastax_taxareagroup_l
+        WHERE fpkid IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
