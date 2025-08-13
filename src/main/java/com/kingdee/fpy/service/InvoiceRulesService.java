@@ -61,4 +61,20 @@ public interface InvoiceRulesService {
      * @return 生成的编码字符串，格式：custom-国家-票种-序号
      */
     String generateCode(String country, String invoiceType, String companyId);
+
+    /**
+     * 更新规则状态
+     * @param ruleCode 规则编码
+     * @param status 状态：1草稿 2测试通过 3已发布
+     * @return 更新结果
+     */
+    int updateStatus(String ruleCode, Integer status);
+
+    /**
+     * 根据企业ID查询订阅的规则
+     * 包括系统预制规则和企业订阅的规则
+     * @param invoiceRules 查询条件，主要使用其中的企业ID字段
+     * @return 规则列表
+     */
+    List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules);
 }

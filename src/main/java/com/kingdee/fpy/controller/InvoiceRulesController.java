@@ -91,4 +91,52 @@ InvoiceRulesController {
             return Result.error("生成编码失败：" + e.getMessage());
         }
     }
+
+    /**
+     * 发布规则
+     * @param ruleCode 规则编码
+     * @return Result结果
+     */
+    @PostMapping("/publish/{ruleCode}")
+    public Result<String> publishRule(@PathVariable String ruleCode) {
+        try {
+            // 检查规则是否存在
+            List<InvoiceRules> rules = invoiceRulesService.selectByCompanyIdAndRuleCode("", ruleCode);
+            if (rules.isEmpty()) {
+                return Result.error("规则不存在");
+            }
+            
+            InvoiceRules rule = rules.get(0);
+            
+            // 检查规则状态是否为测试通过
+            if (rule.getStatus() == null || rule.getStatus() != 2) {
+                return Result.error("只有测试通过的规则才能发布");
+            }
+            
+            // 更新状态为已发布
+            int result = invoiceRulesService.updateStatus(ruleCode, 3);
+            if (result > 0) {
+                return Result.success("规则发布成功");
+            } else {
+                return Result.error("规则发布失败");
+            }
+        } catch (Exception e) {
+            return Result.error("发布规则失败：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 根据企业ID查询订阅的规则
+     * @param invoiceRules 查询条件，包含企业ID等信息
+     * @return Result结果
+     */
+    @PostMapping("/subscribed-rules")
+    public Result<List<InvoiceRules>> getSubscribedRules(@RequestBody InvoiceRules invoiceRules) {
+        try {
+            List<InvoiceRules> result = invoiceRulesService.selectSubscribedRulesByCompanyId(invoiceRules);
+            return new Result<>(result);
+        } catch (Exception e) {
+            return Result.error("查询订阅规则失败：" + e.getMessage());
+        }
+    }
 }

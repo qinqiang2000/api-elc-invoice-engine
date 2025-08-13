@@ -12,6 +12,10 @@ public class InvoiceRules {
      * 主键ID
      */
     private Long id;
+    /**
+     * 企业ID
+     */
+    private String companyId;
 
     /**
      * 国家二字码
@@ -62,6 +66,11 @@ public class InvoiceRules {
      * 是否启用1启用2停用
      */
     private Boolean active;
+
+    /**
+     * 规则状态：1草稿 2测试通过 3已发布
+     */
+    private Integer status;
 
     /**
      * 规则应用条件

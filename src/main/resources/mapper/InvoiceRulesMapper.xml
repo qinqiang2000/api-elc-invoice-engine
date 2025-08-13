@@ -14,6 +14,7 @@
         <result property="ruleName" column="frule_name" />
         <result property="ruleType" column="frule_type" />
         <result property="active" column="factive" />
+        <result property="status" column="fstatus" />
         <result property="applyTo" column="fapply_to" />
         <result property="errorMessage" column="ferror_message" />
         <result property="fieldPath" column="ffield_path" />
@@ -27,9 +28,9 @@
 
     <insert id="insert" parameterType="com.kingdee.fpy.model.InvoiceRules" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_invoice_rules 
-        (fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time)
+        (fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time)
         VALUES
-        (#{country}, #{tradeArea}, #{province}, #{city}, #{tags}, #{invoiceType}, #{ruleCode}, #{ruleName}, #{ruleType}, #{active}, #{applyTo}, #{errorMessage}, #{fieldPath}, #{priority}, #{ruleExpression}, #{startTime}, #{endTime})
+        (#{country}, #{tradeArea}, #{province}, #{city}, #{tags}, #{invoiceType}, #{ruleCode}, #{ruleName}, #{ruleType}, #{active}, #{status}, #{applyTo}, #{errorMessage}, #{fieldPath}, #{priority}, #{ruleExpression}, #{startTime}, #{endTime})
     </insert>
 
     <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceRules">
@@ -45,6 +46,7 @@
             <if test="ruleName != null">frule_name = #{ruleName},</if>
             <if test="ruleType != null">frule_type = #{ruleType},</if>
             <if test="active != null">factive = #{active},</if>
+            <if test="status != null">fstatus = #{status},</if>
             <if test="applyTo != null">fapply_to = #{applyTo},</if>
             <if test="errorMessage != null">ferror_message = #{errorMessage},</if>
             <if test="fieldPath != null">ffield_path = #{fieldPath},</if>
@@ -61,19 +63,19 @@
     </delete>
 
     <select id="selectById" parameterType="long" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules 
         WHERE fid = #{id}
     </select>
 
     <select id="selectAll" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules
     </select>
 
     <select id="selectByTenantIdOrCompanyId" resultMap="InvoiceRulesResultMap">
         SELECT r.fid, r.fcountry, r.ftrade_area, r.fprovince, r.fcity, r.ftags, r.finvoice_type, r.frule_code, r.frule_name, r.frule_type,
-        r.factive, r.fapply_to, r.ferror_message, r.ffield_path, r.fpriority, r.frule_expression, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
+        r.factive, r.fstatus, r.fapply_to, r.ferror_message, r.ffield_path, r.fpriority, r.frule_expression, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
         FROM t_invoice_rules r
         left join t_rule_subscription s on s.frule_code = r.frule_code
         WHERE
@@ -91,7 +93,7 @@
     </select>
 
     <select id="selectByCompanyIdAndRuleCode" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules 
         WHERE 1=1
         <if test="ruleCode != null and ruleCode != ''">
@@ -108,6 +110,30 @@
         FROM t_invoice_rules 
         WHERE frule_code LIKE CONCAT('custom-', #{country}, '-', #{invoiceType}, '-%')
         and fcompany_id = #{companyId}
+    </select>
+
+    <update id="updateStatus">
+        UPDATE t_invoice_rules 
+        SET fstatus = #{status}
+        WHERE frule_code = #{ruleCode}
+    </update>
+
+    <select id="selectSubscribedRulesByCompanyId" parameterType="com.kingdee.fpy.model.InvoiceRules" resultMap="InvoiceRulesResultMap">
+        SELECT DISTINCT r.fid, r.fcountry, r.ftrade_area, r.fprovince, r.fcity, r.ftags, r.finvoice_type, 
+               r.frule_code, r.frule_name, r.frule_type, r.factive, r.fstatus, r.fapply_to, r.ferror_message, 
+               r.ffield_path, r.fpriority, r.frule_expression, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
+        FROM t_invoice_rules r
+        LEFT JOIN t_rule_subscription s ON s.frule_code = r.frule_code
+        WHERE
+        r.fcountry = #{country}
+          AND (
+            <!-- 系统预制规则：ruleCode以'sys-'开头 -->
+            r.frule_code LIKE 'sys-%'
+            OR
+            <!-- 企业订阅的规则：通过订阅表关联 -->
+            s.fcompany_id = #{companyId}
+          )
+        ORDER BY r.fpriority ASC, r.fcreate_time DESC
     </select>
 
 </mapper>

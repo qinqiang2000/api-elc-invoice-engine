@@ -75,4 +75,14 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
         // 生成编码字符串
         return "custom-" + country + "-" + invoiceType + "-" + sequenceStr;
     }
+
+    @Override
+    public int updateStatus(String ruleCode, Integer status) {
+        return invoiceRulesMapper.updateStatus(ruleCode, status);
+    }
+
+    @Override
+    public List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules) {
+        return invoiceRulesMapper.selectSubscribedRulesByCompanyId(invoiceRules);
+    }
 }

@@ -124,6 +124,16 @@ public class InvoiceRequest {
     
     /**
      * 单据综合状态
+     * 1-Draft（草稿）
+     * 2-Enriching（补全中）
+     * 3-Validated（已校验）
+     * 4-ValidFailed（校验失败）
+     * 5-Pending（待审核）
+     * 6-InvoiceIssueing（开票中）
+     * 7-PartInvoiced（部分开票）
+     * 8-FullyInvoiced（完全开票）
+     * 9-DebitApply（借记申请）
+     * 10-ReIssued（重新签发）
      */
     private Integer status;
     

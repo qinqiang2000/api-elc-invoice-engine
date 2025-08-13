@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.fpy.commom.Result;
 import com.kingdee.fpy.service.InvoiceApplyService;
+import com.kingdee.fpy.service.InvoiceRulesService;
 import com.kingdee.fpy.service.cel.JexlExecutionService;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.springframework.util.StreamUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @Author: 金帆
@@ -37,6 +39,9 @@ public class jexlController {
 
     @Autowired
     private InvoiceApplyService invoiceApplyService;
+
+    @Autowired
+    private InvoiceRulesService invoiceRulesService;
 
     @PostMapping("/api/execute")
     @ResponseBody
@@ -73,7 +78,20 @@ public class jexlController {
                 invoice = JSON.parseObject(JSON.toJSONString(invoiceObj));
             }
             
-            return invoiceApplyService.validateInvoiceByRule(companyId, ruleCode, invoice);
+            Result<JSONObject> result = invoiceApplyService.validateInvoiceByRule(companyId, ruleCode, invoice);
+            
+            // 验证成功且提供了规则编码，则更新规则状态为测试通过
+            if (result.isSuccess() && StringUtils.isNotBlank(ruleCode)) {
+                try {
+                    invoiceRulesService.updateStatus(ruleCode, 2); // 2表示测试通过
+                    log.info("规则验证成功，状态已更新为测试通过，规则编码：{}", ruleCode);
+                } catch (Exception e) {
+                    log.error("更新规则状态失败，规则编码：{}", ruleCode, e);
+                    // 不影响主流程，仅记录日志
+                }
+            }
+            
+            return result;
             
         } catch (Exception e) {
             log.error("发票规则校验接口异常", e);

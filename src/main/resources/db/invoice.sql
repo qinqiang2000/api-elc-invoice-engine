@@ -31,6 +31,7 @@ CREATE TABLE `t_invoice_rules` (
   `frule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则名称',
   `frule_type` tinyint NOT NULL DEFAULT '2' COMMENT '1校验，2补全',
   `factive` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用1启用2停用',
+  `fstatus` tinyint(1) NOT NULL DEFAULT '1' COMMENT '规则状态：1草稿 2测试通过 3已发布',
   `fapply_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则应用条件',
   `ferror_message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '错误提示信息',
   `ffield_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '字段路径',
@@ -43,7 +44,8 @@ CREATE TABLE `t_invoice_rules` (
   PRIMARY KEY (`fid`),
   UNIQUE KEY `uk_rule_code` (`frule_code`),
   KEY `idx_field_path` (`ffield_path`),
-  KEY `idx_active_time` (`factive`,`fstart_time`,`fend_time`)
+  KEY `idx_active_time` (`factive`,`fstart_time`,`fend_time`),
+  KEY `idx_status` (`fstatus`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='验证规则表';
 
 CREATE TABLE `t_rule_subscription` (

@@ -66,4 +66,20 @@ public interface InvoiceRulesMapper {
      */
     Integer selectMaxSequenceByCountryAndType(@Param("country") String country, @Param("invoiceType") String invoiceType,
             @Param("companyId")String companyId);
+
+    /**
+     * 更新规则状态
+     * @param ruleCode 规则编码
+     * @param status 状态：1草稿 2测试通过 3已发布
+     * @return 更新结果
+     */
+    int updateStatus(@Param("ruleCode") String ruleCode, @Param("status") Integer status);
+
+    /**
+     * 根据企业ID查询订阅的规则
+     * 包括系统预制规则和企业订阅的规则
+     * @param invoiceRules 查询条件
+     * @return 规则列表
+     */
+    List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules);
 }
