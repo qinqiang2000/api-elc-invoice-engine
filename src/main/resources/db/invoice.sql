@@ -37,6 +37,7 @@ CREATE TABLE `t_invoice_rules` (
   `ffield_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '字段路径',
   `fpriority` int NOT NULL DEFAULT '0' COMMENT '优先级',
   `frule_expression` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则表达式',
+  `fdescription` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '规则描述',
   `fstart_time` datetime DEFAULT NULL COMMENT '规则生效开始时间',
   `fend_time` datetime DEFAULT NULL COMMENT '规则生效结束时间',
   `fcreate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

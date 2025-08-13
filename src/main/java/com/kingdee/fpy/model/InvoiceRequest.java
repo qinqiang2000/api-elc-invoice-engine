@@ -18,6 +18,11 @@ public class InvoiceRequest {
     private Long id;
     
     /**
+     * 唯一请求ID
+     */
+    private String requestId;
+    
+    /**
      * 关联租户
      */
     private String tenantId;
@@ -71,6 +76,11 @@ public class InvoiceRequest {
      * 销方企业名称
      */
     private String sendCompanyName;
+    
+    /**
+     * 销方国家
+     */
+    private String country;
     
     /**
      * 购方企业名称

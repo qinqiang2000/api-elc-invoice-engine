@@ -1,7 +1,9 @@
 package com.kingdee.fpy.controller;
 
 import com.kingdee.fpy.commom.Result;
+import com.kingdee.fpy.commom.ResultPage;
 import com.kingdee.fpy.model.InvoiceRequest;
+import com.kingdee.fpy.model.InvoiceRequestQuery;
 import com.kingdee.fpy.service.InvoiceRequestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 发票申请控制器
@@ -177,6 +180,22 @@ public class InvoiceRequestController {
     }
 
     /**
+     * 分页查询发票申请（支持过滤条件）
+     * @param query
+     * @return 分页结果
+     */
+    @PostMapping("/page-filter")
+    public ResultPage getPageWithFilter(@RequestBody InvoiceRequestQuery query) {
+        try {
+            log.info("分页查询发票申请（支持过滤）: {}", query);
+            return invoiceRequestService.getPageWithFilter(query);
+        } catch (Exception e) {
+            log.error("分页查询发票申请失败", e);
+            return new ResultPage("500", e.getMessage());
+        }
+    }
+
+    /**
      * 统计总数
      * @return 结果
      */
@@ -205,6 +224,40 @@ public class InvoiceRequestController {
             return Result.success(result);
         } catch (Exception e) {
             log.error("根据条件查询发票申请失败", e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 统计各单据综合状态的开票请求数量
+     * @param companyId 企业ID
+     * @return 以状态名称为key，数量为value的Map
+     */
+    @GetMapping("/status-statistics")
+    public Result<Map<String, Long>> getStatusStatistics(@RequestParam String companyId) {
+        try {
+            log.info("统计各单据综合状态的开票请求数量，企业ID: {}", companyId);
+            Map<String, Long> result = invoiceRequestService.getStatusStatistics(companyId);
+            return Result.success(result);
+        } catch (Exception e) {
+            log.error("统计各单据综合状态的开票请求数量失败，企业ID: {}", companyId, e);
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 统计企业最近24小时按小时维度的各状态开票请求数量
+     * @param companyId 企业ID
+     * @return 按小时分组的状态统计数据，供前端绘制折线图使用
+     */
+    @GetMapping("/hourly-status-statistics")
+    public Result<List<Map<String, Object>>> getHourlyStatusStatistics(@RequestParam String companyId) {
+        try {
+            log.info("统计企业最近24小时按小时维度的各状态开票请求数量，企业ID: {}", companyId);
+            List<Map<String, Object>> result = invoiceRequestService.getHourlyStatusStatistics(companyId);
+            return Result.success(result);
+        } catch (Exception e) {
+            log.error("统计企业最近24小时按小时维度的各状态开票请求数量失败，企业ID: {}", companyId, e);
             return Result.error(e.getMessage());
         }
     }

@@ -400,7 +400,7 @@ public class InvoiceApplyService {
     /**
      * 执行规则列表
      */
-    private void executeRules(List<InvoiceRules> rules, JexlContext context, Result result, String errorType) {
+    public void executeRules(List<InvoiceRules> rules, JexlContext context, Result result, String errorType) {
         JSONObject invoice = (JSONObject) context.get("invoice");
         List<RuleLog> ruleLogs = new ArrayList<>();
 

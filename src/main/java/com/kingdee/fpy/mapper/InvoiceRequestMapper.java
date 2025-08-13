@@ -1,9 +1,11 @@
 package com.kingdee.fpy.mapper;
 
 import com.kingdee.fpy.model.InvoiceRequest;
+import com.kingdee.fpy.model.InvoiceRequestQuery;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 发票申请Mapper接口
@@ -75,6 +77,20 @@ public interface InvoiceRequestMapper {
     List<InvoiceRequest> selectPage(@Param("offset") int offset, @Param("limit") int limit);
     
     /**
+     * 分页查询发票申请（支持过滤条件）
+     * @param query 查询参数
+     * @return 发票申请列表
+     */
+    List<InvoiceRequest> selectPageWithFilter(InvoiceRequestQuery query);
+    
+    /**
+     * 统计符合条件的记录总数
+     * @param query 查询参数
+     * @return 总数
+     */
+    long countWithFilter(InvoiceRequestQuery query);
+    
+    /**
      * 统计总数
      * @return 总数
      */
@@ -86,4 +102,18 @@ public interface InvoiceRequestMapper {
      * @return 发票申请列表
      */
     List<InvoiceRequest> selectByCondition(InvoiceRequest invoiceRequest);
+    
+    /**
+     * 统计各单据综合状态的开票请求数量
+     * @param companyId 企业ID
+     * @return 以状态码为key，数量为value的Map列表
+     */
+    List<Map<String, Object>> selectStatusStatistics(@Param("companyId") String companyId);
+    
+    /**
+     * 统计企业最近24小时按小时维度的各状态开票请求数量
+     * @param companyId 企业ID
+     * @return 包含小时和各状态统计的Map列表
+     */
+    List<Map<String, Object>> selectHourlyStatusStatistics(@Param("companyId") String companyId);
 }

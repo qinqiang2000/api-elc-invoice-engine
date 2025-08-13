@@ -1,4 +1,4 @@
-package com.kingdee.fpy.model;
+package com.kingdee.fpy.enums;
 
 /**
  * 发票申请单据综合状态枚举
