@@ -92,5 +92,8 @@ public interface InvoiceMapper {
     Invoice findById(@Param("id") Long id);
     
     @Deprecated
+    Invoice findByInvoiceNo(@Param("invoiceNo") String invoiceNo);
+    
+    @Deprecated
     int update(Invoice invoice);
 } 

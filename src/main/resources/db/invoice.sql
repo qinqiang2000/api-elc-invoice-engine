@@ -26,10 +26,12 @@ CREATE TABLE `t_invoice_rules` (
   `fprovince` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '省',
   `fcity` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '城市',
   `ftags` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '行业',
+  `finvoice_type` varchar(12) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '发票类型',
   `frule_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则唯一编码，三段式，洲-sys/user-流水号',
   `frule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则名称',
   `frule_type` tinyint NOT NULL DEFAULT '2' COMMENT '1校验，2补全',
   `factive` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用1启用2停用',
+  `fstatus` tinyint(1) NOT NULL DEFAULT '1' COMMENT '规则状态：1草稿 2测试通过 3已发布',
   `fapply_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则应用条件',
   `ferror_message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '错误提示信息',
   `ffield_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '字段路径',
@@ -42,7 +44,8 @@ CREATE TABLE `t_invoice_rules` (
   PRIMARY KEY (`fid`),
   UNIQUE KEY `uk_rule_code` (`frule_code`),
   KEY `idx_field_path` (`ffield_path`),
-  KEY `idx_active_time` (`factive`,`fstart_time`,`fend_time`)
+  KEY `idx_active_time` (`factive`,`fstart_time`,`fend_time`),
+  KEY `idx_status` (`fstatus`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='验证规则表';
 
 CREATE TABLE `t_rule_subscription` (
@@ -64,6 +67,8 @@ CREATE TABLE `t_rule_log` (
   `ferror_message` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT '执行结果描述',
   `finput_data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '输入',
   `foutput_data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '输出',
+  `fcompany_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '企业ID',
+  `frequest_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '请求ID',
   `fcreate_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `fupdate_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`fid`)

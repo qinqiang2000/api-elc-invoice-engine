@@ -47,4 +47,39 @@ public interface InvoiceRulesMapper {
     List<InvoiceRules> selectAll();
     List<InvoiceRules> selectByTenantIdOrCompanyId(@Param("tenantId") String tenantId,
             @Param("companyId") String companyId,@Param("country") String country);
+    
+    /**
+     * 根据企业编码和规则编码查询规则
+     * @param companyId 企业编码
+     * @param ruleCode 规则编码
+     * @return InvoiceRules实体列表
+     */
+    List<InvoiceRules> selectByCompanyIdAndRuleCode(@Param("companyId") String companyId, @Param("ruleCode") String ruleCode);
+
+    /**
+     * 查询指定国家和票种的最大序号
+     *
+     * @param country     国家或税辖区
+     * @param invoiceType 票种类型
+     * @param companyId
+     * @return 最大序号
+     */
+    Integer selectMaxSequenceByCountryAndType(@Param("country") String country, @Param("invoiceType") String invoiceType,
+            @Param("companyId")String companyId);
+
+    /**
+     * 更新规则状态
+     * @param ruleCode 规则编码
+     * @param status 状态：1草稿 2测试通过 3已发布
+     * @return 更新结果
+     */
+    int updateStatus(@Param("ruleCode") String ruleCode, @Param("status") Integer status);
+
+    /**
+     * 根据企业ID查询订阅的规则
+     * 包括系统预制规则和企业订阅的规则
+     * @param invoiceRules 查询条件
+     * @return 规则列表
+     */
+    List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules);
 }

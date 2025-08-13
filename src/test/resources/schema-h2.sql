@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS t_invoice_rules (
   fprovince VARCHAR(64) DEFAULT '',
   fcity VARCHAR(64) DEFAULT '',
   ftags VARCHAR(64) DEFAULT '',
+  finvoice_type VARCHAR(12) DEFAULT '',
   frule_code VARCHAR(64) NOT NULL,
   frule_name VARCHAR(100) NOT NULL,
   frule_type TINYINT NOT NULL DEFAULT 2,
@@ -52,6 +53,8 @@ CREATE TABLE IF NOT EXISTS t_rule_log (
   ferror_message VARCHAR(255) DEFAULT '',
   finput_data TEXT,
   foutput_data TEXT,
+  fcompany_id VARCHAR(64) DEFAULT '',
+  frequest_id VARCHAR(64) DEFAULT '',
   fcreate_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   fupdate_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

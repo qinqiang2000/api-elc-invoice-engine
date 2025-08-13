@@ -7,7 +7,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.kingdee.fpy.commom.Result;
 import com.kingdee.fpy.model.InvoiceRules;
 import com.kingdee.fpy.service.cel.JexlExecutionService;
-import com.kingdee.fpy.utils.ResultType;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class InvoiceApplyServiceTest {
 
     @Autowired
-    private InvoiceAppleyService invoiceAppleyService;
+    private InvoiceApplyService invoiceApplyService;
 
     @Autowired
     private InvoiceRulesService invoiceRulesService;
@@ -166,7 +165,7 @@ public class InvoiceApplyServiceTest {
             System.out.println("---");
         }
         
-        Method m = InvoiceAppleyService.class.getDeclaredMethod(
+        Method m = InvoiceApplyService.class.getDeclaredMethod(
                 "executeRule", List.class, JexlContext.class, String.class, Result.class, String.class);
         m.setAccessible(true);
         String logTpl = isCompletion ?
@@ -179,7 +178,7 @@ public class InvoiceApplyServiceTest {
         // 记录执行前的错误数量
         int errorsBefore = result.getErrorMsgArray().size();
         
-        m.invoke(invoiceAppleyService, rules, context, logTpl, result, errTpl);
+        m.invoke(invoiceApplyService, rules, context, logTpl, result, errTpl);
         
         // 执行后的结果
         int errorsAfter = result.getErrorMsgArray().size();

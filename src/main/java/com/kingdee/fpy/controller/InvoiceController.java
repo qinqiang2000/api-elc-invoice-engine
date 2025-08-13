@@ -16,6 +16,7 @@ public class InvoiceController {
 
     @PostMapping("/generate-xml")
     public String generateXml(@RequestBody Map<String, Object> data) {
-        return xmlBuildService.buildXmlFromJson(data);
+       // return xmlBuildService.buildXmlFromJson(data);
+        return null;
     }
 } 

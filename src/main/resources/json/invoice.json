@@ -1,0 +1,398 @@
+{
+	"UBLVersionID": "2.1",
+	"CustomizationID": "urn:piaozone.com:ubl-2.1-customizations:v1.0",
+	"ProfileID": "urn:www.piaozone.com:profile:bill:v1.0",
+	"ID": "TW2025019-1009000000055512231",
+	"IssueDate": "2025-03-31",
+	"DueDate": "2025-08-14",
+	"InvoiceTypeCode": {
+		"name": "Debit",
+		"value": "380"
+	},
+	"Note": "Ordered at trade show",
+	"DocumentCurrencyCode": "EUR",
+	"BuyerReference": "123",
+	"InvoicePeriod": {
+		"StartDate": "2025-05-10",
+		"EndDate": "2025-05-16"
+	},
+	"OrderReference": {
+		"ID": "123"
+	},
+	"AdditionalDocumentReferences": [
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "SubmissionType"
+			},
+			"DocumentTypeCode": "B2B"
+		},
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "Selfbilled"
+			},
+			"DocumentTypeCode": "false"
+		},
+		{
+			"ID": "09728/09727",
+			"DocumentType": "CMR"
+		},
+		{
+			"ID": "doc1",
+			"DocumentDescription": "Usage breakdown",
+			"Attachment": {
+				"ExternalReference": {
+					"URI": "http://www.salescompany.be/breakdown001.html"
+				}
+			}
+		},
+		{
+			"ID": "doc2",
+			"DocumentDescription": "Usage summary",
+			"Attachment": {
+				"EmbeddedDocumentBinaryObject": {
+					"filename": "report.csv",
+					"mimeCode": "text/csv",
+					"value": "aHR0cHM6Ly90ZXN0LXZlZmEuZGlmaS5uby9wZXBwb2xiaXMvcG9hY2MvYmlsbGluZy8zLjAvYmlzLw=="
+				}
+			}
+		}
+	],
+	"AccountingSupplierParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "NL00000003"
+			},
+			"PartyName": {
+				"Name": "Kingdee Test Supplier3 NL"
+			},
+			"PostalAddress": {
+				"StreetName": "32132",
+				"CityName": "312",
+				"PostalZone": "60311",
+				"Country": {
+					"IdentificationCode": "NL"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "NL00000003",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Kingdee Test Supplier3 NL",
+				"CompanyID": {
+					"schemeID": "0195",
+					"value": "NL00000003"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "maria.weise@pagero.com"
+			}
+		}
+	},
+	"AccountingCustomerParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "DE00000001"
+			},
+			"PartyName": {
+				"Name": "Kingdee Test Buyer DE"
+			},
+			"PostalAddress": {
+				"StreetName": "312",
+				"CityName": "312",
+				"Country": {
+					"IdentificationCode": "DE"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "DE00000001",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Kingdee Test Buyer DE",
+				"CompanyID": {
+					"schemeID": "qqqq",
+					"value": "DE00000001"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "maria.weise@pagero.com"
+			}
+		}
+	},
+	"TaxRepresentativeParty": {
+		"PartyName": {
+			"Name": "06in Warehousing & Logistics BV"
+		},
+		"PostalAddress": {
+			"StreetName": "Klongomakersstraat 89",
+			"CityName": "Rotterdam-Hoogville",
+			"PostalZone": "3194 DD",
+			"Country": {
+				"IdentificationCode": "NL"
+			}
+		},
+		"PartyTaxScheme": {
+			"CompanyID": "NL813392081B01",
+			"TaxScheme": {
+				"ID": "VAT"
+			}
+		}
+	},
+	"Delivery": {
+		"ActualDeliveryDate": "2025-01-01",
+		"DeliveryAddress": {
+			"StreetName": "Discharge Street 123",
+			"CityName": "Antwerp",
+			"PostalZone": "2000",
+			"Country": {
+				"IdentificationCode": "BE"
+			}
+		},
+		"DeliveryLocation": {
+			"Address": {
+				"Country": {
+					"IdentificationCode": "NL"
+				}
+			}
+		},
+		"DeliveryTerms": {
+			"ID": "RCA"
+		},
+		"Shipment": {
+			"ID": "SHIPMENTID",
+			"ShipmentStage": {
+				"TransportModeCode": "3",
+				"Instructions": "BY TRUCK"
+			},
+			"OriginAddress": {
+				"Country": {
+					"IdentificationCode": "CN"
+				}
+			},
+			"LastExitPortLocation": {
+				"Name": "Rotterdam"
+			}
+		}
+	},
+	"PaymentMeans": {
+		"PaymentMeansCode": "42",
+		"PayeeFinancialAccount": {
+			"ID": "DE29300700100978759900",
+			"Name": "TONGWEI SOLAR (GERMANY) GmbH",
+			"FinancialInstitutionBranch": {
+				"ID": "DEUTDEDDXXX",
+				"FinancialInstitution": {
+					"Name": "Doutache Bank AG"
+				}
+			}
+		}
+	},
+	"PaymentTerms": {
+		"Note": "10% advance payment by T/T within 3 working days after contract signing, 90% balance before Rotterdam pick up date"
+	},
+	"AllowanceCharges": [
+		{
+			"ChargeIndicator": true,
+			"AllowanceChargeReasonCode": "CG",
+			"AllowanceChargeReason": "Cleaning",
+			"MultiplierFactorNumeric": 10,
+			"Amount": {
+				"currencyID": "EUR",
+				"value": 20
+			},
+			"BaseAmount": {
+				"currencyID": "EUR",
+				"value": 200
+			},
+			"TaxCategory": {
+				"ID": "S",
+				"Percent": 21,
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			}
+		},
+		{
+			"ChargeIndicator": false,
+			"AllowanceChargeReasonCode": "100",
+			"AllowanceChargeReason": "Discount",
+			"Amount": {
+				"currencyID": "EUR",
+				"value": 20
+			},
+			"TaxCategory": {
+				"ID": "S",
+				"Percent": 21,
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			}
+		}
+	],
+	"TaxTotal": {
+		"TaxAmount": {
+			"currencyID": "EUR",
+			"value": 21
+		},
+		"TaxSubtotals": [
+			{
+				"TaxableAmount": {
+					"currencyID": "EUR",
+					"value": 100
+				},
+				"TaxAmount": {
+					"currencyID": "EUR",
+					"value": 21
+				},
+				"TaxCategory": {
+					"ID": "S",
+					"Percent": 21,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			},
+			{
+				"TaxableAmount": {
+					"currencyID": "EUR",
+					"value": 100
+				},
+				"TaxAmount": {
+					"currencyID": "EUR",
+					"value": 0
+				},
+				"TaxCategory": {
+					"ID": "K",
+					"Percent": 0,
+					"TaxExemptionReasonCode": "VATEX-EU-IC",
+					"TaxExemptionReason": "Intra-Community supply to Germany, VAT reverse charge applies. Customer's VAT ID: DE123456789.",
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			}
+		]
+	},
+	"LegalMonetaryTotal": {
+		"LineExtensionAmount": {
+			"currencyID": "EUR",
+			"value": 200
+		},
+		"TaxExclusiveAmount": {
+			"currencyID": "EUR",
+			"value": 200
+		},
+		"TaxInclusiveAmount": {
+			"currencyID": "EUR",
+			"value": 221
+		},
+		"AllowanceTotalAmount": {
+			"currencyID": "EUR",
+			"value": 20
+		},
+		"ChargeTotalAmount": {
+			"currencyID": "EUR",
+			"value": 20
+		},
+		"PayableAmount": {
+			"currencyID": "EUR",
+			"value": 221
+		}
+	},
+	"InvoiceLines": [
+		{
+			"ID": "1",
+			"InvoicedQuantity": {
+				"unitCode": "C62",
+				"value": 20
+			},
+			"LineExtensionAmount": {
+				"currencyID": "EUR",
+				"value": 100
+			},
+			"Item": {
+				"Name": "Solar Module",
+				"ClassifiedTaxCategory": {
+					"ID": "S",
+					"Percent": 21,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			},
+			"Price": {
+				"PriceAmount": {
+					"currencyID": "EUR",
+					"value": 5
+				}
+			}
+		},
+		{
+			"ID": "2",
+			"InvoicedQuantity": {
+				"unitCode": "C62",
+				"value": 10
+			},
+			"LineExtensionAmount": {
+				"currencyID": "EUR",
+				"value": 100
+			},
+			"AllowanceCharges": [
+				{
+					"ChargeIndicator": false,
+					"AllowanceChargeReasonCode": "100",
+					"AllowanceChargeReason": "Line discount",
+					"MultiplierFactorNumeric": 5,
+					"Amount": {
+						"currencyID": "EUR",
+						"value": 5
+					},
+					"BaseAmount": {
+						"currencyID": "EUR",
+						"value": 100
+					}
+				},
+				{
+					"ChargeIndicator": true,
+					"AllowanceChargeReasonCode": "ADE",
+					"AllowanceChargeReason": "Line charge",
+					"MultiplierFactorNumeric": 5,
+					"Amount": {
+						"currencyID": "EUR",
+						"value": 5
+					},
+					"BaseAmount": {
+						"currencyID": "EUR",
+						"value": 100
+					}
+				}
+			],
+			"Item": {
+				"Description": "TWMND-72HD590",
+				"Name": "Solar Module",
+				"ClassifiedTaxCategory": {
+					"ID": "K",
+					"Percent": 0,
+					"TaxExemptionReasonCode": "VATEX-EU-IC",
+					"TaxExemptionReason": "Intra-Community supply to Germany, VAT reverse charge applies. Customer's VAT ID: DE123456789.",
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			},
+			"Price": {
+				"PriceAmount": {
+					"currencyID": "EUR",
+					"value": 10
+				}
+			}
+		}
+	]
+}

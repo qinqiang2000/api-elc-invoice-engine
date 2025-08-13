@@ -11,15 +11,17 @@
         <result property="errorMessage" column="ferror_message" />
         <result property="inputData" column="finput_data" />
         <result property="outputData" column="foutput_data" />
+        <result property="companyId" column="fcompany_id" />
+        <result property="requestId" column="frequest_id" />
         <result property="createTime" column="fcreate_time" />
         <result property="updateTime" column="fupdate_time" />
     </resultMap>
 
     <insert id="insert" parameterType="com.kingdee.fpy.model.RuleLog" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_rule_log 
-        (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data)
+        (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id)
         VALUES
-        (#{billNo}, #{invoiceNo}, #{ruleCode}, #{executionResult}, #{errorMessage}, #{inputData}, #{outputData})
+        (#{billNo}, #{invoiceNo}, #{ruleCode}, #{executionResult}, #{errorMessage}, #{inputData}, #{outputData}, #{companyId}, #{requestId})
     </insert>
 
     <update id="updateById" parameterType="com.kingdee.fpy.model.RuleLog">
@@ -32,6 +34,8 @@
             <if test="errorMessage != null">ferror_message = #{errorMessage},</if>
             <if test="inputData != null">finput_data = #{inputData},</if>
             <if test="outputData != null">foutput_data = #{outputData},</if>
+            <if test="companyId != null">fcompany_id = #{companyId},</if>
+            <if test="requestId != null">frequest_id = #{requestId},</if>
         </set>
         WHERE fid = #{id}
     </update>
@@ -41,20 +45,20 @@
     </delete>
 
     <select id="selectById" parameterType="long" resultMap="RuleLogResultMap">
-        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcreate_time, fupdate_time
+        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fcreate_time, fupdate_time
         FROM t_rule_log 
         WHERE fid = #{id}
     </select>
 
     <select id="selectAll" resultMap="RuleLogResultMap">
-        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcreate_time, fupdate_time
+        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fcreate_time, fupdate_time
         FROM t_rule_log
     </select>
 
     <insert id="insertBatch">
-        INSERT INTO t_rule_log (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data) VALUES
+        INSERT INTO t_rule_log (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id) VALUES
         <foreach item="item" index="index" collection="list" separator=",">
-            (#{item.billNo}, #{item.invoiceNo}, #{item.ruleCode}, #{item.executionResult}, #{item.errorMessage}, #{item.inputData}, #{item.outputData})
+            (#{item.billNo}, #{item.invoiceNo}, #{item.ruleCode}, #{item.executionResult}, #{item.errorMessage}, #{item.inputData}, #{item.outputData}, #{item.companyId}, #{item.requestId})
         </foreach>
   </insert>
 </mapper>
