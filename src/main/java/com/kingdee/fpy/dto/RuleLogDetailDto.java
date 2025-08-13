@@ -19,6 +19,7 @@ public class RuleLogDetailDto {
     private String outputData;
     private String companyId;
     private String requestId;
+    private Long executionTime;
     private Date createTime;
     private Date updateTime;
     
