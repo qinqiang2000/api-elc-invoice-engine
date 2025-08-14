@@ -95,14 +95,14 @@ public interface InvoiceMapper {
      * @param query 查询条件
      * @return 发票列表
      */
-    List<Invoice> selectByQuery(@Param("query") InvoiceQuery query);
+    List<Invoice> selectByQuery(InvoiceQuery query);
     
     /**
      * 根据条件统计总数
      * @param query 查询条件
      * @return 总数
      */
-    long countByQuery(@Param("query") InvoiceQuery query);
+    long countByQuery(InvoiceQuery query);
     
     // 兼容性方法
     @Deprecated
