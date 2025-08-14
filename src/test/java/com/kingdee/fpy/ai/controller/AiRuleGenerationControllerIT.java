@@ -71,14 +71,108 @@ public class AiRuleGenerationControllerIT {
         ResponseEntity<String> resp = restTemplate.postForEntity(url, req, String.class);
         assertTrue(resp.getStatusCode().is2xxSuccessful(), "response should be 2xx");
         JSONObject obj = JSON.parseObject(resp.getBody());
-        assertNotNull(obj.getJSONObject("generatedRule"));
-        assertEquals(Integer.valueOf(1), obj.getJSONObject("generatedRule").getInteger("ruleType"));
-        assertEquals("invoice.totalAmount", obj.getJSONObject("generatedRule").getString("fieldPath"));
-        assertFalse(obj.getBooleanValue("saved"));
-        assertNotNull(obj.getJSONArray("attempts"));
+        
+        // 验证Result结构
+        assertNotNull(obj.getString("errcode"));
+        assertNotNull(obj.getString("message"));
+        assertNotNull(obj.getString("traceId"));
+        
+        // 验证data字段中的内容
+        JSONObject data = obj.getJSONObject("data");
+        assertNotNull(data);
+        assertNotNull(data.getJSONObject("generatedRule"));
+        assertEquals(Integer.valueOf(1), data.getJSONObject("generatedRule").getInteger("ruleType"));
+        assertEquals("invoice.totalAmount", data.getJSONObject("generatedRule").getString("fieldPath"));
+        assertFalse(data.getBooleanValue("saved"));
+        assertNotNull(data.getJSONArray("attempts"));
         // at least one attempt and syntaxOk should be true
-        assertTrue(obj.getJSONArray("attempts").size() >= 1);
-        JSONObject firstAttempt = obj.getJSONArray("attempts").getJSONObject(0);
+        assertTrue(data.getJSONArray("attempts").size() >= 1);
+        JSONObject firstAttempt = data.getJSONArray("attempts").getJSONObject(0);
         assertTrue(firstAttempt.getBooleanValue("syntaxOk"));
+    }
+
+    @Test
+    public void validate_shouldReturnValid_forCorrectJexlExpressions() {
+        String url = "/api/ai/rules/jexl/validate";
+        Map<String, Object> body = new HashMap<>();
+        body.put("expression", "invoice != null && invoice.totalAmount.doubleValue() > 0");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> req = new HttpEntity<>(JSON.toJSONString(body), headers);
+
+        ResponseEntity<String> resp = restTemplate.postForEntity(url, req, String.class);
+        assertTrue(resp.getStatusCode().is2xxSuccessful(), "response should be 2xx");
+        JSONObject obj = JSON.parseObject(resp.getBody());
+        
+        // 验证Result结构
+        assertNotNull(obj.getString("errcode"));
+        assertNotNull(obj.getString("message"));
+        assertNotNull(obj.getString("traceId"));
+        
+        // 验证data字段中的内容
+        JSONObject data = obj.getJSONObject("data");
+        assertNotNull(data);
+        assertTrue(data.getBooleanValue("valid"), "should be valid");
+        assertNotNull(data.getJSONArray("errors"));
+        assertEquals(0, data.getJSONArray("errors").size(), "should have no errors");
+    }
+
+    @Test
+    public void validate_shouldReturnInvalid_forIncorrectJexlExpressions() {
+        String url = "/api/ai/rules/jexl/validate";
+        Map<String, Object> body = new HashMap<>();
+        body.put("expression", "invoice.totalAmount +"); // incomplete expression
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> req = new HttpEntity<>(JSON.toJSONString(body), headers);
+
+        ResponseEntity<String> resp = restTemplate.postForEntity(url, req, String.class);
+        assertTrue(resp.getStatusCode().is2xxSuccessful(), "response should be 2xx");
+        JSONObject obj = JSON.parseObject(resp.getBody());
+        
+        // 验证Result结构
+        assertNotNull(obj.getString("errcode"));
+        assertNotNull(obj.getString("message"));
+        assertNotNull(obj.getString("traceId"));
+        
+        // 验证data字段中的内容
+        JSONObject data = obj.getJSONObject("data");
+        assertNotNull(data);
+        assertFalse(data.getBooleanValue("valid"), "should be invalid");
+        assertNotNull(data.getJSONArray("errors"));
+        assertTrue(data.getJSONArray("errors").size() > 0, "should have errors");
+        
+        // Check error structure
+        JSONObject firstError = data.getJSONArray("errors").getJSONObject(0);
+        assertNotNull(firstError.getString("field"));
+        assertNotNull(firstError.getString("message"));
+    }
+
+    @Test
+    public void validate_shouldReturnValid_forSimpleExpression() {
+        String url = "/api/ai/rules/jexl/validate";
+        Map<String, Object> body = new HashMap<>();
+        body.put("expression", "1 + 1 == 2");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> req = new HttpEntity<>(JSON.toJSONString(body), headers);
+
+        ResponseEntity<String> resp = restTemplate.postForEntity(url, req, String.class);
+        assertTrue(resp.getStatusCode().is2xxSuccessful(), "response should be 2xx");
+        JSONObject obj = JSON.parseObject(resp.getBody());
+        
+        // 验证Result结构
+        assertNotNull(obj.getString("errcode"));
+        assertNotNull(obj.getString("message"));
+        assertNotNull(obj.getString("traceId"));
+        
+        // 验证data字段中的内容
+        JSONObject data = obj.getJSONObject("data");
+        assertNotNull(data);
+        assertTrue(data.getBooleanValue("valid"), "should be valid");
+        assertEquals(0, data.getJSONArray("errors").size(), "should have no errors");
     }
 } 

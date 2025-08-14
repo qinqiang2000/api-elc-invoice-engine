@@ -24,15 +24,40 @@ public class JexlValidationService {
     }
 
     public List<ValidationError> validate(String applyTo, String ruleExpression) {
+        return validate(applyTo, ruleExpression, true, true);
+    }
+
+    public List<ValidationError> validate(String applyTo, String ruleExpression, boolean applyToRequired, boolean ruleExpressionRequired) {
         List<ValidationError> errors = new ArrayList<>();
-        if (applyTo != null && !applyTo.trim().isEmpty()) {
-            try { JexlScript s = jexlEngine.createScript(applyTo); } catch (JexlException ex) { errors.add(newError("applyTo", summarize(ex))); }
+        
+        // Validate applyTo
+        if (applyToRequired && (applyTo == null || applyTo.trim().isEmpty())) {
+            ValidationError e = new ValidationError(); 
+            e.setField("applyTo"); 
+            e.setMessage("applyTo is required"); 
+            errors.add(e);
+        } else if (applyTo != null && !applyTo.trim().isEmpty()) {
+            try { 
+                JexlScript s = jexlEngine.createScript(applyTo); 
+            } catch (JexlException ex) { 
+                errors.add(newError("applyTo", summarize(ex))); 
+            }
         }
-        if (ruleExpression == null || ruleExpression.trim().isEmpty()) {
-            ValidationError e = new ValidationError(); e.setField("ruleExpression"); e.setMessage("ruleExpression is required"); errors.add(e);
-        } else {
-            try { JexlScript s = jexlEngine.createScript(ruleExpression); } catch (JexlException ex) { errors.add(newError("ruleExpression", summarize(ex))); }
+        
+        // Validate ruleExpression
+        if (ruleExpressionRequired && (ruleExpression == null || ruleExpression.trim().isEmpty())) {
+            ValidationError e = new ValidationError(); 
+            e.setField("ruleExpression"); 
+            e.setMessage("ruleExpression is required"); 
+            errors.add(e);
+        } else if (ruleExpression != null && !ruleExpression.trim().isEmpty()) {
+            try { 
+                JexlScript s = jexlEngine.createScript(ruleExpression); 
+            } catch (JexlException ex) { 
+                errors.add(newError("ruleExpression", summarize(ex))); 
+            }
         }
+        
         return errors;
     }
 

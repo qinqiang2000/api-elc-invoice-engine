@@ -1,0 +1,203 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ng",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Invoice Rules"
+    }
+  ],
+  "paths": {
+    "/invoice-rules": {
+      "post": {
+        "summary": "插入一条记录",
+        "deprecated": false,
+        "description": "插入一条InvoiceRules记录",
+        "tags": [
+          "Invoice Rules"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceRules"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultInteger"
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "InvoiceRules": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "主键ID"
+          },
+          "companyId": {
+            "type": "string",
+            "description": "企业ID"
+          },
+          "country": {
+            "type": "string",
+            "description": "国家二字码"
+          },
+          "tradeArea": {
+            "type": "string",
+            "description": "贸易区"
+          },
+          "province": {
+            "type": "string",
+            "description": "省"
+          },
+          "city": {
+            "type": "string",
+            "description": "城市"
+          },
+          "tags": {
+            "type": "string",
+            "description": "行业"
+          },
+          "invoiceType": {
+            "type": "string",
+            "description": "发票类型"
+          },
+          "ruleCode": {
+            "type": "string",
+            "description": "规则唯一编码，三段式，洲-sys/user-流水号"
+          },
+          "ruleName": {
+            "type": "string",
+            "description": "规则名称"
+          },
+          "ruleType": {
+            "type": "integer",
+            "description": "规则类型：1校验，2补全"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "是否启用"
+          },
+          "status": {
+            "type": "integer",
+            "description": "规则状态：1草稿 2测试通过 3已发布"
+          },
+          "applyTo": {
+            "type": "string",
+            "description": "规则应用条件"
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "错误提示信息"
+          },
+          "fieldPath": {
+            "type": "string",
+            "description": "字段路径"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "优先级"
+          },
+          "ruleExpression": {
+            "type": "string",
+            "description": "规则表达式"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "规则生效开始时间"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "规则生效结束时间"
+          },
+          "createTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "创建时间"
+          },
+          "updateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "更新时间"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "errcode": {
+            "type": "string",
+            "description": "错误码"
+          },
+          "message": {
+            "type": "string",
+            "description": "消息"
+          },
+          "traceId": {
+            "type": "string",
+            "description": "跟踪ID"
+          },
+          "errorMsgArray": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "错误消息数组"
+          },
+          "noise": {
+            "type": "string",
+            "description": "噪音"
+          },
+          "sign": {
+            "type": "string",
+            "description": "签名"
+          }
+        }
+      },
+      "ResultInteger": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Result"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "integer",
+                "description": "返回数据"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}

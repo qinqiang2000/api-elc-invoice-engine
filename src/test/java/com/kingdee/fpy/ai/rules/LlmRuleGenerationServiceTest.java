@@ -25,10 +25,24 @@ public class LlmRuleGenerationServiceTest {
                 // invalid JSON
                 res.content = "{";
             } else {
-                res.content = "{\"ruleType\":1,\"fieldPath\":\"invoice.total\",\"ruleExpression\":\"1 + 1 == 2\",\"active\":true}";
+                res.content = "{\"ruleType\":1,\"fieldPath\":\"invoice.total\",\"applyTo\":\"invoice.total != null\",\"ruleExpression\":\"1 + 1 == 2\",\"active\":true}";
             }
             return res;
         }
+    }
+
+    static class NoopInvoiceRulesService implements InvoiceRulesService {
+        @Override public int insert(InvoiceRules invoiceRules) { invoiceRules.setId(1L); return 1; }
+        @Override public int updateById(InvoiceRules invoiceRules) { return 0; }
+        @Override public int deleteById(Long id) { return 0; }
+        @Override public InvoiceRules selectById(Long id) { return null; }
+        @Override public List<InvoiceRules> selectAll() { return new ArrayList<>(); }
+        @Override public List<InvoiceRules> selectByTenantIdOrCompanyId(String tenantId, String companyId, String country) { return new ArrayList<>(); }
+        @Override public List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules) { return new ArrayList<>(); }
+        @Override public int updateStatus(String ruleCode, Integer status) { return 0; }
+        @Override public List<InvoiceRules> selectByCompanyIdAndRuleCode(String companyId, String ruleCode) { return new ArrayList<>(); }
+        @Override public String generateCode(String country, String invoiceType, String companyId) { return "test-code"; }
+        @Override public java.util.List<com.kingdee.fpy.dto.RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo) { return new java.util.ArrayList<>(); }
     }
 
     private LlmRuleGenerationService service;
@@ -43,8 +57,8 @@ public class LlmRuleGenerationServiceTest {
         f.setAccessible(true);
         f.set(jexlValidationService, engine);
         LlmProperties props = new LlmProperties();
-       // InvoiceRulesService irs = new NoopInvoiceRulesService();
-      //  service = new LlmRuleGenerationService(llm, builder, jexlValidationService, props, irs);
+        InvoiceRulesService irs = new NoopInvoiceRulesService();
+        service = new LlmRuleGenerationService(llm, builder, jexlValidationService, props, irs);
     }
 
     @Test

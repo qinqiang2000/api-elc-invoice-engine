@@ -16,6 +16,7 @@ public interface RuleGenerationService {
         public Map<String, Object> invoiceSample; // 可选
         public boolean save;              // 可选，默认 false
         public Integer maxRetries;        // 可选，默认配置
+        public GenerationType generationType = GenerationType.FULL; // 生成类型，默认完整生成
     }
 
     class AttemptInfo {
