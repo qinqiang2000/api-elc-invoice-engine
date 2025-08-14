@@ -1,3 +1,4 @@
+/*
 package com.kingdee.fpy.controller;
 
 import com.alibaba.fastjson.JSON;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+*/
 /**
  * @Author: 金帆
  * @Date: 2025/7/29 16:09
  * @Description:
- */
+ *//*
+
 @RestController
 @RequestMapping("/api/users")
 public class CelController {
@@ -49,3 +52,4 @@ public class CelController {
         return ResponseEntity.ok("校验补全成功");
     }
 }
+*/

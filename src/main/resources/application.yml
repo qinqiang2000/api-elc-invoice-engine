@@ -1,0 +1,18 @@
+app:
+  id: api-elc-invoice-engine
+apollo:
+  meta: http://10.213.4.50:8383
+  bootstrap:
+    namespaces: application,invoice.database,invoice.redis,invoice.global
+    enabled: true
+    eagerLoad:
+      enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://kdinvoice:kdinvoice2018@172.18.1.113:8601/eureka/
+  instance:
+    status-page-url: http://${spring.cloud.client.ipAddress}:${server.port}/swagger-ui.html
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}

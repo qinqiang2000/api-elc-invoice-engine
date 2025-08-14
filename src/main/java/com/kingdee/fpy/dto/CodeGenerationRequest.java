@@ -19,6 +19,10 @@ public class CodeGenerationRequest {
      */
     private String invoiceType;
     /**
+     * 票种子类型
+     */
+    private String subInvoiceType;
+    /**
      * 组织编码
      */
     private String companyId;

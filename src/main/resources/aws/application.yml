@@ -1,5 +1,5 @@
 app:
-  id: api-elc-invoice-lqpt
+  id: api-elc-invoice-engine
 apollo:
   meta: http://10.213.4.50:8383
   bootstrap:

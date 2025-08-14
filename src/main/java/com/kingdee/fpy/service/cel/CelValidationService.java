@@ -1,3 +1,4 @@
+/*
 package com.kingdee.fpy.service.cel;
 
 
@@ -11,11 +12,13 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+*/
 /**
  * @Author: 金帆
  * @Date: 2025/7/29 15:48
  * @Description:
- */
+ *//*
+
 @Service
 @Slf4j
 public class CelValidationService {
@@ -87,3 +90,4 @@ public class CelValidationService {
     }
 
 }
+*/

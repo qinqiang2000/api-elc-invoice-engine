@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import com.kingdee.fpy.ai.config.LlmProperties;
 import com.kingdee.fpy.ai.llm.LlmClient;
 import com.kingdee.fpy.ai.validation.JexlValidationService;
+import com.kingdee.fpy.dto.CodeGenerationRequest;
 import com.kingdee.fpy.model.InvoiceRules;
 import com.kingdee.fpy.service.InvoiceRulesService;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class LlmRuleGenerationServiceTest {
         }
 
         @Override public List<InvoiceRules> selectByCompanyIdAndRuleCode(String companyId, String ruleCode) { return new ArrayList<>(); }
-        @Override public String generateCode(String country, String invoiceType, String companyId) { return "test-code"; }
+        @Override public String generateCode(CodeGenerationRequest request) { return "test-code"; }
         @Override public java.util.List<com.kingdee.fpy.dto.RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo) { return new java.util.ArrayList<>(); }
     }
 

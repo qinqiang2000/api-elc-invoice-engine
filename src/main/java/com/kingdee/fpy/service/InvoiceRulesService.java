@@ -1,5 +1,6 @@
 package com.kingdee.fpy.service;
 
+import com.kingdee.fpy.dto.CodeGenerationRequest;
 import com.kingdee.fpy.dto.RuleLogDetailDto;
 import com.kingdee.fpy.model.InvoiceRules;
 import java.util.List;
@@ -61,7 +62,7 @@ public interface InvoiceRulesService {
      * @param companyId
      * @return 生成的编码字符串，格式：custom-国家-票种-序号
      */
-    String generateCode(String country, String invoiceType, String companyId);
+    String generateCode(CodeGenerationRequest request);
 
     /**
      * 更新规则状态

@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
@@ -18,11 +20,12 @@ import java.util.Arrays;
 @Slf4j
 @EnableTransactionManagement(order = 10) // 开启事务，并设置order值，默认是Integer的最大值
 @ComponentScan(basePackages = { "com.kingdee" })
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @SpringBootApplication
 @EnableAsync
 @EnableScheduling
 @MapperScan("com.kingdee.fpy.mapper")
+@EnableFeignClients(basePackages = {"com.kingdee.fpy.rpc"})
 public class ApiInvoiceXmlApplication {
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package com.kingdee.fpy.mapper;
 
+import com.kingdee.fpy.dto.CodeGenerationRequest;
 import com.kingdee.fpy.model.InvoiceRules;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -64,8 +65,7 @@ public interface InvoiceRulesMapper {
      * @param companyId
      * @return 最大序号
      */
-    Integer selectMaxSequenceByCountryAndType(@Param("country") String country, @Param("invoiceType") String invoiceType,
-            @Param("companyId")String companyId);
+    Integer selectMaxSequenceByCountryAndType(CodeGenerationRequest request);
 
     /**
      * 更新规则状态

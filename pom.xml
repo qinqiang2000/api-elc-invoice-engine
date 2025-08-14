@@ -69,11 +69,6 @@
       <version>2.2.1</version>
     </dependency>
     <dependency>
-      <groupId>dev.cel</groupId>
-      <artifactId>cel</artifactId>
-      <version>0.10.1</version>
-    </dependency>
-    <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
       <version>2.4</version>
@@ -219,23 +214,47 @@
       <scope>test</scope>
     </dependency>
     
-   <!-- &lt;!&ndash; Eureka Client &ndash;&gt;
+    <!-- Eureka Client -->
+    <!-- springboot -->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>HdrHistogram</artifactId>
+          <groupId>org.hdrhistogram</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
     
-    &lt;!&ndash; Apollo Configuration &ndash;&gt;
+    <!-- Apollo Configuration -->
     <dependency>
       <groupId>com.ctrip.framework.apollo</groupId>
       <artifactId>apollo-client</artifactId>
-      <version>1.9.2</version>
+      <version>1.8.0</version>
     </dependency>
     <dependency>
       <groupId>com.ctrip.framework.apollo</groupId>
       <artifactId>apollo-core</artifactId>
-      <version>1.9.2</version>
-    </dependency>-->
+      <version>1.8.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>5.0.1</version>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -246,13 +265,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-     <!-- <dependency>
+      <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
         <version>Hoxton.SR12</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>-->
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

@@ -82,8 +82,7 @@ InvoiceRulesController {
     @PostMapping("/generate-code")
     public Result<String> generateCode(@RequestBody CodeGenerationRequest request) {
         try {
-            String code = invoiceRulesService.generateCode(request.getCountry(), request.getInvoiceType(),
-                    request.getCompanyId());
+            String code = invoiceRulesService.generateCode(request);
             return new Result<>(code);
         } catch (IllegalArgumentException e) {
             return Result.error(e.getMessage());

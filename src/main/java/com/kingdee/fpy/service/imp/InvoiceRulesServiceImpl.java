@@ -1,5 +1,6 @@
 package com.kingdee.fpy.service.imp;
 
+import com.kingdee.fpy.dto.CodeGenerationRequest;
 import com.kingdee.fpy.dto.RuleLogDetailDto;
 import com.kingdee.fpy.enums.RuleStatus;
 import com.kingdee.fpy.mapper.InvoiceRulesMapper;
@@ -60,17 +61,20 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
     }
     
     @Override
-    public synchronized String generateCode(String country, String invoiceType, String companyId) {
+    public synchronized String generateCode(CodeGenerationRequest request) {
         // 参数校验
-        if (country == null || country.trim().isEmpty()) {
+        if (request.getCountry() == null || request.getCountry().isEmpty()) {
             throw new IllegalArgumentException("国家参数不能为空");
         }
-        if (invoiceType == null || invoiceType.trim().isEmpty()) {
-            throw new IllegalArgumentException("票种类型参数不能为空");
+        if (request.getInvoiceType() == null || request.getInvoiceType().isEmpty()) {
+            request.setInvoiceType("common");
+        }
+        if (request.getSubInvoiceType() == null || request.getSubInvoiceType().isEmpty()) {
+            request.setSubInvoiceType("common");
         }
         
         // 查询当前最大序号
-        Integer maxSequence = invoiceRulesMapper.selectMaxSequenceByCountryAndType(country, invoiceType,companyId);
+        Integer maxSequence = invoiceRulesMapper.selectMaxSequenceByCountryAndType(request);
         
         // 计算下一个序号
         int nextSequence = (maxSequence == null ? 0 : maxSequence) + 1;
@@ -79,7 +83,7 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
         String sequenceStr = String.format("%04d", nextSequence);
         
         // 生成编码字符串
-        return "custom-" + country + "-" + invoiceType + "-" + sequenceStr;
+        return "custom-" + request.getCountry() + "-" + request.getInvoiceType() + "-"+request.getSubInvoiceType() + "-" + sequenceStr;
     }
 
     @Override
