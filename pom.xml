@@ -87,16 +87,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+
     <dependency>
       <groupId>javax.validation</groupId>
       <artifactId>validation-api</artifactId>
       <version>2.0.1.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <scope>runtime</scope>
-      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -124,6 +119,18 @@
       <groupId>cn.hutool</groupId>
       <artifactId>hutool-all</artifactId>
       <version>5.7.9</version>
+    </dependency>
+    
+    <!-- Apache POI for Excel processing -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>5.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>5.2.2</version>
     </dependency>
    <!-- <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -211,6 +218,24 @@
       <version>2.2.224</version>
       <scope>test</scope>
     </dependency>
+    
+   <!-- &lt;!&ndash; Eureka Client &ndash;&gt;
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+    
+    &lt;!&ndash; Apollo Configuration &ndash;&gt;
+    <dependency>
+      <groupId>com.ctrip.framework.apollo</groupId>
+      <artifactId>apollo-client</artifactId>
+      <version>1.9.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ctrip.framework.apollo</groupId>
+      <artifactId>apollo-core</artifactId>
+      <version>1.9.2</version>
+    </dependency>-->
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -221,6 +246,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+     <!-- <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Hoxton.SR12</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>-->
     </dependencies>
   </dependencyManagement>
 
