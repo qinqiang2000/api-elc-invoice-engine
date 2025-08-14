@@ -60,9 +60,6 @@ public interface InvoiceRulesMapper {
     /**
      * 查询指定国家和票种的最大序号
      *
-     * @param country     国家或税辖区
-     * @param invoiceType 票种类型
-     * @param companyId
      * @return 最大序号
      */
     Integer selectMaxSequenceByCountryAndType(CodeGenerationRequest request);

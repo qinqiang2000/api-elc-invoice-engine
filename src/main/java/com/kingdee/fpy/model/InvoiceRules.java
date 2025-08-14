@@ -48,6 +48,11 @@ public class InvoiceRules {
     private String invoiceType;
 
     /**
+     * 发票子类型
+     */
+    private String subInvoiceType;
+
+    /**
      * 规则唯一编码，三段式，洲-sys/user-流水号
      */
     private String ruleCode;

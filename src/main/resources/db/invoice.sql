@@ -27,6 +27,7 @@ CREATE TABLE `t_invoice_rules` (
   `fcity` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '城市',
   `ftags` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '行业',
   `finvoice_type` varchar(12) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '发票类型',
+  `fsub_invoice_type` varchar(12) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '发票子类型',
   `frule_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则唯一编码，三段式，洲-sys/user-流水号',
   `frule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则名称',
   `frule_type` tinyint NOT NULL DEFAULT '2' COMMENT '1校验，2补全',
@@ -98,3 +99,6 @@ KEY `idx_ubl_code` (`fubl_code`),
 KEY `idx_country_code` (`fcountry_code`),
 KEY `idx_parent_code` (`fparent_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='发票类型表';
+
+-- Add fsub_invoice_type column to t_invoice_rules table (migration)
+ALTER TABLE `t_invoice_rules` ADD COLUMN `fsub_invoice_type` varchar(12) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '发票子类型' AFTER `finvoice_type`;

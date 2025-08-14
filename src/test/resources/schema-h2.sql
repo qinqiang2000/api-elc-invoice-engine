@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS t_invoice_rules (
   fcity VARCHAR(64) DEFAULT '',
   ftags VARCHAR(64) DEFAULT '',
   finvoice_type VARCHAR(12) DEFAULT '',
+  fsub_invoice_type VARCHAR(12) DEFAULT '',
   frule_code VARCHAR(64) NOT NULL,
   frule_name VARCHAR(100) NOT NULL,
   frule_type TINYINT NOT NULL DEFAULT 2,

@@ -113,7 +113,11 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        fid, frequest_id, ftenant_id, fcompany_id, finvoice_type, finvoice_sub_type, fsubmission_type, fsell_billed,
+        finvoice_no, fissue_date, fsend_company_id, freceive_company_id, fsend_company_name, fcountry,
+        freceiver_company_name, ftotal_amount, ftax_amount, fcurrency, forder_refid, fbilling_refid,
+        fsource_document_type, fsource_document_id, ftarget_document_id, fstatus,
+        ferror_message, fcreate_time, fupdate_time
         FROM t_invoice_request
         WHERE fid = #{id,jdbcType=BIGINT}
     </select>
@@ -221,7 +225,11 @@
 
     <!-- 分页查询发票申请（支持过滤条件） -->
     <select id="selectPageWithFilter" parameterType="com.kingdee.fpy.model.InvoiceRequestQuery" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT  fid, frequest_id, ftenant_id, fcompany_id, finvoice_type, finvoice_sub_type, fsubmission_type, fsell_billed,
+        finvoice_no, fissue_date, fsend_company_id, freceive_company_id, fsend_company_name, fcountry,
+        freceiver_company_name, ftotal_amount, ftax_amount, fcurrency, forder_refid, fbilling_refid,
+        fsource_document_type, fsource_document_id, ftarget_document_id, fstatus,
+        ferror_message, fcreate_time, fupdate_time
         FROM t_invoice_request
         <where>
             <if test="requestId != null and requestId != ''">
