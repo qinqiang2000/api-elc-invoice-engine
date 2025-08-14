@@ -228,4 +228,96 @@
         WHERE fid = #{id,jdbcType=BIGINT}
     </update>
 
+    <!-- 根据条件分页查询发票 -->
+    <select id="selectByQuery" parameterType="com.kingdee.fpy.model.InvoiceQuery" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM t_invoice
+        <where>
+            <if test="companyId != null and companyId != ''">
+                AND fcompany_id = #{companyId,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceType != null and invoiceType != ''">
+                AND finvoice_type = #{invoiceType,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceSubType != null and invoiceSubType != ''">
+                AND finvoice_sub_type = #{invoiceSubType,jdbcType=VARCHAR}
+            </if>
+            <if test="submissionType != null and submissionType != ''">
+                AND fsubmission_type = #{submissionType,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceNo != null and invoiceNo != ''">
+                AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="sendCompanyId != null and sendCompanyId != ''">
+                AND fsend_company_id = #{sendCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="receiveCompanyId != null and receiveCompanyId != ''">
+                AND freceive_company_id = #{receiveCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="sendCompanyName != null and sendCompanyName != ''">
+                AND fsend_company_name LIKE CONCAT('%', #{sendCompanyName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != null">
+                AND fstatus = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+        ORDER BY fcreate_time DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 根据条件统计总数 -->
+    <select id="countByQuery" parameterType="com.kingdee.fpy.model.InvoiceQuery" resultType="long">
+        SELECT COUNT(1)
+        FROM t_invoice
+        <where>
+            <if test="companyId != null and companyId != ''">
+                AND fcompany_id = #{companyId,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceType != null and invoiceType != ''">
+                AND finvoice_type = #{invoiceType,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceSubType != null and invoiceSubType != ''">
+                AND finvoice_sub_type = #{invoiceSubType,jdbcType=VARCHAR}
+            </if>
+            <if test="submissionType != null and submissionType != ''">
+                AND fsubmission_type = #{submissionType,jdbcType=VARCHAR}
+            </if>
+            <if test="invoiceNo != null and invoiceNo != ''">
+                AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="sendCompanyId != null and sendCompanyId != ''">
+                AND fsend_company_id = #{sendCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="receiveCompanyId != null and receiveCompanyId != ''">
+                AND freceive_company_id = #{receiveCompanyId,jdbcType=VARCHAR}
+            </if>
+            <if test="sendCompanyName != null and sendCompanyName != ''">
+                AND fsend_company_name LIKE CONCAT('%', #{sendCompanyName,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="status != null">
+                AND fstatus = #{status,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!-- 按状态统计发票数量 -->
+    <select id="countByStatus" resultType="map">
+        SELECT fstatus as status, COUNT(1) as count
+        FROM t_invoice
+        GROUP BY fstatus
+        ORDER BY fstatus
+    </select>
+
+    <!-- 按企业ID和币种统计总金额和税额 -->
+    <select id="getCurrencyStatsByCompany" parameterType="java.lang.String" resultType="com.kingdee.fpy.model.CurrencyStats">
+        SELECT 
+            fcurrency as currency,
+            SUM(ftotal_amount) as totalAmount,
+            SUM(ftax_amount) as taxAmount
+        FROM t_invoice
+        WHERE fcompany_id = #{companyId,jdbcType=VARCHAR}
+        GROUP BY fcurrency
+        ORDER BY fcurrency
+    </select>
+
 </mapper>

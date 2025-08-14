@@ -1,9 +1,12 @@
 package com.kingdee.fpy.mapper;
 
 import com.kingdee.fpy.model.Invoice;
+import com.kingdee.fpy.model.InvoiceQuery;
+import com.kingdee.fpy.model.CurrencyStats;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 发票Mapper接口
@@ -87,6 +90,20 @@ public interface InvoiceMapper {
      */
     List<Invoice> selectByCondition(Invoice invoice);
     
+    /**
+     * 根据条件分页查询发票
+     * @param query 查询条件
+     * @return 发票列表
+     */
+    List<Invoice> selectByQuery(@Param("query") InvoiceQuery query);
+    
+    /**
+     * 根据条件统计总数
+     * @param query 查询条件
+     * @return 总数
+     */
+    long countByQuery(@Param("query") InvoiceQuery query);
+    
     // 兼容性方法
     @Deprecated
     Invoice findById(@Param("id") Long id);
@@ -96,4 +113,17 @@ public interface InvoiceMapper {
     
     @Deprecated
     int update(Invoice invoice);
+    
+    /**
+     * 按状态统计发票数量
+     * @return 状态和数量的映射
+     */
+    List<Map<String, Object>> countByStatus();
+    
+    /**
+     * 按企业ID和币种统计总金额和税额
+     * @param companyId 企业ID
+     * @return 币种统计列表
+     */
+    List<CurrencyStats> getCurrencyStatsByCompany(@Param("companyId") String companyId);
 } 
