@@ -31,11 +31,12 @@ CREATE TABLE `t_invoice_rules` (
   `frule_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则名称',
   `frule_type` tinyint NOT NULL DEFAULT '2' COMMENT '1校验，2补全',
   `factive` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用1启用2停用',
-  `fstatus` tinyint(1) NOT NULL DEFAULT '1' COMMENT '规则状态：1草稿 2测试通过 3已发布',
+  `fstatus` tinyint(1) NOT NULL DEFAULT '1' COMMENT '规则状态：1草稿 2测试通过 3已发布 4启用 5停用',
   `fapply_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则应用条件',
   `ferror_message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '错误提示信息',
   `ffield_path` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '字段路径',
   `fpriority` int NOT NULL DEFAULT '0' COMMENT '优先级',
+  `fexecution_time` int NOT NULL DEFAULT '0' COMMENT '请求耗时',
   `frule_expression` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '规则表达式',
   `fdescription` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '规则描述',
   `fstart_time` datetime DEFAULT NULL COMMENT '规则生效开始时间',
@@ -74,3 +75,16 @@ CREATE TABLE `t_rule_log` (
   `fupdate_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`fid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='规则执行日志表';
+
+CREATE TABLE `t_invoice_type` (
+`fid` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+`fcountry` varchar(4) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '国家二字码',
+`ftrade_area` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '贸易区',
+`finvoice_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发票类型代码',
+`finvoice_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发票类型名称代码',
+`factive` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用1启用2停用',
+`fcreate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+`fupdate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+PRIMARY KEY (`fid`),
+KEY `idx_invoice_code` (`finvoice_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='发票类型表';

@@ -1,6 +1,7 @@
 package com.kingdee.fpy.service.imp;
 
 import com.kingdee.fpy.dto.RuleLogDetailDto;
+import com.kingdee.fpy.enums.RuleStatus;
 import com.kingdee.fpy.mapper.InvoiceRulesMapper;
 import com.kingdee.fpy.mapper.RuleLogMapper;
 import com.kingdee.fpy.model.InvoiceRules;
@@ -84,6 +85,16 @@ public class InvoiceRulesServiceImpl implements InvoiceRulesService {
     @Override
     public int updateStatus(String ruleCode, Integer status) {
         return invoiceRulesMapper.updateStatus(ruleCode, status);
+    }
+    
+    @Override
+    public int enableRule(String ruleCode) {
+        return invoiceRulesMapper.updateStatus(ruleCode, RuleStatus.ENABLED.getCode());
+    }
+    
+    @Override
+    public int disableRule(String ruleCode) {
+        return invoiceRulesMapper.updateStatus(ruleCode, RuleStatus.DISABLED.getCode());
     }
 
     @Override

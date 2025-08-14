@@ -224,83 +224,38 @@
     </dependencies>
   </dependencyManagement>
 
+  <profiles>
+    <profile>
+      <id>local</id>
+      <properties>
+        <package.environment>local</package.environment>
+      </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <package.environment>dev</package.environment>
+      </properties>
+    </profile>
+    <profile>
+      <id>pro</id>
+      <properties>
+        <package.environment>pro</package.environment>
+      </properties>
+    </profile>
+    <profile>
+      <id>aws</id>
+      <properties>
+        <package.environment>aws</package.environment>
+      </properties>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
-     <!-- <plugin>
-        <groupId>org.jsonschema2pojo</groupId>
-        <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-        <version>1.2.2</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.jsonschema2pojo</groupId>
-            <artifactId>jsonschema2pojo-core</artifactId>
-            <version>1.2.2</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.10</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>1.3.2</version>
-          </dependency>
-          <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>1.12.0</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-shared-utils</artifactId>
-            <version>3.4.2</version>
-          </dependency>
-          <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
-          </dependency>
-          <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.5.4</version>
-          </dependency>
-          <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.19.2</version>
-          </dependency>
-          <dependency>
-            <groupId>com.sun.codemodel</groupId>
-            <artifactId>codemodel</artifactId>
-            <version>2.6</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <sourceDirectory>${basedir}/src/main/resources/schema/maindoc/UBL-Invoice-2.1.json</sourceDirectory>
-          <targetPackage>com.kingdee.fpy.model</targetPackage>
-          <generateBuilders>true</generateBuilders>
-          <useJakartaValidation>true</useJakartaValidation>
-          &lt;!&ndash; 关键：禁用 Jakarta 注解，使用 Javax &ndash;&gt;
-          <useJakartaValidation>false</useJakartaValidation>
-          &lt;!&ndash; 启用 JSR-303 注解（Javax Validation） &ndash;&gt;
-          <includeJsr303Annotations>true</includeJsr303Annotations>
-          <useLongIntegers>true</useLongIntegers>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -335,34 +290,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!--<plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jaxb2-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <id>xjc</id>
-            <goals>
-              <goal>xjc</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <sources>
-            <source>src/main/resources/rules/kdubl/maindoc/UBL-Invoice-2.1.xsd</source>
-          </sources>
-          <packageName>com.kingdee.fpy</packageName>
-          <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
-          <clearOutputDir>true</clearOutputDir>
-          <arg>
-            <arg>-XautoNameResolution</arg>
-            <arg>-npa</arg>
-            <arg>-XtoString</arg>
-            <arg>-Xequals</arg>
-          </arg>
-        </configuration>
-      </plugin>-->
     </plugins>
   </build>
 

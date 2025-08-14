@@ -59,6 +59,11 @@ public class RuleLog {
     private String requestId;
 
     /**
+     * 执行时间（毫秒）
+     */
+    private Long executionTime;
+
+    /**
      * 创建时间
      */
     private Date createTime;

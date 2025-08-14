@@ -13,15 +13,16 @@
         <result property="outputData" column="foutput_data" />
         <result property="companyId" column="fcompany_id" />
         <result property="requestId" column="frequest_id" />
+        <result property="executionTime" column="fexecution_time" />
         <result property="createTime" column="fcreate_time" />
         <result property="updateTime" column="fupdate_time" />
     </resultMap>
 
     <insert id="insert" parameterType="com.kingdee.fpy.model.RuleLog" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_rule_log 
-        (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id)
+        (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fexecution_time)
         VALUES
-        (#{billNo}, #{invoiceNo}, #{ruleCode}, #{executionResult}, #{errorMessage}, #{inputData}, #{outputData}, #{companyId}, #{requestId})
+        (#{billNo}, #{invoiceNo}, #{ruleCode}, #{executionResult}, #{errorMessage}, #{inputData}, #{outputData}, #{companyId}, #{requestId}, #{executionTime})
     </insert>
 
     <update id="updateById" parameterType="com.kingdee.fpy.model.RuleLog">
@@ -36,6 +37,7 @@
             <if test="outputData != null">foutput_data = #{outputData},</if>
             <if test="companyId != null">fcompany_id = #{companyId},</if>
             <if test="requestId != null">frequest_id = #{requestId},</if>
+            <if test="executionTime != null">fexecution_time = #{executionTime},</if>
         </set>
         WHERE fid = #{id}
     </update>
@@ -45,20 +47,20 @@
     </delete>
 
     <select id="selectById" parameterType="long" resultMap="RuleLogResultMap">
-        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fcreate_time, fupdate_time
+        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fexecution_time, fcreate_time, fupdate_time
         FROM t_rule_log 
         WHERE fid = #{id}
     </select>
 
     <select id="selectAll" resultMap="RuleLogResultMap">
-        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fcreate_time, fupdate_time
+        SELECT fid, fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fexecution_time, fcreate_time, fupdate_time
         FROM t_rule_log
     </select>
 
     <insert id="insertBatch">
-        INSERT INTO t_rule_log (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id) VALUES
+        INSERT INTO t_rule_log (fbill_no, finvoice_no, frule_code, fexecution_result, ferror_message, finput_data, foutput_data, fcompany_id, frequest_id, fexecution_time) VALUES
         <foreach item="item" index="index" collection="list" separator=",">
-            (#{item.billNo}, #{item.invoiceNo}, #{item.ruleCode}, #{item.executionResult}, #{item.errorMessage}, #{item.inputData}, #{item.outputData}, #{item.companyId}, #{item.requestId})
+            (#{item.billNo}, #{item.invoiceNo}, #{item.ruleCode}, #{item.executionResult}, #{item.errorMessage}, #{item.inputData}, #{item.outputData}, #{item.companyId}, #{item.requestId}, #{item.executionTime})
         </foreach>
     </insert>
 
@@ -74,6 +76,7 @@
         <result property="outputData" column="log_output_data" />
         <result property="companyId" column="log_company_id" />
         <result property="requestId" column="log_request_id" />
+        <result property="executionTime" column="log_execution_time" />
         <result property="createTime" column="log_create_time" />
         <result property="updateTime" column="log_update_time" />
         
@@ -100,6 +103,7 @@
             rl.fexecution_result as log_execution_result,
             rl.ferror_message as log_error_message,
             rl.frequest_id as log_request_id,
+            rl.fexecution_time as log_execution_time,
             ir.frule_name as rule_name,
             ir.frule_type as rule_type,
             ir.ffield_path as rule_field_path,

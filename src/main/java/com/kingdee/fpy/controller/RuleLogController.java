@@ -100,7 +100,8 @@ public class RuleLogController {
             
             // 查询规则日志详情
             List<RuleLogDetailDto> ruleLogDetails = invoiceRulesService.getRuleLogsWithDetailsByRequestIdAndBillNo(requestId, billNo);
-            
+            ruleLogDetails =
+                    ruleLogDetails.stream().filter(log -> null != log.getRuleType()).collect(Collectors.toList());
             // 按规则类型分组
             Map<Integer, List<RuleLogDetailDto>> groupedByRuleType = ruleLogDetails.stream()
                 .collect(Collectors.groupingBy(
