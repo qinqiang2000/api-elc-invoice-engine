@@ -1,0 +1,195 @@
+{
+	"UBLVersionID": "2.1",
+	"CustomizationID": "urn:piaozone.com:ubl-2.1-customizations:v1.0",
+	"ProfileID": "urn:www.piaozone.com:profile:bill:v1.0",
+	"ID": "DE2025019-1009000000055512231",
+	"IssueDate": "2025-03-31",
+	"DueDate": "2025-08-14",
+	"InvoiceTypeCode": {
+		"name": "Commercial Invoice",
+		"value": "380"
+	},
+	"Note": "German standard invoice",
+	"DocumentCurrencyCode": "EUR",
+	"BuyerReference": "DE-REF-123",
+	"InvoicePeriod": {
+		"StartDate": "2025-05-10",
+		"EndDate": "2025-05-16"
+	},
+	"OrderReference": {
+		"ID": "DE-ORDER-123"
+	},
+	"AdditionalDocumentReferences": [
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "SubmissionType"
+			},
+			"DocumentTypeCode": "B2B"
+		},
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "Selfbilled"
+			},
+			"DocumentTypeCode": "false"
+		}
+	],
+	"AccountingSupplierParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "DE00000001"
+			},
+			"PartyName": {
+				"Name": "Kingdee Test Supplier DE"
+			},
+			"PostalAddress": {
+				"StreetName": "Musterstraße 123",
+				"CityName": "Berlin",
+				"PostalZone": "10115",
+				"Country": {
+					"IdentificationCode": "DE"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "DE123456789",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Kingdee Test Supplier DE GmbH",
+				"CompanyID": {
+					"schemeID": "0204",
+					"value": "DE123456789"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "info@supplier-de.com"
+			}
+		}
+	},
+	"AccountingCustomerParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "DE00000002"
+			},
+			"PartyName": {
+				"Name": "Kingdee Test Buyer DE"
+			},
+			"PostalAddress": {
+				"StreetName": "Käuferstraße 456",
+				"CityName": "München",
+				"PostalZone": "80331",
+				"Country": {
+					"IdentificationCode": "DE"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "DE987654321",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Kingdee Test Buyer DE GmbH",
+				"CompanyID": {
+					"schemeID": "0204",
+					"value": "DE987654321"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "purchase@buyer-de.com"
+			}
+		}
+	},
+	"PaymentMeans": {
+		"PaymentMeansCode": "58",
+		"PayeeFinancialAccount": {
+			"ID": "DE89370400440532013000",
+			"Name": "Kingdee Test Supplier DE GmbH",
+			"FinancialInstitutionBranch": {
+				"ID": "COBADEFFXXX",
+				"FinancialInstitution": {
+					"Name": "Commerzbank AG"
+				}
+			}
+		}
+	},
+	"PaymentTerms": {
+		"Note": "Zahlbar innerhalb von 30 Tagen netto"
+	},
+	"TaxTotal": {
+		"TaxAmount": {
+			"currencyID": "EUR",
+			"value": 19
+		},
+		"TaxSubtotals": [
+			{
+				"TaxableAmount": {
+					"currencyID": "EUR",
+					"value": 100
+				},
+				"TaxAmount": {
+					"currencyID": "EUR",
+					"value": 19
+				},
+				"TaxCategory": {
+					"ID": "S",
+					"Percent": 19,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			}
+		]
+	},
+	"LegalMonetaryTotal": {
+		"LineExtensionAmount": {
+			"currencyID": "EUR",
+			"value": 100
+		},
+		"TaxExclusiveAmount": {
+			"currencyID": "EUR",
+			"value": 100
+		},
+		"TaxInclusiveAmount": {
+			"currencyID": "EUR",
+			"value": 119
+		},
+		"PayableAmount": {
+			"currencyID": "EUR",
+			"value": 119
+		}
+	},
+	"InvoiceLines": [
+		{
+			"ID": "1",
+			"InvoicedQuantity": {
+				"unitCode": "C62",
+				"value": 10
+			},
+			"LineExtensionAmount": {
+				"currencyID": "EUR",
+				"value": 100
+			},
+			"Item": {
+				"Name": "German Product",
+				"Description": "Made in Germany",
+				"ClassifiedTaxCategory": {
+					"ID": "S",
+					"Percent": 19,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			},
+			"Price": {
+				"PriceAmount": {
+					"currencyID": "EUR",
+					"value": 10
+				}
+			}
+		}
+	]
+}

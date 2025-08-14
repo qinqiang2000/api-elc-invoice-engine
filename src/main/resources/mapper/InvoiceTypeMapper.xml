@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingdee.fpy.mapper.InvoiceTypeMapper">
+
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.kingdee.fpy.model.InvoiceType">
+        <id column="fid" property="id" jdbcType="BIGINT"/>
+        <result column="finvoice_code" property="invoiceCode" jdbcType="VARCHAR"/>
+        <result column="fubl_code" property="ublCode" jdbcType="VARCHAR"/>
+        <result column="fdescription_en" property="descriptionEn" jdbcType="VARCHAR"/>
+        <result column="fdescription_cn" property="descriptionCn" jdbcType="VARCHAR"/>
+        <result column="flevel" property="level" jdbcType="INTEGER"/>
+        <result column="fparent_code" property="parentCode" jdbcType="VARCHAR"/>
+        <result column="fselfbilled" property="selfbilled" jdbcType="TINYINT"/>
+        <result column="fsubmission_type" property="submissionType" jdbcType="VARCHAR"/>
+        <result column="ftax_type" property="taxType" jdbcType="VARCHAR"/>
+        <result column="fcountry_name" property="countryName" jdbcType="VARCHAR"/>
+        <result column="fcountry_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="factive" property="active" jdbcType="TINYINT"/>
+        <result column="fcreate_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="fupdate_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 基础字段 -->
+    <sql id="Base_Column_List">
+        fid, finvoice_code, fubl_code, fdescription_en, fdescription_cn, flevel, 
+        fparent_code, fselfbilled, fsubmission_type, ftax_type, fcountry_name, 
+        fcountry_code, factive, fcreate_time, fupdate_time
+    </sql>
+
+    <!-- 插入一条记录 -->
+    <insert id="insert" parameterType="com.kingdee.fpy.model.InvoiceType" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_invoice_type (
+            finvoice_code, fubl_code, fdescription_en, fdescription_cn, flevel, 
+            fparent_code, fselfbilled, fsubmission_type, ftax_type, fcountry_name, 
+            fcountry_code, factive, fcreate_time, fupdate_time
+        ) VALUES (
+            #{invoiceCode}, #{ublCode}, #{descriptionEn}, #{descriptionCn}, #{level}, 
+            #{parentCode}, #{selfbilled}, #{submissionType}, #{taxType}, #{countryName}, 
+            #{countryCode}, #{active}, NOW(), NOW()
+        )
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO t_invoice_type (
+            finvoice_code, fubl_code, fdescription_en, fdescription_cn, flevel, 
+            fparent_code, fselfbilled, fsubmission_type, ftax_type, fcountry_name, 
+            fcountry_code, factive, fcreate_time, fupdate_time
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.invoiceCode}, #{item.ublCode}, #{item.descriptionEn}, #{item.descriptionCn}, #{item.level}, 
+             #{item.parentCode}, #{item.selfbilled}, #{item.submissionType}, #{item.taxType}, #{item.countryName}, 
+             #{item.countryCode}, #{item.active}, NOW(), NOW())
+        </foreach>
+    </insert>
+
+    <!-- 根据ID删除记录 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM t_invoice_type WHERE fid = #{id}
+    </delete>
+
+    <!-- 根据ID更新记录 -->
+    <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceType">
+        UPDATE t_invoice_type 
+        SET 
+            finvoice_code = #{invoiceCode},
+            fubl_code = #{ublCode},
+            fdescription_en = #{descriptionEn},
+            fdescription_cn = #{descriptionCn},
+            flevel = #{level},
+            fparent_code = #{parentCode},
+            fselfbilled = #{selfbilled},
+            fsubmission_type = #{submissionType},
+            ftax_type = #{taxType},
+            fcountry_name = #{countryName},
+            fcountry_code = #{countryCode},
+            factive = #{active},
+            fupdate_time = NOW()
+        WHERE fid = #{id}
+    </update>
+
+    <!-- 根据ID查询记录 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM t_invoice_type 
+        WHERE fid = #{id}
+    </select>
+
+    <!-- 查询所有记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM t_invoice_type 
+        ORDER BY fcreate_time DESC
+    </select>
+
+    <!-- 根据发票代码查询记录 -->
+    <select id="selectByInvoiceCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM t_invoice_type 
+        WHERE finvoice_code = #{invoiceCode}
+    </select>
+
+    <!-- 根据国家和贸易区查询记录 -->
+    <select id="selectByCountryAndTradeArea" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Base_Column_List"/>
+        FROM t_invoice_type 
+        WHERE 1=1
+        <if test="country != null and country != ''">
+            AND fcountry_code = #{country}
+        </if>
+        <if test="tradeArea != null and tradeArea != ''">
+            AND fcountry_name = #{tradeArea}
+        </if>
+        ORDER BY fcreate_time DESC
+    </select>
+
+</mapper>

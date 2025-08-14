@@ -78,13 +78,23 @@ CREATE TABLE `t_rule_log` (
 
 CREATE TABLE `t_invoice_type` (
 `fid` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-`fcountry` varchar(4) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '国家二字码',
-`ftrade_area` varchar(64) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '贸易区',
-`finvoice_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发票类型代码',
-`finvoice_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发票类型名称代码',
+`finvoice_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '发票 Code',
+`fubl_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT 'UBL Code',
+`fdescription_en` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT 'Description - EN（Default）',
+`fdescription_cn` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '描述 - 中文',
+`flevel` int DEFAULT '1' COMMENT 'Level等级',
+`fparent_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT 'Parent上级发票类型',
+`fselfbilled` tinyint(1) DEFAULT '0' COMMENT 'Selfbilled是否自开发票 0-否 1-是',
+`fsubmission_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT 'SubmissionType',
+`ftax_type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '税种 TaxType',
+`fcountry_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '国家简码（国家模块）',
+`fcountry_code` varchar(4) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT 'Country Code',
 `factive` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否启用1启用2停用',
 `fcreate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
 `fupdate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 PRIMARY KEY (`fid`),
-KEY `idx_invoice_code` (`finvoice_code`)
+KEY `idx_invoice_code` (`finvoice_code`),
+KEY `idx_ubl_code` (`fubl_code`),
+KEY `idx_country_code` (`fcountry_code`),
+KEY `idx_parent_code` (`fparent_code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='发票类型表';

@@ -1,0 +1,199 @@
+{
+	"UBLVersionID": "2.1",
+	"CustomizationID": "urn:piaozone.com:ubl-2.1-customizations:v1.0",
+	"ProfileID": "urn:www.piaozone.com:profile:bill:v1.0",
+	"ID": "DE-CREDIT-2025-001",
+	"IssueDate": "2025-03-31",
+	"DueDate": "2025-08-14",
+	"InvoiceTypeCode": {
+		"name": "German Credit Note",
+		"value": "381"
+	},
+	"Note": "Deutsche Gutschrift für zurückgegebene Waren",
+	"DocumentCurrencyCode": "EUR",
+	"BuyerReference": "DE-CREDIT-REF-789",
+	"InvoicePeriod": {
+		"StartDate": "2025-05-10",
+		"EndDate": "2025-05-16"
+	},
+	"OrderReference": {
+		"ID": "DE-ORIGINAL-ORDER-456"
+	},
+	"AdditionalDocumentReferences": [
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "SubmissionType"
+			},
+			"DocumentTypeCode": "B2B"
+		},
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "Selfbilled"
+			},
+			"DocumentTypeCode": "false"
+		},
+		{
+			"ID": "DE-ORIGINAL-INVOICE-456",
+			"DocumentType": "Ursprungsrechnung"
+		}
+	],
+	"AccountingSupplierParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "DE00000003"
+			},
+			"PartyName": {
+				"Name": "Kingdee Test Credit Supplier DE"
+			},
+			"PostalAddress": {
+				"StreetName": "Gutschriftstraße 789",
+				"CityName": "Hamburg",
+				"PostalZone": "20095",
+				"Country": {
+					"IdentificationCode": "DE"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "DE111222333",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Kingdee Test Credit Supplier DE GmbH",
+				"CompanyID": {
+					"schemeID": "0204",
+					"value": "DE111222333"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "gutschrift@supplier-de.com"
+			}
+		}
+	},
+	"AccountingCustomerParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "DE00000004"
+			},
+			"PartyName": {
+				"Name": "Kingdee Test Credit Customer DE"
+			},
+			"PostalAddress": {
+				"StreetName": "Kundenstraße 987",
+				"CityName": "Frankfurt",
+				"PostalZone": "60311",
+				"Country": {
+					"IdentificationCode": "DE"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "DE444555666",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Kingdee Test Credit Customer DE GmbH",
+				"CompanyID": {
+					"schemeID": "0204",
+					"value": "DE444555666"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "einkauf@customer-de.com"
+			}
+		}
+	},
+	"PaymentMeans": {
+		"PaymentMeansCode": "58",
+		"PayeeFinancialAccount": {
+			"ID": "DE89370400440532013001",
+			"Name": "Kingdee Test Credit Supplier DE GmbH",
+			"FinancialInstitutionBranch": {
+				"ID": "COBADEFFXXX",
+				"FinancialInstitution": {
+					"Name": "Commerzbank AG"
+				}
+			}
+		}
+	},
+	"PaymentTerms": {
+		"Note": "Gutschrift wird innerhalb von 14 Tagen erstattet"
+	},
+	"TaxTotal": {
+		"TaxAmount": {
+			"currencyID": "EUR",
+			"value": -9.50
+		},
+		"TaxSubtotals": [
+			{
+				"TaxableAmount": {
+					"currencyID": "EUR",
+					"value": -50
+				},
+				"TaxAmount": {
+					"currencyID": "EUR",
+					"value": -9.50
+				},
+				"TaxCategory": {
+					"ID": "S",
+					"Percent": 19,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			}
+		]
+	},
+	"LegalMonetaryTotal": {
+		"LineExtensionAmount": {
+			"currencyID": "EUR",
+			"value": -50
+		},
+		"TaxExclusiveAmount": {
+			"currencyID": "EUR",
+			"value": -50
+		},
+		"TaxInclusiveAmount": {
+			"currencyID": "EUR",
+			"value": -59.50
+		},
+		"PayableAmount": {
+			"currencyID": "EUR",
+			"value": -59.50
+		}
+	},
+	"InvoiceLines": [
+		{
+			"ID": "1",
+			"InvoicedQuantity": {
+				"unitCode": "C62",
+				"value": -5
+			},
+			"LineExtensionAmount": {
+				"currencyID": "EUR",
+				"value": -50
+			},
+			"Item": {
+				"Name": "Zurückgegebenes deutsches Produkt",
+				"Description": "Gutschrift für zurückgegebene deutsche Ware",
+				"ClassifiedTaxCategory": {
+					"ID": "S",
+					"Percent": 19,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			},
+			"Price": {
+				"PriceAmount": {
+					"currencyID": "EUR",
+					"value": 10
+				}
+			}
+		}
+	]
+}

@@ -99,11 +99,14 @@ public class jexlController {
         }
     }
 
-    @GetMapping("/api/getInvoiceData")
+    @GetMapping("/getInvoiceData")
     @ResponseBody
-    public Result<JSONObject> getInvoiceData() {
+    public Result<JSONObject> getInvoiceData(
+            @RequestParam(required = false) String invoiceCode,
+            @RequestParam(required = false) String countryCode) {
         try {
-            ClassPathResource resource = new ClassPathResource("json/invoice.json");
+            String templatePath = selectInvoiceTemplate(invoiceCode, countryCode);
+            ClassPathResource resource = new ClassPathResource(templatePath);
             String jsonContent = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
             JSONObject invoiceData = JSON.parseObject(jsonContent);
             return Result.success(invoiceData);
@@ -113,6 +116,60 @@ public class jexlController {
         } catch (Exception e) {
             log.error("获取发票数据异常", e);
             return Result.error("500", "获取发票数据异常：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 根据发票类型代码和国家代码选择合适的发票模板
+     * @param invoiceCode 发票类型代码
+     * @param countryCode 国家代码
+     * @return 模板文件路径
+     */
+    private String selectInvoiceTemplate(String invoiceCode, String countryCode) {
+        // 优先级1: 精确匹配 invoice-{country}-{invoiceCode}.json
+        if (StringUtils.isNotBlank(countryCode) && StringUtils.isNotBlank(invoiceCode)) {
+            String exactMatch = String.format("json/invoice-%s-%s.json", countryCode.toLowerCase(), invoiceCode);
+            if (templateExists(exactMatch)) {
+                log.info("使用精确匹配模板: {}", exactMatch);
+                return exactMatch;
+            }
+        }
+        
+        // 优先级2: 国家匹配 invoice-{country}.json
+        if (StringUtils.isNotBlank(countryCode)) {
+            String countryMatch = String.format("json/invoice-%s.json", countryCode.toLowerCase());
+            if (templateExists(countryMatch)) {
+                log.info("使用国家匹配模板: {}", countryMatch);
+                return countryMatch;
+            }
+        }
+        
+        // 优先级3: 发票类型匹配 invoice-{invoiceCode}.json
+        if (StringUtils.isNotBlank(invoiceCode)) {
+            String invoiceTypeMatch = String.format("json/invoice-%s.json", invoiceCode);
+            if (templateExists(invoiceTypeMatch)) {
+                log.info("使用发票类型匹配模板: {}", invoiceTypeMatch);
+                return invoiceTypeMatch;
+            }
+        }
+        
+        // 优先级4: 默认模板
+        String defaultTemplate = "json/invoice-default.json";
+        log.info("使用默认模板: {}", defaultTemplate);
+        return defaultTemplate;
+    }
+
+    /**
+     * 检查模板文件是否存在
+     * @param templatePath 模板路径
+     * @return 是否存在
+     */
+    private boolean templateExists(String templatePath) {
+        try {
+            ClassPathResource resource = new ClassPathResource(templatePath);
+            return resource.exists();
+        } catch (Exception e) {
+            return false;
         }
     }
 

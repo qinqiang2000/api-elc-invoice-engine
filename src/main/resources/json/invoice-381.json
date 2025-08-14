@@ -1,0 +1,198 @@
+{
+	"UBLVersionID": "2.1",
+	"CustomizationID": "urn:piaozone.com:ubl-2.1-customizations:v1.0",
+	"ProfileID": "urn:www.piaozone.com:profile:bill:v1.0",
+	"ID": "CREDIT2025-001",
+	"IssueDate": "2025-03-31",
+	"DueDate": "2025-08-14",
+	"InvoiceTypeCode": {
+		"name": "Credit Note",
+		"value": "381"
+	},
+	"Note": "Credit note for returned goods",
+	"DocumentCurrencyCode": "EUR",
+	"BuyerReference": "CREDIT-REF-456",
+	"InvoicePeriod": {
+		"StartDate": "2025-05-10",
+		"EndDate": "2025-05-16"
+	},
+	"OrderReference": {
+		"ID": "ORIGINAL-ORDER-123"
+	},
+	"AdditionalDocumentReferences": [
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "SubmissionType"
+			},
+			"DocumentTypeCode": "B2B"
+		},
+		{
+			"ID": {
+				"schemeName": "InvoiceTag",
+				"value": "Selfbilled"
+			},
+			"DocumentTypeCode": "false"
+		},
+		{
+			"ID": "ORIGINAL-INVOICE-123",
+			"DocumentType": "Original Invoice Reference"
+		}
+	],
+	"AccountingSupplierParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "SUPPLIER001"
+			},
+			"PartyName": {
+				"Name": "Credit Note Supplier"
+			},
+			"PostalAddress": {
+				"StreetName": "Credit Street 123",
+				"CityName": "Credit City",
+				"PostalZone": "12345",
+				"Country": {
+					"IdentificationCode": "EU"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "CREDIT-TAX-001",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Credit Note Supplier Ltd",
+				"CompanyID": {
+					"schemeID": "0195",
+					"value": "CREDIT-REG-001"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "credit@supplier.com"
+			}
+		}
+	},
+	"AccountingCustomerParty": {
+		"Party": {
+			"PartyIdentification": {
+				"ID": "CUSTOMER001"
+			},
+			"PartyName": {
+				"Name": "Credit Note Customer"
+			},
+			"PostalAddress": {
+				"StreetName": "Customer Avenue 456",
+				"CityName": "Customer City",
+				"Country": {
+					"IdentificationCode": "EU"
+				}
+			},
+			"PartyTaxScheme": {
+				"CompanyID": "CUSTOMER-TAX-001",
+				"TaxScheme": {
+					"ID": "VAT"
+				}
+			},
+			"PartyLegalEntity": {
+				"RegistrationName": "Credit Note Customer Ltd",
+				"CompanyID": {
+					"schemeID": "0195",
+					"value": "CUSTOMER-REG-001"
+				}
+			},
+			"Contact": {
+				"ElectronicMail": "finance@customer.com"
+			}
+		}
+	},
+	"PaymentMeans": {
+		"PaymentMeansCode": "42",
+		"PayeeFinancialAccount": {
+			"ID": "CREDIT-ACCOUNT-123",
+			"Name": "Credit Note Supplier Ltd",
+			"FinancialInstitutionBranch": {
+				"ID": "CREDITBANK",
+				"FinancialInstitution": {
+					"Name": "Credit Bank"
+				}
+			}
+		}
+	},
+	"PaymentTerms": {
+		"Note": "Credit to be applied within 30 days"
+	},
+	"TaxTotal": {
+		"TaxAmount": {
+			"currencyID": "EUR",
+			"value": -10.50
+		},
+		"TaxSubtotals": [
+			{
+				"TaxableAmount": {
+					"currencyID": "EUR",
+					"value": -50
+				},
+				"TaxAmount": {
+					"currencyID": "EUR",
+					"value": -10.50
+				},
+				"TaxCategory": {
+					"ID": "S",
+					"Percent": 21,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			}
+		]
+	},
+	"LegalMonetaryTotal": {
+		"LineExtensionAmount": {
+			"currencyID": "EUR",
+			"value": -50
+		},
+		"TaxExclusiveAmount": {
+			"currencyID": "EUR",
+			"value": -50
+		},
+		"TaxInclusiveAmount": {
+			"currencyID": "EUR",
+			"value": -60.50
+		},
+		"PayableAmount": {
+			"currencyID": "EUR",
+			"value": -60.50
+		}
+	},
+	"InvoiceLines": [
+		{
+			"ID": "1",
+			"InvoicedQuantity": {
+				"unitCode": "C62",
+				"value": -5
+			},
+			"LineExtensionAmount": {
+				"currencyID": "EUR",
+				"value": -50
+			},
+			"Item": {
+				"Name": "Returned Product",
+				"Description": "Credit for returned goods",
+				"ClassifiedTaxCategory": {
+					"ID": "S",
+					"Percent": 21,
+					"TaxScheme": {
+						"ID": "VAT"
+					}
+				}
+			},
+			"Price": {
+				"PriceAmount": {
+					"currencyID": "EUR",
+					"value": 10
+				}
+			}
+		}
+	]
+}
