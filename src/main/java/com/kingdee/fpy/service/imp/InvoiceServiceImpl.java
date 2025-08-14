@@ -57,6 +57,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         List<Map<String, Object>> result = invoiceMapper.countByStatus();
         Map<String, Long> statusCountMap = new HashMap<>();
         
+        // 初始化所有状态为0
+        for (InvoiceStatus status : InvoiceStatus.values()) {
+            statusCountMap.put(status.getValue(), 0L);
+        }
+        
+        // 填入实际统计数据
         for (Map<String, Object> row : result) {
             Integer status = (Integer) row.get("status");
             Long count = ((Number) row.get("count")).longValue();

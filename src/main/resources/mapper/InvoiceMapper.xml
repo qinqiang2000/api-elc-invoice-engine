@@ -230,7 +230,11 @@
 
     <!-- 根据条件分页查询发票 -->
     <select id="selectByQuery" parameterType="com.kingdee.fpy.model.InvoiceQuery" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List"/>
+        SELECT  fid, ftenant_id, fcompany_id, finvoice_type, finvoice_sub_type, fsubmission_type,
+        fsell_billed, finvoice_no, fissue_date, fsend_company_id, freceive_company_id,
+        fsend_company_name, freceiver_company_name, ftotal_amount, ftax_amount, fcurrency,
+        forder_refid, fbilling_refid, fissue_status, faudit_id, fsubmission_id,
+        fstatus, ferror_message, fcreate_time, fupdate_time
         FROM t_invoice
         <where>
             <if test="companyId != null and companyId != ''">
