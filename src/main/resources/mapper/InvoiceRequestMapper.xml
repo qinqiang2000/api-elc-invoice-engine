@@ -113,11 +113,7 @@
 
     <!-- 根据ID查询 -->
     <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        fid, frequest_id, ftenant_id, fcompany_id, finvoice_type, finvoice_sub_type, fsubmission_type, fsell_billed,
-        finvoice_no, fissue_date, fsend_company_id, freceive_company_id, fsend_company_name, fcountry,
-        freceiver_company_name, ftotal_amount, ftax_amount, fcurrency, forder_refid, fbilling_refid,
-        fsource_document_type, fsource_document_id, ftarget_document_id, fstatus,
-        ferror_message, fcreate_time, fupdate_time
+        SELECT <include refid="Base_Column_List"/>
         FROM t_invoice_request
         WHERE fid = #{id,jdbcType=BIGINT}
     </select>

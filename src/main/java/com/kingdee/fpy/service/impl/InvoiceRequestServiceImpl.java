@@ -86,7 +86,6 @@ public class InvoiceRequestServiceImpl implements InvoiceRequestService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public InvoiceRequest getById(Long id) {
         try {
             return invoiceRequestMapper.selectById(id);

@@ -122,7 +122,14 @@ public class Invoice {
     private String submissionId;
     
     /**
-     * 上传税局状态
+     * 发票综合状态
+     * 1-InvoiceReady(发票就绪)
+     * 2-Reporting(税局上报中)
+     * 3-Reported(已上报税局)
+     * 4-ReportFailed(上报税局失败)
+     * 5-Delivering(交付中)
+     * 6-Delivered(已交付)
+     * 7-DeliverFailed(交付失败)
      */
     private Integer status;
     
