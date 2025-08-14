@@ -31,15 +31,6 @@ public class LlmRuleGenerationServiceTest {
         }
     }
 
-    static class NoopInvoiceRulesService implements InvoiceRulesService {
-        @Override public int insert(InvoiceRules invoiceRules) { invoiceRules.setId(1L); return 1; }
-        @Override public int updateById(InvoiceRules invoiceRules) { return 0; }
-        @Override public int deleteById(Long id) { return 0; }
-        @Override public InvoiceRules selectById(Long id) { return null; }
-        @Override public List<InvoiceRules> selectAll() { return new ArrayList<>(); }
-        @Override public List<InvoiceRules> selectByTenantIdOrCompanyId(String tenantId, String companyId, String country) { return new ArrayList<>(); }
-    }
-
     private LlmRuleGenerationService service;
 
     @Before
@@ -52,8 +43,8 @@ public class LlmRuleGenerationServiceTest {
         f.setAccessible(true);
         f.set(jexlValidationService, engine);
         LlmProperties props = new LlmProperties();
-        InvoiceRulesService irs = new NoopInvoiceRulesService();
-        service = new LlmRuleGenerationService(llm, builder, jexlValidationService, props, irs);
+       // InvoiceRulesService irs = new NoopInvoiceRulesService();
+      //  service = new LlmRuleGenerationService(llm, builder, jexlValidationService, props, irs);
     }
 
     @Test

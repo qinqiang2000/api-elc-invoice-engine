@@ -1,6 +1,7 @@
 package com.kingdee.fpy.utils;
 
 
+import com.kingdee.fpy.commom.ResultType;
 
 public class JexlException extends RuntimeException {
     private static final long serialVersionUID = 1L;

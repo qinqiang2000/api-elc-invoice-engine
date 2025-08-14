@@ -26,9 +26,9 @@ InvoiceRulesController {
      * @return Result结果
      */
     @PostMapping
-    public Result<Integer> insert(@RequestBody InvoiceRules invoiceRules) {
+    public Result<InvoiceRules> insert(@RequestBody InvoiceRules invoiceRules) {
         int result = invoiceRulesService.insert(invoiceRules);
-        return new Result<>(result);
+        return new Result<>(invoiceRules);
     }
 
     /**

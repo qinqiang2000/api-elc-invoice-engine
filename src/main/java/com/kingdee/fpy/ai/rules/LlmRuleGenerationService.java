@@ -33,7 +33,7 @@ public class LlmRuleGenerationService implements RuleGenerationService {
     @Override
     public Response generate(Request req) {
         RulePromptBuilder.BuildParams params = new RulePromptBuilder.BuildParams(
-            req.ruleType, req.fieldPath, req.businessIntent, req.country, req.tags, req.priority, req.invoiceSample
+                req.ruleType, req.fieldPath, req.businessIntent, req.country, req.tags, req.priority, req.invoiceSample
         );
 
         LlmClient.Options options = new LlmClient.Options();
@@ -59,7 +59,7 @@ public class LlmRuleGenerationService implements RuleGenerationService {
             String error = a1.errorSummary;
             for (int i = 0; i < max; i++) {
                 LlmClient.ChatResult repaired = llmClient.chat(
-                    promptBuilder.buildRepair(params, prevJson, error), options
+                        promptBuilder.buildRepair(params, prevJson, error), options
                 );
                 AttemptInfo ai = validateAttempt(2 + i, repaired.content);
                 attempts.add(ai);
@@ -179,4 +179,4 @@ public class LlmRuleGenerationService implements RuleGenerationService {
             rule.setRuleCode("AI-sys-" + System.currentTimeMillis());
         }
     }
-} 
+}

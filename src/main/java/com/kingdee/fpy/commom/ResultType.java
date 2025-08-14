@@ -16,7 +16,11 @@ public enum ResultType {
     UNAUTHORIZED("401","Unauthorized"),
     FORBIDDEN("403","Forbidden"),
     FORBIDDEN_OUTPUT("403001","OUTPUT FORBIDDEN"),
-    SERVER_FAIL("500","server fail");
+    SERVER_FAIL("500","server fail"),
+    EXIST_FAIL("500001","Exist Fail"),
+    VALID_FAIL("0001","params valid fail"),
+
+    ;
 
     public String code;
     public String message;

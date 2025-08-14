@@ -1,7 +1,7 @@
 package com.kingdee.fpy.commom;
 
 
-import com.kingdee.fpy.utils.ResultType;
+
 
 public class ResultPage extends Result {
 

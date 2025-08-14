@@ -47,7 +47,7 @@ public class Result<T> {
     }
 
 
-    public void setResultType(com.kingdee.fpy.utils.ResultType resultType) {
+    public void setResultType(ResultType resultType) {
         this.errcode = resultType.getCode();
         this.message = resultType.getMessage();
     }

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.kingdee.fpy.commom.Result;
+import com.kingdee.fpy.commom.ResultType;
 import com.kingdee.fpy.enums.RuleEnum;
 import com.kingdee.fpy.model.Invoice;
 import com.kingdee.fpy.model.InvoiceLine;
@@ -18,7 +19,6 @@ import com.kingdee.fpy.service.imp.InvoiceServiceImpl;
 import com.kingdee.fpy.service.imp.RuleLogServiceImpl;
 import com.kingdee.fpy.service.impl.InvoiceLineServiceImpl;
 import com.kingdee.fpy.service.impl.InvoiceRequestServiceImpl;
-import com.kingdee.fpy.utils.ResultType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.jexl3.JexlContext;
 import org.apache.commons.lang3.StringUtils;
@@ -102,7 +102,7 @@ public class InvoiceApplyService {
 
         } catch (Exception e) {
             log.error("创建发票失败", e);
-            result.setResultType(ResultType.SYSTEM_ERROR);
+            result.setResultType(ResultType.SERVER_FAIL);
             result.getErrorMsgArray().add("系统异常：" + e.getMessage());
             return result;
         }
@@ -518,7 +518,7 @@ public class InvoiceApplyService {
 
         } catch (Exception e) {
             log.error("规则校验失败", e);
-            result.setResultType(ResultType.SYSTEM_ERROR);
+            result.setResultType(ResultType.SERVER_FAIL);
             result.getErrorMsgArray().add("系统异常：" + e.getMessage());
             result.setData(invoice);
             return result;
