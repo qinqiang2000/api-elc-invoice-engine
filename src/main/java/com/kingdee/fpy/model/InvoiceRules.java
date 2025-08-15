@@ -74,7 +74,7 @@ public class InvoiceRules {
     private Boolean active;
 
     /**
-     * 规则状态：1草稿 2测试通过 3已发布
+     * 规则状态：1草稿 2测试通过 3已发布,4启用，5停用
      */
     private Integer status;
 
@@ -107,6 +107,17 @@ public class InvoiceRules {
      * 规则描述
      */
     private String description;
+
+    /**
+     * 规则版本号
+     */
+    private String ruleVersion;
+
+    /**
+     * 发布时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date publishTime;
 
     /**
      * 规则生效开始时间

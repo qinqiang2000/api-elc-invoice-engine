@@ -53,13 +53,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
     
     @Override
-    public Map<String, Long> countInvoicesByStatus() {
+    public Map<String, Object> countInvoicesByStatus() {
         List<Map<String, Object>> result = invoiceMapper.countByStatus();
-        Map<String, Long> statusCountMap = new HashMap<>();
+        Map<String, Object> statusCountMap = new HashMap<>();
         
         // 初始化所有状态为0
         for (InvoiceStatus status : InvoiceStatus.values()) {
-            statusCountMap.put(status.getValue(), 0L);
+            Map<String, Object> valueMap = new HashMap<>();
+            valueMap.put("value", 0L);
+            statusCountMap.put(status.getValue(), valueMap);
         }
         
         // 填入实际统计数据
@@ -68,7 +70,9 @@ public class InvoiceServiceImpl implements InvoiceService {
             Long count = ((Number) row.get("count")).longValue();
             
             String statusName = getStatusName(status);
-            statusCountMap.put(statusName, count);
+            Map<String, Object> valueMap = new HashMap<>();
+            valueMap.put("value", count);
+            statusCountMap.put(statusName, valueMap);
         }
         
         return statusCountMap;

@@ -22,6 +22,8 @@
         <result property="priority" column="fpriority" />
         <result property="ruleExpression" column="frule_expression" />
         <result property="description" column="fdescription" />
+        <result property="ruleVersion" column="frule_version" />
+        <result property="publishTime" column="fpublish_time" />
         <result property="startTime" column="fstart_time" />
         <result property="endTime" column="fend_time" />
         <result property="createTime" column="fcreate_time" />
@@ -30,9 +32,9 @@
 
     <insert id="insert" parameterType="com.kingdee.fpy.model.InvoiceRules" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_invoice_rules 
-        (fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, fstart_time, fend_time)
+        (fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time, fstart_time, fend_time)
         VALUES
-        (#{country}, #{tradeArea}, #{province}, #{city}, #{tags}, #{invoiceType}, #{subInvoiceType}, #{ruleCode}, #{ruleName}, #{ruleType}, #{active}, #{status}, #{applyTo}, #{errorMessage}, #{fieldPath}, #{priority}, #{ruleExpression}, #{description}, #{startTime}, #{endTime})
+        (#{country}, #{tradeArea}, #{province}, #{city}, #{tags}, #{invoiceType}, #{subInvoiceType}, #{ruleCode}, #{ruleName}, #{ruleType}, #{active}, #{status}, #{applyTo}, #{errorMessage}, #{fieldPath}, #{priority}, #{ruleExpression}, #{description}, #{ruleVersion}, #{publishTime}, #{startTime}, #{endTime})
     </insert>
 
     <update id="updateById" parameterType="com.kingdee.fpy.model.InvoiceRules">
@@ -56,6 +58,8 @@
             <if test="priority != null">fpriority = #{priority},</if>
             <if test="ruleExpression != null">frule_expression = #{ruleExpression},</if>
             <if test="description != null">fdescription = #{description},</if>
+            <if test="ruleVersion != null">frule_version = #{ruleVersion},</if>
+            <if test="publishTime != null">fpublish_time = #{publishTime},</if>
             <if test="startTime != null">fstart_time = #{startTime},</if>
             <if test="endTime != null">fend_time = #{endTime},</if>
         </set>
@@ -67,19 +71,19 @@
     </delete>
 
     <select id="selectById" parameterType="long" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, fstart_time, fend_time, fcreate_time, fupdate_time
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time, fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules 
         WHERE fid = #{id}
     </select>
 
     <select id="selectAll" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, fstart_time, fend_time, fcreate_time, fupdate_time
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time, fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules
     </select>
 
     <select id="selectByTenantIdOrCompanyId" resultMap="InvoiceRulesResultMap">
         SELECT r.fid, r.fcountry, r.ftrade_area, r.fprovince, r.fcity, r.ftags, r.finvoice_type, r.fsub_invoice_type, r.frule_code, r.frule_name, r.frule_type,
-        r.factive, r.fstatus, r.fapply_to, r.ferror_message, r.ffield_path, r.fpriority, r.frule_expression, r.fdescription, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
+        r.factive, r.fstatus, r.fapply_to, r.ferror_message, r.ffield_path, r.fpriority, r.frule_expression, r.fdescription, r.frule_version, r.fpublish_time, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
         FROM t_invoice_rules r
         left join t_rule_subscription s on s.frule_code = r.frule_code
         WHERE
@@ -96,7 +100,7 @@
     </select>
 
     <select id="selectByCompanyIdAndRuleCode" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, fstart_time, fend_time, fcreate_time, fupdate_time
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time, fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules 
         WHERE 1=1
         <if test="ruleCode != null and ruleCode != ''">
@@ -120,10 +124,18 @@
         WHERE frule_code = #{ruleCode}
     </update>
 
+    <update id="updateStatusVersionAndPublishTime">
+        UPDATE t_invoice_rules 
+        SET fstatus = #{status},
+            frule_version = #{version},
+            fpublish_time = #{publishTime}
+        WHERE frule_code = #{ruleCode}
+    </update>
+
     <select id="selectSubscribedRulesByCompanyId" parameterType="com.kingdee.fpy.model.InvoiceRules" resultMap="InvoiceRulesResultMap">
         SELECT DISTINCT r.fid, r.fcountry, r.ftrade_area, r.fprovince, r.fcity, r.ftags, r.finvoice_type, r.fsub_invoice_type, 
                r.frule_code, r.frule_name, r.frule_type, r.factive, r.fstatus, r.fapply_to, r.ferror_message, 
-               r.ffield_path, r.fpriority, r.frule_expression, r.fdescription, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
+               r.ffield_path, r.fpriority, r.frule_expression, r.fdescription, r.frule_version, r.fpublish_time, r.fstart_time, r.fend_time, r.fcreate_time, r.fupdate_time
         FROM t_invoice_rules r
         LEFT JOIN t_rule_subscription s ON s.frule_code = r.frule_code
         WHERE
@@ -136,6 +148,80 @@
             s.fcompany_id = #{companyId}
           )
         ORDER BY r.fpriority ASC, r.fcreate_time DESC
+    </select>
+
+    <select id="selectRuleStatusStatistics" resultType="com.kingdee.fpy.dto.RuleStatusStatisticsDto">
+        SELECT 
+            CASE fstatus
+                WHEN 1 THEN 'Draft'
+                WHEN 2 THEN 'TestPassed' 
+                WHEN 3 THEN 'Published'
+                WHEN 4 THEN 'Enabled'
+                WHEN 5 THEN 'Disabled'
+                ELSE 'Unknown'
+            END as statusKey,
+            CASE fstatus
+                WHEN 1 THEN '草稿'
+                WHEN 2 THEN '测试通过' 
+                WHEN 3 THEN '已发布'
+                WHEN 4 THEN '启用'
+                WHEN 5 THEN '停用'
+                ELSE '未知'
+            END as statusName,
+            COUNT(*) as count
+        FROM t_invoice_rules 
+        WHERE fstatus IS NOT NULL
+        GROUP BY fstatus
+        ORDER BY fstatus
+    </select>
+
+    <select id="selectRuleMonthlyPublishData" resultType="com.kingdee.fpy.dto.RuleMonthlyPublishDataDto">
+        SELECT 
+            frule_type as ruleType,
+            DATE_FORMAT(fpublish_time, '%Y-%m') as publishMonth,
+            COUNT(*) as count
+        FROM t_invoice_rules 
+        WHERE fstatus = 3 
+        AND fpublish_time IS NOT NULL
+        GROUP BY frule_type, DATE_FORMAT(fpublish_time, '%Y-%m')
+        ORDER BY frule_type, publishMonth
+    </select>
+
+    <select id="selectRulesByPage" parameterType="com.kingdee.fpy.model.InvoiceRulesQuery" resultMap="InvoiceRulesResultMap">
+        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, 
+               frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, 
+               ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time, 
+               fstart_time, fend_time, fcreate_time, fupdate_time
+        FROM t_invoice_rules
+        <where>
+            <if test="ruleType != null">
+                AND frule_type = #{ruleType}
+            </if>
+            <if test="status != null">
+                AND fstatus = #{status}
+            </if>
+            <if test="ruleCode != null and ruleCode != ''">
+                AND frule_code LIKE CONCAT('%', #{ruleCode}, '%')
+            </if>
+        </where>
+        ORDER BY fcreate_time DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="countRulesByQuery" parameterType="com.kingdee.fpy.model.InvoiceRulesQuery" resultType="int">
+        SELECT COUNT(*)
+        FROM t_invoice_rules
+        <where>
+            <if test="ruleType != null">
+                AND frule_type = #{ruleType}
+            </if>
+            <if test="status != null">
+                AND fstatus = #{status}
+            </if>
+            <if test="ruleCode != null and ruleCode != ''">
+                AND frule_code LIKE CONCAT('%', #{ruleCode}, '%')
+            </if>
+        </where>
     </select>
 
 </mapper>

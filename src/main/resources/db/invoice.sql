@@ -102,3 +102,9 @@ KEY `idx_parent_code` (`fparent_code`)
 
 -- Add fsub_invoice_type column to t_invoice_rules table (migration)
 ALTER TABLE `t_invoice_rules` ADD COLUMN `fsub_invoice_type` varchar(12) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '发票子类型' AFTER `finvoice_type`;
+
+-- Add frule_version column to t_invoice_rules table (migration)
+ALTER TABLE `t_invoice_rules` ADD COLUMN `frule_version` varchar(32) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '规则版本号' AFTER `fdescription`;
+
+-- Add fpublish_time column to t_invoice_rules table (migration)
+ALTER TABLE `t_invoice_rules` ADD COLUMN `fpublish_time` datetime DEFAULT NULL COMMENT '发布时间' AFTER `frule_version`;

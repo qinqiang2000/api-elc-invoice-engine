@@ -1,8 +1,13 @@
 package com.kingdee.fpy.controller;
 
 import com.kingdee.fpy.commom.Result;
+import com.kingdee.fpy.commom.ResultPage;
 import com.kingdee.fpy.dto.CodeGenerationRequest;
+import com.kingdee.fpy.dto.RuleMonthlyPublishStatisticsDto;
+import com.kingdee.fpy.dto.RulePublishRequest;
+import com.kingdee.fpy.dto.RuleStatusStatisticsDto;
 import com.kingdee.fpy.model.InvoiceRules;
+import com.kingdee.fpy.model.InvoiceRulesQuery;
 import com.kingdee.fpy.service.imp.InvoiceRulesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -92,33 +97,15 @@ InvoiceRulesController {
     }
 
     /**
-     * 发布规则
-     * @param ruleCode 规则编码
+     * 批量发布规则
+     * @param request 发布请求，包含规则编码列表和版本号
      * @return Result结果
      */
-    @PostMapping("/publish/{ruleCode}")
-    public Result<String> publishRule(@PathVariable String ruleCode) {
+    @PostMapping("/publish")
+    public Result<String> publishRules(@RequestBody RulePublishRequest request) {
         try {
-            // 检查规则是否存在
-            List<InvoiceRules> rules = invoiceRulesService.selectByCompanyIdAndRuleCode("", ruleCode);
-            if (rules.isEmpty()) {
-                return Result.error("规则不存在");
-            }
-            
-            InvoiceRules rule = rules.get(0);
-            
-            // 检查规则状态是否为测试通过
-            if (rule.getStatus() == null || rule.getStatus() != 2) {
-                return Result.error("只有测试通过的规则才能发布");
-            }
-            
-            // 更新状态为已发布
-            int result = invoiceRulesService.updateStatus(ruleCode, 3);
-            if (result > 0) {
-                return Result.success("规则发布成功");
-            } else {
-                return Result.error("规则发布失败");
-            }
+            String result = invoiceRulesService.publishRules(request.getRuleCodes(), request.getVersion());
+            return Result.success(result);
         } catch (Exception e) {
             return Result.error("发布规则失败：" + e.getMessage());
         }
@@ -136,6 +123,48 @@ InvoiceRulesController {
             return new Result<>(result);
         } catch (Exception e) {
             return Result.error("查询订阅规则失败：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 查询规则状态统计
+     * @return Result结果
+     */
+    @GetMapping("/status-statistics")
+    public Result<List<RuleStatusStatisticsDto>> getRuleStatusStatistics() {
+        try {
+            List<RuleStatusStatisticsDto> result = invoiceRulesService.getRuleStatusStatistics();
+            return new Result<>(result);
+        } catch (Exception e) {
+            return Result.error("查询规则状态统计失败：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 查询规则月度发布统计
+     * @return Result结果
+     */
+    @GetMapping("/monthly-publish-statistics")
+    public Result<List<RuleMonthlyPublishStatisticsDto>> getRuleMonthlyPublishStatistics() {
+        try {
+            List<RuleMonthlyPublishStatisticsDto> result = invoiceRulesService.getRuleMonthlyPublishStatistics();
+            return new Result<>(result);
+        } catch (Exception e) {
+            return Result.error("查询规则月度发布统计失败：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 分页查询规则列表
+     * @param query 查询条件
+     * @return ResultPage结果
+     */
+    @PostMapping("/page")
+    public ResultPage queryRulesByPage(@RequestBody InvoiceRulesQuery query) {
+        try {
+            return invoiceRulesService.queryRulesByPage(query);
+        } catch (Exception e) {
+            return new ResultPage("500", "查询规则列表失败：" + e.getMessage());
         }
     }
 }

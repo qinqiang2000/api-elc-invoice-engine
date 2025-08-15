@@ -14,6 +14,6 @@ public interface InvoiceService {
     void updateInvoice(Invoice invoice);
     void deleteInvoice(Long id);
     ResultPage queryInvoiceByPage(InvoiceQuery query);
-    Map<String, Long> countInvoicesByStatus();
+    Map<String, Object> countInvoicesByStatus();
     List<CurrencyStats> getCurrencyStatsByCompany(String companyId);
 } 

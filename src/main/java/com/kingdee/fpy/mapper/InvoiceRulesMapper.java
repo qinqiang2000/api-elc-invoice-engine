@@ -1,10 +1,14 @@
 package com.kingdee.fpy.mapper;
 
 import com.kingdee.fpy.dto.CodeGenerationRequest;
+import com.kingdee.fpy.dto.RuleMonthlyPublishDataDto;
+import com.kingdee.fpy.dto.RuleStatusStatisticsDto;
 import com.kingdee.fpy.model.InvoiceRules;
+import com.kingdee.fpy.model.InvoiceRulesQuery;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Date;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -73,10 +77,49 @@ public interface InvoiceRulesMapper {
     int updateStatus(@Param("ruleCode") String ruleCode, @Param("status") Integer status);
 
     /**
+     * 更新规则状态、版本和发布时间
+     * @param ruleCode 规则编码
+     * @param status 状态：1草稿 2测试通过 3已发布
+     * @param version 版本号
+     * @param publishTime 发布时间
+     * @return 更新结果
+     */
+    int updateStatusVersionAndPublishTime(@Param("ruleCode") String ruleCode, 
+                                         @Param("status") Integer status, 
+                                         @Param("version") String version, 
+                                         @Param("publishTime") Date publishTime);
+
+    /**
      * 根据企业ID查询订阅的规则
      * 包括系统预制规则和企业订阅的规则
      * @param invoiceRules 查询条件
      * @return 规则列表
      */
     List<InvoiceRules> selectSubscribedRulesByCompanyId(InvoiceRules invoiceRules);
+
+    /**
+     * 查询规则状态统计
+     * @return 规则状态统计列表
+     */
+    List<RuleStatusStatisticsDto> selectRuleStatusStatistics();
+
+    /**
+     * 查询规则月度发布原始数据
+     * @return 规则月度发布原始数据列表
+     */
+    List<RuleMonthlyPublishDataDto> selectRuleMonthlyPublishData();
+
+    /**
+     * 分页查询规则列表
+     * @param query 查询条件
+     * @return 规则列表
+     */
+    List<InvoiceRules> selectRulesByPage(InvoiceRulesQuery query);
+
+    /**
+     * 统计规则数量
+     * @param query 查询条件
+     * @return 规则总数
+     */
+    int countRulesByQuery(InvoiceRulesQuery query);
 }

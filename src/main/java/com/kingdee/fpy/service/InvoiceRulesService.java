@@ -1,8 +1,12 @@
 package com.kingdee.fpy.service;
 
+import com.kingdee.fpy.commom.ResultPage;
 import com.kingdee.fpy.dto.CodeGenerationRequest;
 import com.kingdee.fpy.dto.RuleLogDetailDto;
+import com.kingdee.fpy.dto.RuleMonthlyPublishStatisticsDto;
+import com.kingdee.fpy.dto.RuleStatusStatisticsDto;
 import com.kingdee.fpy.model.InvoiceRules;
+import com.kingdee.fpy.model.InvoiceRulesQuery;
 import java.util.List;
 
 /**
@@ -73,6 +77,14 @@ public interface InvoiceRulesService {
     int updateStatus(String ruleCode, Integer status);
     
     /**
+     * 批量发布规则
+     * @param ruleCodes 规则编码列表
+     * @param version 版本号
+     * @return 发布结果信息
+     */
+    String publishRules(List<String> ruleCodes, String version);
+    
+    /**
      * 启用规则
      * @param ruleCode 规则编码
      * @return 更新结果
@@ -101,4 +113,23 @@ public interface InvoiceRulesService {
      * @return 规则日志详情列表
      */
     List<RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo);
+
+    /**
+     * 查询规则状态统计
+     * @return 规则状态统计列表
+     */
+    List<RuleStatusStatisticsDto> getRuleStatusStatistics();
+
+    /**
+     * 查询规则月度发布统计
+     * @return 规则月度发布统计列表
+     */
+    List<RuleMonthlyPublishStatisticsDto> getRuleMonthlyPublishStatistics();
+
+    /**
+     * 分页查询规则列表
+     * @param query 查询条件
+     * @return 分页结果
+     */
+    ResultPage queryRulesByPage(InvoiceRulesQuery query);
 }

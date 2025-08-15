@@ -70,8 +70,8 @@ public class InvoiceController {
     }
     
     @GetMapping("/status-count")
-    public Result<Map<String, Long>> getInvoiceStatusCount() {
-        Map<String, Long> statusCount = invoiceService.countInvoicesByStatus();
+    public Result<Map<String, Object>> getInvoiceStatusCount() {
+        Map<String, Object> statusCount = invoiceService.countInvoicesByStatus();
         return Result.success(statusCount);
     }
     
