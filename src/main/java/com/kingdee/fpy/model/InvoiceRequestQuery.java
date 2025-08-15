@@ -1,6 +1,7 @@
 package com.kingdee.fpy.model;
 
 import lombok.Data;
+import java.util.Date;
 
 /**
  * 发票申请查询参数
@@ -43,6 +44,16 @@ public class InvoiceRequestQuery {
      * 企业ID
      */
     private String companyId;
+    
+    /**
+     * 创建时间开始（用于时间范围查询）
+     */
+    private Date startTime;
+    
+    /**
+     * 创建时间结束（用于时间范围查询）
+     */
+    private Date endTime;
     
     /**
      * 计算偏移量

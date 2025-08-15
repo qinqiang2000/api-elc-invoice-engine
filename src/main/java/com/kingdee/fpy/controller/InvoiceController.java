@@ -3,6 +3,8 @@ package com.kingdee.fpy.controller;
 import com.kingdee.fpy.model.Invoice;
 import com.kingdee.fpy.model.InvoiceQuery;
 import com.kingdee.fpy.model.CurrencyStats;
+import com.kingdee.fpy.model.HourlyStatusStats;
+import com.kingdee.fpy.model.StatusHourlyStats;
 import com.kingdee.fpy.commom.Result;
 import com.kingdee.fpy.commom.ResultPage;
 import com.kingdee.fpy.service.InvoiceService;
@@ -79,5 +81,11 @@ public class InvoiceController {
     public Result<List<CurrencyStats>> getCurrencyStatsByCompany(@PathVariable String companyId) {
         List<CurrencyStats> currencyStats = invoiceService.getCurrencyStatsByCompany(companyId);
         return Result.success(currencyStats);
+    }
+    
+    @GetMapping("/hourly-stats")
+    public Result<List<StatusHourlyStats>> getHourlyStatusStats() {
+        List<StatusHourlyStats> hourlyStats = invoiceService.getHourlyStatusStats();
+        return Result.success(hourlyStats);
     }
 } 

@@ -243,6 +243,12 @@
             <if test="invoiceNo != null and invoiceNo != ''">
                 AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
             </if>
+            <if test="startTime != null">
+                AND fcreate_time >= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                AND fcreate_time <= #{endTime,jdbcType=TIMESTAMP}
+            </if>
         </where>
         ORDER BY fcreate_time DESC
         LIMIT #{offset}, #{pageSize}
@@ -267,6 +273,12 @@
             </if>
             <if test="invoiceNo != null and invoiceNo != ''">
                 AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="startTime != null">
+                AND fcreate_time >= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                AND fcreate_time <= #{endTime,jdbcType=TIMESTAMP}
             </if>
         </where>
     </select>

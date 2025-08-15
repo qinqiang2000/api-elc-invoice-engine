@@ -4,6 +4,7 @@
 
     <resultMap id="InvoiceRulesResultMap" type="com.kingdee.fpy.model.InvoiceRules">
         <id property="id" column="fid" />
+        <result property="companyId" column="fcompany_id" />
         <result property="country" column="fcountry" />
         <result property="tradeArea" column="ftrade_area" />
         <result property="province" column="fprovince" />
@@ -176,21 +177,21 @@
     </select>
 
     <select id="selectRuleMonthlyPublishData" resultType="com.kingdee.fpy.dto.RuleMonthlyPublishDataDto">
-        SELECT 
+        SELECT
             frule_type as ruleType,
             DATE_FORMAT(fpublish_time, '%Y-%m') as publishMonth,
             COUNT(*) as count
-        FROM t_invoice_rules 
-        WHERE fstatus = 3 
+        FROM t_invoice_rules
+        WHERE fstatus <![CDATA[  >=  ]]> 3
         AND fpublish_time IS NOT NULL
         GROUP BY frule_type, DATE_FORMAT(fpublish_time, '%Y-%m')
         ORDER BY frule_type, publishMonth
     </select>
 
     <select id="selectRulesByPage" parameterType="com.kingdee.fpy.model.InvoiceRulesQuery" resultMap="InvoiceRulesResultMap">
-        SELECT fid, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type, 
-               frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message, 
-               ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time, 
+        SELECT fid, fcompany_id, fcountry, ftrade_area, fprovince, fcity, ftags, finvoice_type, fsub_invoice_type,
+               frule_code, frule_name, frule_type, factive, fstatus, fapply_to, ferror_message,
+               ffield_path, fpriority, frule_expression, fdescription, frule_version, fpublish_time,
                fstart_time, fend_time, fcreate_time, fupdate_time
         FROM t_invoice_rules
         <where>
@@ -202,6 +203,15 @@
             </if>
             <if test="ruleCode != null and ruleCode != ''">
                 AND frule_code LIKE CONCAT('%', #{ruleCode}, '%')
+            </if>
+            <if test="companyId != null and companyId != ''">
+                AND fcompany_id = #{companyId}
+            </if>
+            <if test="country != null and country != ''">
+                AND fcountry = #{country}
+            </if>
+            <if test="ruleName != null and ruleName != ''">
+                AND frule_name LIKE CONCAT('%', #{ruleName}, '%')
             </if>
         </where>
         ORDER BY fcreate_time DESC
@@ -220,6 +230,15 @@
             </if>
             <if test="ruleCode != null and ruleCode != ''">
                 AND frule_code LIKE CONCAT('%', #{ruleCode}, '%')
+            </if>
+            <if test="companyId != null and companyId != ''">
+                AND fcompany_id = #{companyId}
+            </if>
+            <if test="country != null and country != ''">
+                AND fcountry = #{country}
+            </if>
+            <if test="ruleName != null and ruleName != ''">
+                AND frule_name LIKE CONCAT('%', #{ruleName}, '%')
             </if>
         </where>
     </select>

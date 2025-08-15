@@ -3,6 +3,7 @@ package com.kingdee.fpy.mapper;
 import com.kingdee.fpy.model.Invoice;
 import com.kingdee.fpy.model.InvoiceQuery;
 import com.kingdee.fpy.model.CurrencyStats;
+import com.kingdee.fpy.model.HourlyStatusStats;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -126,4 +127,10 @@ public interface InvoiceMapper {
      * @return 币种统计列表
      */
     List<CurrencyStats> getCurrencyStatsByCompany(@Param("companyId") String companyId);
+    
+    /**
+     * 最近24小时按小时分组统计各状态的发票数
+     * @return 按小时和状态统计的列表
+     */
+    List<HourlyStatusStats> getHourlyStatusStats();
 } 

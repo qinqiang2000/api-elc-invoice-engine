@@ -264,6 +264,12 @@
             <if test="status != null">
                 AND fstatus = #{status,jdbcType=INTEGER}
             </if>
+            <if test="startTime != null">
+                AND fcreate_time >= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                AND fcreate_time <= #{endTime,jdbcType=TIMESTAMP}
+            </if>
         </where>
         ORDER BY fcreate_time DESC
         LIMIT #{offset}, #{pageSize}
@@ -301,6 +307,12 @@
             <if test="status != null">
                 AND fstatus = #{status,jdbcType=INTEGER}
             </if>
+            <if test="startTime != null">
+                AND fcreate_time >= #{startTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endTime != null">
+                AND fcreate_time <= #{endTime,jdbcType=TIMESTAMP}
+            </if>
         </where>
     </select>
 
@@ -322,6 +334,18 @@
         WHERE fcompany_id = #{companyId,jdbcType=VARCHAR}
         GROUP BY fcurrency
         ORDER BY fcurrency
+    </select>
+
+    <!-- 最近24小时按小时分组统计各状态的发票数 -->
+    <select id="getHourlyStatusStats" resultType="com.kingdee.fpy.model.HourlyStatusStats">
+        SELECT 
+            DATE_FORMAT(fcreate_time, '%Y-%m-%d %H:00:00') as hour,
+            fstatus as status,
+            COUNT(1) as count
+        FROM t_invoice
+        WHERE fcreate_time >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        GROUP BY DATE_FORMAT(fcreate_time, '%Y-%m-%d %H:00:00'), fstatus
+        ORDER BY hour ASC, status ASC
     </select>
 
 </mapper>

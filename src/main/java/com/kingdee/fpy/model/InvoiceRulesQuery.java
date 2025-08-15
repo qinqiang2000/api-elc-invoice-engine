@@ -34,6 +34,21 @@ public class InvoiceRulesQuery {
     private String ruleCode;
     
     /**
+     * 企业ID
+     */
+    private String companyId;
+    
+    /**
+     * 国家二字码
+     */
+    private String country;
+    
+    /**
+     * 规则名称（支持模糊匹配）
+     */
+    private String ruleName;
+    
+    /**
      * 计算偏移量
      * @return 偏移量
      */

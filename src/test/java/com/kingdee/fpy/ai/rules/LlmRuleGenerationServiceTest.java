@@ -5,8 +5,12 @@ import static org.junit.Assert.*;
 import com.kingdee.fpy.ai.config.LlmProperties;
 import com.kingdee.fpy.ai.llm.LlmClient;
 import com.kingdee.fpy.ai.validation.JexlValidationService;
+import com.kingdee.fpy.commom.ResultPage;
 import com.kingdee.fpy.dto.CodeGenerationRequest;
+import com.kingdee.fpy.dto.RuleMonthlyPublishStatisticsDto;
+import com.kingdee.fpy.dto.RuleStatusStatisticsDto;
 import com.kingdee.fpy.model.InvoiceRules;
+import com.kingdee.fpy.model.InvoiceRulesQuery;
 import com.kingdee.fpy.service.InvoiceRulesService;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,11 @@ public class LlmRuleGenerationServiceTest {
         @Override public int updateStatus(String ruleCode, Integer status) { return 0; }
 
         @Override
+        public String publishRules(List<String> ruleCodes, String version) {
+            return null;
+        }
+
+        @Override
         public int enableRule(String ruleCode) {
             return 0;
         }
@@ -55,6 +64,21 @@ public class LlmRuleGenerationServiceTest {
         @Override public List<InvoiceRules> selectByCompanyIdAndRuleCode(String companyId, String ruleCode) { return new ArrayList<>(); }
         @Override public String generateCode(CodeGenerationRequest request) { return "test-code"; }
         @Override public java.util.List<com.kingdee.fpy.dto.RuleLogDetailDto> getRuleLogsWithDetailsByRequestIdAndBillNo(String requestId, String billNo) { return new java.util.ArrayList<>(); }
+
+        @Override
+        public List<RuleStatusStatisticsDto> getRuleStatusStatistics() {
+            return null;
+        }
+
+        @Override
+        public List<RuleMonthlyPublishStatisticsDto> getRuleMonthlyPublishStatistics() {
+            return null;
+        }
+
+        @Override
+        public ResultPage queryRulesByPage(InvoiceRulesQuery query) {
+            return null;
+        }
     }
 
     private LlmRuleGenerationService service;

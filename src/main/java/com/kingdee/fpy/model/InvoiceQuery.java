@@ -1,6 +1,7 @@
 package com.kingdee.fpy.model;
 
 import lombok.Data;
+import java.util.Date;
 
 /**
  * 发票查询参数
@@ -62,6 +63,16 @@ public class InvoiceQuery {
      * 发票综合状态
      */
     private Integer status;
+    
+    /**
+     * 开票创建时间开始（用于时间范围查询）
+     */
+    private Date startTime;
+    
+    /**
+     * 开票创建时间结束（用于时间范围查询）
+     */
+    private Date endTime;
     
     /**
      * 计算偏移量
