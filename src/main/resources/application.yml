@@ -4,9 +4,9 @@ apollo:
   meta: http://10.213.4.50:8383
   bootstrap:
     namespaces: application,invoice.database,invoice.redis,invoice.global
-    enabled: false
+    enabled: true
     eagerLoad:
-      enabled: false
+      enabled: true
 
 #eureka:
 #  client:
