@@ -107,4 +107,11 @@ public interface InvoiceRequestService {
      * @return 按小时分组的状态统计，格式为[{hour, statuses: {status1: count1, status2: count2}}]
      */
     List<Map<String, Object>> getHourlyStatusStatistics(String companyId);
+    
+    /**
+     * 批量提交开票申请
+     * @param ids 开票申请单ID列表
+     * @return 提交结果，包含成功/失败统计和失败详情
+     */
+    Map<String, Object> submitInvoiceRequests(List<Long> ids);
 }

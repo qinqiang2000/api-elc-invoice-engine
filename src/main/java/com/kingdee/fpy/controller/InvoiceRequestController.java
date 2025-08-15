@@ -261,4 +261,21 @@ public class InvoiceRequestController {
             return Result.error(e.getMessage());
         }
     }
+    
+    /**
+     * 批量提交开票申请
+     * @param ids 开票申请单ID列表
+     * @return 提交结果
+     */
+    @PostMapping("/submit")
+    public Result<Map<String, Object>> submitInvoiceRequests(@RequestBody List<Long> ids) {
+        try {
+            log.info("批量提交开票申请，IDs: {}", ids);
+            Map<String, Object> result = invoiceRequestService.submitInvoiceRequests(ids);
+            return Result.success(result);
+        } catch (Exception e) {
+            log.error("批量提交开票申请失败，IDs: {}", ids, e);
+            return Result.error(e.getMessage());
+        }
+    }
 }

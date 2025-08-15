@@ -244,10 +244,10 @@
                 AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
             </if>
             <if test="startTime != null">
-                AND fcreate_time >= #{startTime,jdbcType=TIMESTAMP}
+                AND fcreate_time <![CDATA[ >= ]]>  #{startTime,jdbcType=TIMESTAMP}
             </if>
             <if test="endTime != null">
-                AND fcreate_time <= #{endTime,jdbcType=TIMESTAMP}
+                AND fcreate_time <![CDATA[ <= ]]>  #{endTime,jdbcType=TIMESTAMP}
             </if>
         </where>
         ORDER BY fcreate_time DESC
@@ -275,10 +275,10 @@
                 AND finvoice_no LIKE CONCAT('%', #{invoiceNo,jdbcType=VARCHAR}, '%')
             </if>
             <if test="startTime != null">
-                AND fcreate_time >= #{startTime,jdbcType=TIMESTAMP}
+                AND fcreate_time <![CDATA[ >= ]]>  #{startTime,jdbcType=TIMESTAMP}
             </if>
             <if test="endTime != null">
-                AND fcreate_time <= #{endTime,jdbcType=TIMESTAMP}
+                AND fcreate_time  <![CDATA[ <= ]]>  #{endTime,jdbcType=TIMESTAMP}
             </if>
         </where>
     </select>

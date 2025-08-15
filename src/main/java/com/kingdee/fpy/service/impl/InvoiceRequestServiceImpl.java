@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 发票申请服务实现类
@@ -31,8 +32,6 @@ public class InvoiceRequestServiceImpl implements InvoiceRequestService {
     @Override
     public InvoiceRequest create(InvoiceRequest invoiceRequest) {
         try {
-            invoiceRequest.setCreateTime(LocalDateTime.now());
-            invoiceRequest.setUpdateTime(LocalDateTime.now());
             int result = invoiceRequestMapper.insert(invoiceRequest);
             if (result > 0) {
                 log.info("创建发票申请成功，ID: {}", invoiceRequest.getId());
@@ -72,7 +71,6 @@ public class InvoiceRequestServiceImpl implements InvoiceRequestService {
     @Override
     public InvoiceRequest update(InvoiceRequest invoiceRequest) {
         try {
-            invoiceRequest.setUpdateTime(LocalDateTime.now());
             int result = invoiceRequestMapper.updateById(invoiceRequest);
             if (result > 0) {
                 log.info("更新发票申请成功，ID: {}", invoiceRequest.getId());
@@ -279,5 +277,104 @@ public class InvoiceRequestServiceImpl implements InvoiceRequestService {
 
     public InvoiceRequest queryByInvoiceNo(String invoiceNo) {
         return invoiceRequestMapper.selectByInvoiceNo(invoiceNo);
+    }
+    
+    @Override
+    public Map<String, Object> submitInvoiceRequests(List<Long> ids) {
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> failedDetails = new ArrayList<>();
+        int total = ids.size();
+        int success = 0;
+        int failed = 0;
+        
+        try {
+            log.info("开始批量提交开票申请，ID列表: {}", ids);
+            
+            // 步骤1: 检查参数
+            if (ids == null || ids.isEmpty()) {
+                throw new IllegalArgumentException("开票申请单ID列表不能为空");
+            }
+            
+            for (Long id : ids) {
+                try {
+                    // 步骤1: 检查开票申请单是否存在
+                    InvoiceRequest invoiceRequest = invoiceRequestMapper.selectById(id);
+                    if (invoiceRequest == null) {
+                        failed++;
+                        Map<String, Object> failedDetail = new HashMap<>();
+                        failedDetail.put("id", id);
+                        failedDetail.put("requestId", null);
+                        failedDetail.put("reason", "开票申请单不存在");
+                        failedDetails.add(failedDetail);
+                        continue;
+                    }
+                    
+                    // 步骤2: 检查状态，只有草稿(1)和校验失败(4)状态的才能重新提交
+                    Integer currentStatus = invoiceRequest.getStatus();
+                    if (currentStatus == null || 
+                        (!currentStatus.equals(InvoiceRequestStatus.DRAFT.getCode()) && 
+                         !currentStatus.equals(InvoiceRequestStatus.VALID_FAILED.getCode()))) {
+                        failed++;
+                        Map<String, Object> failedDetail = new HashMap<>();
+                        failedDetail.put("id", id);
+                        failedDetail.put("requestId", invoiceRequest.getRequestId());
+                        
+                        String statusDesc = "未知状态";
+                        try {
+                            if (currentStatus != null) {
+                                InvoiceRequestStatus status = InvoiceRequestStatus.fromCode(currentStatus);
+                                statusDesc = status.getDescription();
+                            }
+                        } catch (IllegalArgumentException e) {
+                            statusDesc = "未知状态(" + currentStatus + ")";
+                        }
+                        failedDetail.put("reason", "状态不允许提交，当前状态：" + statusDesc);
+                        failedDetails.add(failedDetail);
+                        continue;
+                    }
+                    
+                    // 步骤4: 生成唯一的任务ID (requestId)
+                    String newRequestId = "REQ_" + System.currentTimeMillis() + "_" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+                    
+                    // 步骤5: 更新开票申请单
+                    invoiceRequest.setRequestId(newRequestId);
+                    invoiceRequest.setStatus(InvoiceRequestStatus.ENRICHING.getCode()); // 状态改为补全中
+                    
+                    int updateResult = invoiceRequestMapper.updateById(invoiceRequest);
+                    if (updateResult > 0) {
+                        success++;
+                        log.info("成功提交开票申请，ID: {}, 新requestId: {}", id, newRequestId);
+                    } else {
+                        failed++;
+                        Map<String, Object> failedDetail = new HashMap<>();
+                        failedDetail.put("id", id);
+                        failedDetail.put("requestId", invoiceRequest.getRequestId());
+                        failedDetail.put("reason", "更新失败");
+                        failedDetails.add(failedDetail);
+                    }
+                    
+                } catch (Exception e) {
+                    failed++;
+                    log.error("处理开票申请失败，ID: {}", id, e);
+                    Map<String, Object> failedDetail = new HashMap<>();
+                    failedDetail.put("id", id);
+                    failedDetail.put("requestId", null);
+                    failedDetail.put("reason", "处理异常: " + e.getMessage());
+                    failedDetails.add(failedDetail);
+                }
+            }
+            
+            result.put("total", total);
+            result.put("success", success);
+            result.put("failed", failed);
+            result.put("failedDetails", failedDetails);
+            
+            log.info("批量提交开票申请完成，总计: {}, 成功: {}, 失败: {}", total, success, failed);
+            return result;
+            
+        } catch (Exception e) {
+            log.error("批量提交开票申请失败", e);
+            throw new RuntimeException("批量提交开票申请失败: " + e.getMessage());
+        }
     }
 }
